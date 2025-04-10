@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   sql_injection:
     build: ./challenges/sql_injection
@@ -18,5 +20,12 @@ services:
     build: ./challenges/ai_prompt_injection
     ports:
       - "5005:5000"
-    environment:
-      - OPENAI_API_KEY=sk-U0M0LrsjpLqkeZHAszHK0Z8hbGaeADRmcLZc6L2wnMT3BlbkFJHtWezszjjOB5O7UOkzBjkdgOCtKHhgcra1YyT22IgA
+    env_file:
+      - ./challenges/ai_prompt_injection/.env
+
+  homepage:
+    build: ./homepage
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./homepage/.env

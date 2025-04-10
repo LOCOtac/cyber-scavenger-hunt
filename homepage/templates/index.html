@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Cyber Scavenger Hunt</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: #ffffff;
+            text-align: center;
+            margin: 50px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 500px;
+            margin: auto;
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        .challenge-btn {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            font-size: 18px;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .challenge-btn:hover {
+            background: #45a049;
+            box-shadow: 0px 0px 8px rgba(0, 255, 0, 0.7);
+        }
+        .leaderboard {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #ffdd57;
+        }
+        .response-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #333;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 80%;
+        }
+        button {
+            padding: 10px 15px;
+            margin-top: 10px;
+            background: #00aaff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Cyber Scavenger Hunt 🕵️‍♂️</h1>
+        <h3>Select a Challenge:</h3>
+        <a class="challenge-btn" href="/sql-injection" target="_blank">SQL Injection</a>
+        <a class="challenge-btn" href="/xss" target="_blank">XSS</a>
+        <a class="challenge-btn" href="/broken-auth" target="_blank">Broken Auth</a>
+        <a class="challenge-btn" href="/prompt-injection" target="_blank">Prompt Injection</a>
+        <a class="challenge-btn" href="/" target="_blank">AI Prompt Injection</a>
+
+        <div class="leaderboard">
+            <h3>🏆 Leaderboard (Coming Soon)</h3>
+            <p>Player rankings will be displayed here...</p>
+        </div>
+
+        <!-- AI Prompt Injection -->
+        <div class="container">
+            <h3>AI Prompt Injection Challenge</h3>
+            <p>Try to bypass the AI’s restrictions and get the secret flag!</p>
+            <form method="post">
+                <input type="text" name="message" placeholder="Type your prompt here">
+                <br>
+                <button type="submit">Send</button>
+            </form>
+            {% if response %}
+                <div class="response-box">
+                    <h3>AI Response:</h3>
+                    <p>{{ response }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
+
