@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Prompt Injection</title>
+</head>
+<body>
+  <h1>Prompt Injection Challenge</h1>
+  <form method="POST">
+    <input type="text" name="message" placeholder="Try to bypass me">
+    <button type="submit">Submit</button>
+  </form>
+  {% if response %}
+    <div>
+      <h3>AI Response:</h3>
+      <p>{{ response }}</p>
+    </div>
+  {% endif %}
+</body>
+</html>
+
