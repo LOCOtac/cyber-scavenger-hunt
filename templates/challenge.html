@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Challenge {{ challenge_id }}</title>
+</head>
+<body>
+    <h1>Challenge {{ challenge_id }}</h1>
+    <form method="post" action="/submit">
+        <input type="text" name="answer" placeholder="Enter flag">
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
