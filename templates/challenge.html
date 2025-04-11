@@ -1,13 +1,11 @@
+<!-- templates/challenge.html -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Challenge {{ challenge_id }}</title>
+    <title>{{ title }}</title>
 </head>
 <body>
-    <h1>Challenge {{ challenge_id }}</h1>
-    <form method="post" action="/submit">
-        <input type="text" name="answer" placeholder="Enter flag">
-        <button type="submit">Submit</button>
-    </form>
+    <h1>{{ title }}</h1>
+    <p>This is a placeholder for the {{ title }} challenge.</p>
 </body>
 </html>
