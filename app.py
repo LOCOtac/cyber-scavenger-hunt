@@ -5,52 +5,61 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("storefront.html")
 
-@app.route("/sql-injection", methods=["GET", "POST"])
-def sql_injection():
-    result = None
-    if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
-        if username == "admin" and password == "' OR '1'='1":
-            result = "🎉 SQL Injection Success! FLAG-SQL123"
-        else:
-            result = "❌ Try again."
-    return render_template("sql_injection.html", result=result)
+@app.route("/product/<int:product_id>")
+def product(product_id):
+    # Dummy product data
+    products = {
+        1: {"name": "Basic Coffee Mug", "desc": "A stylish mug for your daily brew."},
+        2: {"name": "USB Drive", "desc": "Store your files safely (or inject some SQL?)"},
+        3: {"name": "Notebook", "desc": "Jot down your thoughts (and payloads)."},
+    }
+    product = products.get(product_id, None)
+    return render_template("product.html", product=product)
 
-@app.route("/xss", methods=["GET", "POST"])
-def xss():
-    comment = None
-    if request.method == "POST":
-        comment = request.form.get("comment")
-    return render_template("xss.html", comment=comment)
-
-@app.route("/broken-auth", methods=["GET", "POST"])
-def broken_auth():
+@app.route("/login", methods=["GET", "POST"])
+def login():
     error = None
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        if username == "guest":
-            return "🎉 Bypassed login! FLAG-AUTH456"
+        if username == "admin" and password == "' OR '1'='1":
+            return "🎉 SQL Injection Success! FLAG-SQL123"
         else:
-            error = "❌ Unauthorized."
-    return render_template("broken_auth.html", error=error)
+            error = "Incorrect login"
+    return render_template("login.html", error=error)
 
-@app.route("/prompt-injection", methods=["GET", "POST"])
-def prompt_injection():
-    user_input = ""
-    ai_response = None
+@app.route("/review", methods=["GET", "POST"])
+def review():
+    comment = None
     if request.method == "POST":
-        user_input = request.form.get("prompt")
-        if "ignore previous" in user_input.lower():
-            ai_response = "🎉 Prompt Injection Success! FLAG-PROMPT789"
+        comment = request.form.get("comment")
+    return render_template("review.html", comment=comment)
+
+@app.route("/upload", methods=["GET", "POST"])
+def upload():
+    message = None
+    if request.method == "POST":
+        file = request.files.get("file")
+        if file and file.filename.endswith(".php"):
+            message = "🎉 File Upload Bypass! FLAG-UPLOAD321"
         else:
-            ai_response = f"🤖 AI: Sorry, I can’t help with that."
-    return render_template("prompt_injection.html", user_input=user_input, ai_response=ai_response)
+            message = "Only images are allowed."
+    return render_template("upload.html", message=message)
+
+@app.route("/robots.txt")
+def robots():
+    return "Disallow: /admin\nDisallow: /hidden-flag"
+
+@app.route("/admin")
+def admin():
+    return "🎉 You found the secret admin panel! FLAG-ADMIN999"
+
+@app.route("/hidden-flag")
+def hidden_flag():
+    return "You found a hidden endpoint. FLAG-HIDDEN777"
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
-

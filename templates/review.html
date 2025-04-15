@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Leave a Review</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Product Review</h2>
+    <form method="POST">
+      <textarea name="comment" rows="4" class="w-full border p-2 mb-3" placeholder="Type your review here..."></textarea>
+      <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded">Submit</button>
+    </form>
+    {% if comment %}
+      <h3 class="mt-4 font-bold">Your Review:</h3>
+      <div class="border p-3 mt-2 bg-gray-50">{{ comment|safe }}</div>
+    {% endif %}
+  </div>
+</body>
+</html>
+

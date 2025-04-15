@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Job Application</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Upload Your Resume</h2>
+    {% if message %}<p class="text-blue-600 mb-3">{{ message }}</p>{% endif %}
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" class="mb-4">
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Upload</button>
+    </form>
+  </div>
+</body>
+</html>
+
