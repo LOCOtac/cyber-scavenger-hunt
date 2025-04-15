@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Prompt Injection</title></head>
+<body>
+    <h2>Prompt Injection</h2>
+    <form method="POST">
+        Ask the AI: <input name="prompt"><br>
+        <button type="submit">Submit</button>
+    </form>
+    {% if ai_response %}
+        <h3>AI Response:</h3>
+        <p>{{ ai_response }}</p>
+    {% endif %}
+</body>
+</html>
+

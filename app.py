@@ -1,36 +1,56 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import os
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
 def home():
-    response = None
-    if request.method == "POST":
-        user_input = request.form["message"]
-        if "flag" in user_input.lower():
-            response = "🎉 Congratulations! Here is your flag: FLAG-12345"
-        else:
-            response = "🤖 Sorry, I can't help with that request."
-    return render_template("index.html", response=response)
+    return render_template("index.html")
 
-@app.route("/sql-injection")
+@app.route("/sql-injection", methods=["GET", "POST"])
 def sql_injection():
-    return render_template("challenge.html", title="SQL Injection Challenge")
+    result = None
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if username == "admin" and password == "' OR '1'='1":
+            result = "🎉 SQL Injection Success! FLAG-SQL123"
+        else:
+            result = "❌ Try again."
+    return render_template("sql_injection.html", result=result)
 
-@app.route("/xss")
+@app.route("/xss", methods=["GET", "POST"])
 def xss():
-    return render_template("challenge.html", title="XSS Challenge")
+    comment = None
+    if request.method == "POST":
+        comment = request.form.get("comment")
+    return render_template("xss.html", comment=comment)
 
-@app.route("/broken-auth")
+@app.route("/broken-auth", methods=["GET", "POST"])
 def broken_auth():
-    return render_template("challenge.html", title="Broken Authentication")
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        if username == "guest":
+            return "🎉 Bypassed login! FLAG-AUTH456"
+        else:
+            error = "❌ Unauthorized."
+    return render_template("broken_auth.html", error=error)
 
-@app.route("/prompt-injection")
+@app.route("/prompt-injection", methods=["GET", "POST"])
 def prompt_injection():
-    return render_template("challenge.html", title="Prompt Injection")
+    user_input = ""
+    ai_response = None
+    if request.method == "POST":
+        user_input = request.form.get("prompt")
+        if "ignore previous" in user_input.lower():
+            ai_response = "🎉 Prompt Injection Success! FLAG-PROMPT789"
+        else:
+            ai_response = f"🤖 AI: Sorry, I can’t help with that."
+    return render_template("prompt_injection.html", user_input=user_input, ai_response=ai_response)
 
-# 👇 Add this block to make it work on Railway
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+

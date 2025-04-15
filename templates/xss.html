@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>XSS Challenge</title></head>
+<body>
+    <h2>XSS Challenge</h2>
+    <form method="POST">
+        Comment: <input name="comment"><br>
+        <button type="submit">Submit</button>
+    </form>
+    {% if comment %}
+        <h3>User Comment:</h3>
+        <div>{{ comment|safe }}</div>
+    {% endif %}
+</body>
+</html>
+

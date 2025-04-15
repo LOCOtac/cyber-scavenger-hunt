@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><title>Broken Auth</title></head>
+<body>
+    <h2>Broken Authentication</h2>
+    <form method="POST">
+        Username: <input name="username"><br>
+        Password: <input name="password"><br>
+        <button type="submit">Login</button>
+    </form>
+    {% if error %}<p>{{ error }}</p>{% endif %}
+</body>
+</html>
+
