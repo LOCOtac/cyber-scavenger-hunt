@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from urllib.parse import urlparse
+from flask import g
+
 
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"
@@ -133,6 +135,27 @@ def scoreboard():
 @app.route("/hidden-flag")
 def hidden_flag():
     return "Look deeper in the products... the answer lies in the code."
+
+# DoS
+@app.before_request
+def init_count():
+    if "request_count" not in session:
+        session["request_count"] = 0
+    session["request_count"] += 1
+
+@app.route("/report")
+def report():
+    if session["request_count"] >= 50:
+        return "System overloaded... FLAG-DDOS777"
+    return "Thank you for your report."
+
+@app.route("/load")
+def load():
+    if request.args.get("debug") == "true":
+        import time
+        time.sleep(5)
+        return "Debug overload... FLAG-DDOS888"
+    return "All systems normal."
 
 
 if __name__ == "__main__":
