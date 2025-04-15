@@ -8,7 +8,15 @@
 <body class="bg-white p-10">
   <h1 class="text-3xl font-bold text-blue-600 mb-4">{{ product.name }}</h1>
   <p class="text-gray-700">{{ product.desc }}</p>
+
+  {% if product.name == "USB Drive" %}
+    <!-- 👀 Sneaky dev tools users might notice this... -->
+    <script>
+      const secretFlag = "🎉 FLAG-JS666";
+      console.log("Nothing suspicious here... 👀");
+    </script>
+  {% endif %}
+
   <p class="mt-4"><a href="/" class="text-blue-500 underline">← Back to shop</a></p>
 </body>
 </html>
-
