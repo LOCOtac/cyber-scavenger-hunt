@@ -104,9 +104,6 @@ def robots():
 def admin():
     return "🎉 You found the secret admin panel! FLAG-ADMIN999"
 
-@app.route("/hidden-flag")
-def hidden_flag():
-    return "You found a hidden endpoint. FLAG-HIDDEN777"
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
