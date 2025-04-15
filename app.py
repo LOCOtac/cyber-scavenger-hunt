@@ -18,7 +18,8 @@ VALID_FLAGS = {
     "FLAG-IDOR101": 20,
     "SECRET_FLAG{MORE_BREADS_TO_FIND}": 30,
     "FLAG-DDOS777": 25,
-    "FLAG-COOKIE777": 15
+    "FLAG-COOKIE777": 15,
+    "FLAG-404NOTFOUND": 10
 
 }
 
@@ -114,6 +115,13 @@ def report():
         return "🔥 System overloaded... FLAG-DDOS777"
     return f"📩 Report #{session['report_hits']} received in {int(elapsed)}s"
 
+@app.route("/cookies")
+def cookie_challenge():
+    is_admin = request.cookies.get("admin", "false")
+    if is_admin == "true":
+        return "🍪 Welcome, admin! FLAG-COOKIE777"
+    return "You're not an admin. Try harder."
+
 @app.route("/robots.txt")
 def robots():
     return "Disallow: /admin\nDisallow: /hidden-flag"
@@ -151,13 +159,9 @@ def scoreboard():
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
 
-@app.route("/cookies")
-def cookie_challenge():
-    is_admin = request.cookies.get("admin", "false")
-    if is_admin == "true":
-        return "🍪 Welcome, admin! FLAG-COOKIE777"
-    return "You're not an admin. Try harder."
-
+@app.errorhandler(404)
+def page_not_found(e):
+    return "🤖 404 Page Not Found. But... FLAG-404GONE", 404
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
