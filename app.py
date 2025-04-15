@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
 from urllib.parse import urlparse
-from flask import g
-
+import time
 
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"
@@ -17,9 +16,15 @@ VALID_FLAGS = {
     "FLAG-CHAT999": 20,
     "FLAG-REDIRECT888": 15,
     "FLAG-IDOR101": 20,
-    "SECRET_FLAG{MORE_BREADS_TO_FIND}": 30
-
+    "SECRET_FLAG{MORE_BREADS_TO_FIND}": 30,
+    "FLAG-DDOS777": 25
 }
+
+@app.before_request
+def setup_session():
+    if "report_hits" not in session:
+        session["report_hits"] = 0
+        session["report_start"] = time.time()
 
 @app.route("/")
 def home():
@@ -98,6 +103,15 @@ def order():
         return render_template("order.html", order=order)
     return "Order not found", 404
 
+@app.route("/report")
+def report():
+    session["report_hits"] += 1
+    elapsed = time.time() - session["report_start"]
+
+    if session["report_hits"] >= 50 and elapsed <= 10 and request.headers.get("X-HackMe") == "true":
+        return "🔥 System overloaded... FLAG-DDOS777"
+    return f"📩 Report #{session['report_hits']} received in {int(elapsed)}s"
+
 @app.route("/robots.txt")
 def robots():
     return "Disallow: /admin\nDisallow: /hidden-flag"
@@ -106,6 +120,9 @@ def robots():
 def admin():
     return "🎉 You found the secret admin panel! FLAG-ADMIN999"
 
+@app.route("/hidden-flag")
+def hidden_flag():
+    return "Look deeper in the products... the answer lies in the code."
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
@@ -131,32 +148,6 @@ def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
-
-@app.route("/hidden-flag")
-def hidden_flag():
-    return "Look deeper in the products... the answer lies in the code."
-
-# DoS
-@app.before_request
-def init_count():
-    if "request_count" not in session:
-        session["request_count"] = 0
-    session["request_count"] += 1
-
-@app.route("/report")
-def report():
-    if session["request_count"] >= 50:
-        return "System overloaded... FLAG-DDOS777"
-    return "Thank you for your report."
-
-@app.route("/load")
-def load():
-    if request.args.get("debug") == "true":
-        import time
-        time.sleep(5)
-        return "Debug overload... FLAG-DDOS888"
-    return "All systems normal."
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
