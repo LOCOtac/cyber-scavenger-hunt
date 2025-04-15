@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import os
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"  # for session tracking
@@ -11,7 +12,9 @@ VALID_FLAGS = {
     "FLAG-ADMIN999": 20,
     "FLAG-HIDDEN777": 15,
     "FLAG-JS666": 10,
-    "FLAG-CHAT999": 20
+    "FLAG-CHAT999": 20,
+    "FLAG-REDIRECT888": 15
+
 }
 
 @app.route("/")
@@ -108,6 +111,17 @@ def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
+
+@app.route("/redirect")
+def open_redirect():
+    next_url = request.args.get("next", "/")
+    parsed_url = urlparse(next_url)
+
+    # Vulnerability: allow any full URL
+    if parsed_url.scheme in ["http", "https"]:
+        return f"🎉 Open Redirect! FLAG-REDIRECT888 → {next_url}"
+    else:
+        return redirect(next_url)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
