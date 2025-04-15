@@ -3,7 +3,7 @@ import os
 from urllib.parse import urlparse
 
 app = Flask(__name__)
-app.secret_key = "cyberhunt-secret"  # for session tracking
+app.secret_key = "cyberhunt-secret"
 
 VALID_FLAGS = {
     "FLAG-SQL123": 10,
@@ -13,8 +13,8 @@ VALID_FLAGS = {
     "FLAG-HIDDEN777": 15,
     "FLAG-JS666": 10,
     "FLAG-CHAT999": 20,
-    "FLAG-REDIRECT888": 15
-
+    "FLAG-REDIRECT888": 15,
+    "FLAG-IDOR101": 20
 }
 
 @app.route("/")
@@ -73,6 +73,27 @@ def chat():
             ai_response = "🤖 I'm sorry, I can't help with that."
     return render_template("chat.html", user_input=user_input, ai_response=ai_response)
 
+@app.route("/redirect")
+def open_redirect():
+    next_url = request.args.get("next", "/")
+    parsed_url = urlparse(next_url)
+    if parsed_url.scheme in ["http", "https"]:
+        return f"🎉 Open Redirect! FLAG-REDIRECT888 → {next_url}"
+    else:
+        return redirect(next_url)
+
+@app.route("/order")
+def order():
+    order_id = request.args.get("id")
+    orders = {
+        "1": {"owner": "You", "item": "T-shirt"},
+        "2": {"owner": "Admin", "item": "Confidential USB", "flag": "🎉 FLAG-IDOR101"}
+    }
+    order = orders.get(order_id)
+    if order:
+        return render_template("order.html", order=order)
+    return "Order not found", 404
+
 @app.route("/robots.txt")
 def robots():
     return "Disallow: /admin\nDisallow: /hidden-flag"
@@ -90,7 +111,6 @@ def submit():
     message = None
     score = session.get("score", 0)
     solved_flags = session.get("solved", [])
-
     if request.method == "POST":
         flag = request.form.get("flag").strip()
         if flag in VALID_FLAGS and flag not in solved_flags:
@@ -103,7 +123,6 @@ def submit():
             message = "⚠️ You've already submitted this flag."
         else:
             message = "❌ Invalid flag."
-
     return render_template("submit.html", message=message, score=score, solved=solved_flags)
 
 @app.route("/scoreboard")
@@ -111,17 +130,6 @@ def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
-
-@app.route("/redirect")
-def open_redirect():
-    next_url = request.args.get("next", "/")
-    parsed_url = urlparse(next_url)
-
-    # Vulnerability: allow any full URL
-    if parsed_url.scheme in ["http", "https"]:
-        return f"🎉 Open Redirect! FLAG-REDIRECT888 → {next_url}"
-    else:
-        return redirect(next_url)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

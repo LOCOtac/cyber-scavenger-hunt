@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Order Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-10">
+  <div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Order Info</h2>
+    <p><strong>Owner:</strong> {{ order.owner }}</p>
+    <p><strong>Item:</strong> {{ order.item }}</p>
+    {% if order.flag %}
+      <p class="mt-4 text-green-600 font-semibold">{{ order.flag }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>
+
