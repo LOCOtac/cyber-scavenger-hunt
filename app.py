@@ -1,7 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 
 app = Flask(__name__)
+app.secret_key = "cyberhunt-secret"  # for session tracking
+
+VALID_FLAGS = {
+    "FLAG-SQL123": 10,
+    "FLAG-XSS456": 10,
+    "FLAG-UPLOAD321": 15,
+    "FLAG-ADMIN999": 20,
+    "FLAG-HIDDEN777": 15,
+    "FLAG-JS666": 10
+}
 
 @app.route("/")
 def home():
@@ -59,6 +69,33 @@ def admin():
 @app.route("/hidden-flag")
 def hidden_flag():
     return "You found a hidden endpoint. FLAG-HIDDEN777"
+
+@app.route("/submit", methods=["GET", "POST"])
+def submit():
+    message = None
+    score = session.get("score", 0)
+    solved_flags = session.get("solved", [])
+
+    if request.method == "POST":
+        flag = request.form.get("flag").strip()
+        if flag in VALID_FLAGS and flag not in solved_flags:
+            score += VALID_FLAGS[flag]
+            solved_flags.append(flag)
+            session["score"] = score
+            session["solved"] = solved_flags
+            message = f"✅ Correct! You earned {VALID_FLAGS[flag]} points."
+        elif flag in solved_flags:
+            message = "⚠️ You've already submitted this flag."
+        else:
+            message = "❌ Invalid flag."
+
+    return render_template("submit.html", message=message, score=score, solved=solved_flags)
+
+@app.route("/scoreboard")
+def scoreboard():
+    score = session.get("score", 0)
+    solved = session.get("solved", [])
+    return render_template("scoreboard.html", score=score, solved=solved)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

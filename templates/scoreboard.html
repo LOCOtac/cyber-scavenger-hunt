@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Scoreboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white p-10">
+  <div class="max-w-xl mx-auto">
+    <h2 class="text-2xl font-bold text-blue-600 mb-4">🏆 Your Score</h2>
+    <p class="mb-2">Total: <strong>{{ score }}</strong> points</p>
+    <h3 class="font-semibold mb-2">Solved Flags:</h3>
+    <ul class="list-disc list-inside text-gray-700">
+      {% for f in solved %}
+        <li>{{ f }}</li>
+      {% else %}
+        <li>No flags found yet 😢</li>
+      {% endfor %}
+    </ul>
+    <p class="mt-4"><a href="/" class="text-blue-500 underline">← Back to Hunt</a></p>
+  </div>
+</body>
+</html>
+
