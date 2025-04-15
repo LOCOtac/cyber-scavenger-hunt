@@ -14,7 +14,9 @@ VALID_FLAGS = {
     "FLAG-JS666": 10,
     "FLAG-CHAT999": 20,
     "FLAG-REDIRECT888": 15,
-    "FLAG-IDOR101": 20
+    "FLAG-IDOR101": 20,
+    "SECRET_FLAG{MORE_BREADS_TO_FIND}": 30
+
 }
 
 @app.route("/")
@@ -130,6 +132,11 @@ def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
+
+@app.route("/hidden-flag")
+def hidden_flag():
+    return "Look deeper in the products... the answer lies in the code."
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
