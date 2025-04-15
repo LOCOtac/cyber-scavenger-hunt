@@ -10,7 +10,8 @@ VALID_FLAGS = {
     "FLAG-UPLOAD321": 15,
     "FLAG-ADMIN999": 20,
     "FLAG-HIDDEN777": 15,
-    "FLAG-JS666": 10
+    "FLAG-JS666": 10,
+    "FLAG-CHAT999": 20
 }
 
 @app.route("/")
@@ -19,7 +20,6 @@ def home():
 
 @app.route("/product/<int:product_id>")
 def product(product_id):
-    # Dummy product data
     products = {
         1: {"name": "Basic Coffee Mug", "desc": "A stylish mug for your daily brew."},
         2: {"name": "USB Drive", "desc": "Store your files safely (or inject some SQL?)"},
@@ -57,6 +57,18 @@ def upload():
         else:
             message = "Only images are allowed."
     return render_template("upload.html", message=message)
+
+@app.route("/chat", methods=["GET", "POST"])
+def chat():
+    user_input = ""
+    ai_response = None
+    if request.method == "POST":
+        user_input = request.form.get("message")
+        if "ignore previous" in user_input.lower() or "reveal" in user_input.lower():
+            ai_response = "🎉 Prompt Injection Success! FLAG-CHAT999"
+        else:
+            ai_response = "🤖 I'm sorry, I can't help with that."
+    return render_template("chat.html", user_input=user_input, ai_response=ai_response)
 
 @app.route("/robots.txt")
 def robots():
