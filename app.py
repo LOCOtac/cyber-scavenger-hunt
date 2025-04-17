@@ -19,7 +19,8 @@ VALID_FLAGS = {
     "SECRET_FLAG{MORE_BREADS_TO_FIND}": 30,
     "FLAG-DDOS777": 25,
     "FLAG-COOKIE777": 15,
-    "FLAG-404NOTFOUND": 10
+    "FLAG-404NOTFOUND": 10,
+    "FLAG-MEMDUMP999": 25,
 
 }
 
@@ -162,6 +163,22 @@ def scoreboard():
 @app.errorhandler(404)
 def page_not_found(e):
     return "🤖 404 Page Not Found. But... FLAG-404GONE", 404
+
+@app.route("/debug-leak")
+def debug_leak():
+    logs = [
+        "[DEBUG] buffer[0]=0x00",
+        "[DEBUG] buffer[1]=0x01",
+        "[DEBUG] buffer[2]=0x02",
+        "[DEBUG] buffer[3]=0x03",
+        "[DEBUG] buffer[4]=0x04",
+        # ... simulate more lines
+        "[DEBUG] buffer[234]=FLAG-MEMDUMP999",
+        "[DEBUG] buffer[235]=0xEA",
+        "[DEBUG] buffer[236]=0xAF",
+    ]
+    return "<br>".join(logs)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
