@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, make_response
 import os
 from urllib.parse import urlparse
 import time
+import base64
+import json
 
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"
@@ -21,7 +23,7 @@ VALID_FLAGS = {
     "FLAG-COOKIE777": 15,
     "FLAG-404NOTFOUND": 10,
     "FLAG-MEMDUMP999": 25,
-
+    "FLAG-JWT123": 25
 }
 
 @app.before_request
@@ -111,7 +113,6 @@ def order():
 def report():
     session["report_hits"] += 1
     elapsed = time.time() - session["report_start"]
-
     if session["report_hits"] >= 50 and elapsed <= 10 and request.headers.get("X-HackMe") == "true":
         return "🔥 System overloaded... FLAG-DDOS777"
     return f"📩 Report #{session['report_hits']} received in {int(elapsed)}s"
@@ -122,6 +123,40 @@ def cookie_challenge():
     if is_admin == "true":
         return "🍪 Welcome, admin! FLAG-COOKIE777"
     return "You're not an admin. Try harder."
+
+@app.route("/debug-leak")
+def debug_leak():
+    logs = [
+        "[DEBUG] buffer[0]=0x00",
+        "[DEBUG] buffer[1]=0x01",
+        "[DEBUG] buffer[2]=0x02",
+        "[DEBUG] buffer[3]=0x03",
+        "[DEBUG] buffer[4]=0x04",
+        "[DEBUG] buffer[234]=FLAG-MEMDUMP999",
+        "[DEBUG] buffer[235]=0xEA",
+        "[DEBUG] buffer[236]=0xAF",
+    ]
+    return "<br>".join(logs)
+
+@app.route("/jwt-challenge")
+def jwt_challenge():
+    token = request.cookies.get("token")
+    if not token:
+        # Send a fake base64 JWT
+        fake_payload = {"user": "guest", "admin": False}
+        encoded = base64.urlsafe_b64encode(json.dumps(fake_payload).encode()).decode()
+        resp = make_response("JWT cookie set. Try again.")
+        resp.set_cookie("token", encoded)
+        return resp
+
+    try:
+        decoded = json.loads(base64.urlsafe_b64decode(token + "==").decode())
+        if decoded.get("admin") == True:
+            return "🔓 JWT decoded! FLAG-JWT123"
+    except Exception as e:
+        return "Invalid token."
+
+    return "You're not authorized. Try modifying your token."
 
 @app.route("/robots.txt")
 def robots():
@@ -134,6 +169,10 @@ def admin():
 @app.route("/hidden-flag")
 def hidden_flag():
     return "Look deeper in the products... the answer lies in the code."
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
 
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
@@ -159,26 +198,6 @@ def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return "🤖 404 Page Not Found. But... FLAG-404GONE", 404
-
-@app.route("/debug-leak")
-def debug_leak():
-    logs = [
-        "[DEBUG] buffer[0]=0x00",
-        "[DEBUG] buffer[1]=0x01",
-        "[DEBUG] buffer[2]=0x02",
-        "[DEBUG] buffer[3]=0x03",
-        "[DEBUG] buffer[4]=0x04",
-        # ... simulate more lines
-        "[DEBUG] buffer[234]=FLAG-MEMDUMP999",
-        "[DEBUG] buffer[235]=0xEA",
-        "[DEBUG] buffer[236]=0xAF",
-    ]
-    return "<br>".join(logs)
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
