@@ -23,7 +23,10 @@ VALID_FLAGS = {
     "FLAG-COOKIE777": 15,
     "FLAG-404NOTFOUND": 10,
     "FLAG-MEMDUMP999": 25,
-    "FLAG-JWT123": 25
+    "FLAG-JWT123": 25,
+    "FLAG-API777": 20,
+
+
 }
 
 leaderboard = []
@@ -234,6 +237,37 @@ def reset_leaderboard():
             json.dump(leaderboard, f)
         return "Leaderboard reset."
     return "Unauthorized.", 403
+
+@app.route("/api/products")
+def api_products():
+    return {
+        "products": [
+            {
+                "id": 1,
+                "name": "Basic Coffee Mug",
+                "desc": "Great for your morning brew.",
+                "price": 12.99
+            },
+            {
+                "id": 2,
+                "name": "USB Drive",
+                "desc": "Store your files safely.",
+                "price": 8.49
+            },
+            {
+                "id": 3,
+                "name": "Notebook",
+                "desc": "Take notes like a pro.",
+                "price": 5.99,
+                "debug_meta": {
+                    "internal_use_only": True,
+                    "note": "Check internal flag logs",
+                    "hidden_flag": "FLAG-API777"
+                }
+            }
+        ]
+    }
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
