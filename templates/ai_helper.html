@@ -6,18 +6,18 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center">
-  <div class="mt-6 p-4 rounded border text-sm bg-white text-black dark:bg-gray-900 dark:text-white border-gray-300 dark:border-gray-700"><strong>🤖 AI:</strong> {{ ai_response }}</div>
+  <div class="bg-white dark:bg-gray-800 p-6 rounded shadow max-w-xl w-full">
+
     <h2 class="text-2xl font-bold mb-4 text-center">🤖 Ask the AI Assistant</h2>
 
     <form method="POST">
       <textarea name="prompt" rows="4" placeholder="Ask me anything..." class="w-full p-3 border rounded mb-3 text-sm bg-white text-black dark:bg-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"></textarea>
-
       <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded block mx-auto">Ask</button>
     </form>
 
     {% if ai_response %}
-    <div class="mt-6 bg-gray-100 dark:bg-gray-900 p-4 rounded border text-sm">
-      <strong>AI:</strong> {{ ai_response }}
+    <div class="mt-6 p-4 rounded border text-sm bg-white text-black dark:bg-gray-900 dark:text-white border-gray-300 dark:border-gray-700">
+      <strong>🤖 AI:</strong> {{ ai_response }}
     </div>
     {% endif %}
 
@@ -28,4 +28,3 @@
   </div>
 </body>
 </html>
-
