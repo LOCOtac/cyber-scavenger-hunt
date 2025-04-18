@@ -26,6 +26,14 @@ VALID_FLAGS = {
     "FLAG-JWT123": 25
 }
 
+leaderboard = []
+leaderboard_file = "leaderboard.json"
+
+# Load leaderboard from file if it exists
+if os.path.exists(leaderboard_file):
+    with open(leaderboard_file, "r") as f:
+        leaderboard = json.load(f)
+
 @app.before_request
 def setup_session():
     if "report_hits" not in session:
@@ -142,7 +150,6 @@ def debug_leak():
 def jwt_challenge():
     token = request.cookies.get("token")
     if not token:
-        # Send a fake base64 JWT
         fake_payload = {"user": "guest", "admin": False}
         encoded = base64.urlsafe_b64encode(json.dumps(fake_payload).encode()).decode()
         resp = make_response("JWT cookie set. Try again.")
@@ -179,6 +186,13 @@ def submit():
     message = None
     score = session.get("score", 0)
     solved_flags = session.get("solved", [])
+    name = session.get("name")
+
+    if not name:
+        name = request.form.get("name")
+        if name:
+            session["name"] = name
+
     if request.method == "POST":
         flag = request.form.get("flag").strip()
         if flag in VALID_FLAGS and flag not in solved_flags:
@@ -187,17 +201,39 @@ def submit():
             session["score"] = score
             session["solved"] = solved_flags
             message = f"✅ Correct! You earned {VALID_FLAGS[flag]} points."
+
+            if name:
+                leaderboard.append({"name": name, "score": score, "solved": solved_flags})
+                leaderboard.sort(key=lambda x: x["score"], reverse=True)
+                with open(leaderboard_file, "w") as f:
+                    json.dump(leaderboard, f)
+
         elif flag in solved_flags:
             message = "⚠️ You've already submitted this flag."
         else:
             message = "❌ Invalid flag."
-    return render_template("submit.html", message=message, score=score, solved=solved_flags)
+
+    return render_template("submit.html", message=message, score=score, solved=solved_flags, name=name)
 
 @app.route("/scoreboard")
 def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
+
+@app.route("/leaderboard")
+def show_leaderboard():
+    return render_template("leaderboard.html", leaderboard=leaderboard)
+
+@app.route("/admin/reset-leaderboard")
+def reset_leaderboard():
+    secret = request.args.get("secret")
+    if secret == "hunter2":  # Replace with your own secret
+        leaderboard.clear()
+        with open(leaderboard_file, "w") as f:
+            json.dump(leaderboard, f)
+        return "Leaderboard reset."
+    return "Unauthorized.", 403
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
