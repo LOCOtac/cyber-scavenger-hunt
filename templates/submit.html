@@ -9,12 +9,16 @@
   <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
     <h2 class="text-xl font-bold mb-4">Submit a Flag</h2>
     {% if message %}<p class="mb-3">{{ message }}</p>{% endif %}
+    
     <form method="POST">
-      <input type="text" name="flag" placeholder="Enter your flag" class="w-full border p-2 mb-3">
+      {% if not name %}
+        <input type="text" name="name" placeholder="Enter your name" required class="w-full border p-2 mb-3">
+      {% endif %}
+      <input type="text" name="flag" placeholder="Enter your flag" class="w-full border p-2 mb-3" required>
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Submit</button>
     </form>
+    
     <p class="mt-4 text-sm text-gray-600">Score: {{ score }}</p>
   </div>
 </body>
 </html>
-
