@@ -285,6 +285,30 @@ def user_agent_check():
         return "🎯 FLAG-AGENT777 — Congrats, agent."
     return "Hmm... you're not using the right browser."
 
+
+@app.route("/ai-helper", methods=["GET", "POST"])
+def ai_helper():
+    user_input = ""
+    ai_response = ""
+    
+    if request.method == "POST":
+        user_input = request.form.get("prompt", "")
+
+        # Block obvious attempts
+        if any(word in user_input.lower() for word in ["flag", "reveal", "instructions", "system"]):
+            ai_response = "🤖 SYSTEM ERROR: Unauthorized access detected. Did you mean to ask something else?"
+
+        # Prompt Injection Trigger
+        elif "ignore" in user_input.lower() and "previous" in user_input.lower():
+            ai_response = "😵 Oh no! You bypassed my memory. FLAG-AI999"
+
+        # Default safe reply
+        else:
+            ai_response = "🤖 Sorry, I can't answer that. Let's stay on topic."
+
+    return render_template("ai_helper.html", user_input=user_input, ai_response=ai_response)
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
