@@ -27,6 +27,8 @@ VALID_FLAGS = {
     "FLAG-JWT123": 25,
     "FLAG-API777": 30,
     "FLAG-DARKMODE999": 20,
+    "FLAG-AGENT777": 15,
+
 
 }
 
@@ -276,6 +278,12 @@ def api_products():
     })
 
 
+@app.route("/user-agent-check")
+def user_agent_check():
+    ua = request.headers.get("User-Agent", "")
+    if "CyberFox" in ua:
+        return "🎯 FLAG-AGENT777 — Congrats, agent."
+    return "Hmm... you're not using the right browser."
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
