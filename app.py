@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, url_for, session, make_response
+from flask import Flask, render_template, request, redirect, url_for, session, make_response, jsonify
+
 import os
 from urllib.parse import urlparse
 import time
