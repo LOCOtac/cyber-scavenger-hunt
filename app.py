@@ -24,7 +24,7 @@ VALID_FLAGS = {
     "FLAG-404NOTFOUND": 10,
     "FLAG-MEMDUMP999": 25,
     "FLAG-JWT123": 25,
-    "FLAG-API777": 20,
+    "FLAG-API777": 30,
 
 
 }
@@ -240,7 +240,10 @@ def reset_leaderboard():
 
 @app.route("/api/products")
 def api_products():
-    return {
+    encoded_flag = base64.b64encode(b"FLAG-API777").decode("utf-8")  # encode the flag
+    reversed_encoded = encoded_flag[::-1]  # reverse it for obfuscation
+
+    return jsonify({
         "products": [
             {
                 "id": 1,
@@ -259,14 +262,18 @@ def api_products():
                 "name": "Notebook",
                 "desc": "Take notes like a pro.",
                 "price": 5.99,
-                "debug_meta": {
-                    "internal_use_only": True,
-                    "note": "Check internal flag logs",
-                    "hidden_flag": "FLAG-API777"
+                "meta": {
+                    "inventory_code": "NX-2024",
+                    "dimensions": {"w": 14, "h": 21},
+                    "_temp": {
+                        "notes": ["Check admin logs"],
+                        "blob": reversed_encoded  # 👈 the reversed base64-encoded flag
+                    }
                 }
             }
         ]
-    }
+    })
+
 
 
 if __name__ == "__main__":
