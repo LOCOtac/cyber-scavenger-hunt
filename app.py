@@ -26,7 +26,7 @@ VALID_FLAGS = {
     "FLAG-MEMDUMP999": 25,
     "FLAG-JWT123": 25,
     "FLAG-API777": 30,
-
+    "FLAG-DARKMODE999": 20,
 
 }
 

@@ -4,55 +4,71 @@
   <meta charset="UTF-8">
   <title>Cyber Scavenger Shop</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all">
+  <!-- 🌓 Dark Mode Toggle -->
+  <button onclick="document.documentElement.classList.toggle('dark')" 
+          class="fixed top-4 right-4 z-50 bg-gray-200 dark:bg-gray-800 text-sm px-3 py-1 rounded shadow hover:bg-gray-300 dark:hover:bg-gray-700">
+    🌓 Toggle Dark Mode
+  </button>
+
   <div class="max-w-6xl mx-auto px-4 py-10">
-    <h1 class="text-4xl font-bold text-blue-600 mb-6 text-center">🛍️ Cyber Scavenger Shop</h1>
+    <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-6 text-center">🛍️ Cyber Scavenger Shop</h1>
 
     <!-- 🔍 Fake Search Bar -->
     <div class="mb-8">
-      <input type="text" placeholder="Search products..." class="w-full p-3 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400">
+      <input type="text" placeholder="Search products..." 
+             class="w-full p-3 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400">
     </div>
 
     <!-- 🧃 Products -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <div class="bg-white p-5 rounded shadow hover:shadow-xl transition relative group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-xl transition relative group">
         <img src="/static/img/mug.jpg" alt="Coffee Mug" class="rounded w-full h-40 object-cover mb-3">
         <h2 class="text-xl font-semibold mb-1">☕ Basic Coffee Mug</h2>
-        <p class="text-gray-600 mb-1">A stylish mug for your daily brew.</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-1">A stylish mug for your daily brew.</p>
         <span class="text-sm text-green-500">$12.99</span>
         <div class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs text-gray-400">ID: MUG-XSS</div>
       </div>
 
-      <div class="bg-white p-5 rounded shadow hover:shadow-xl transition relative group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-xl transition relative group">
         <img src="/static/img/usb.jpg" alt="USB Drive" class="rounded w-full h-40 object-cover mb-3">
         <h2 class="text-xl font-semibold mb-1">💾 USB Drive</h2>
-        <p class="text-gray-600 mb-1">Store your files... securely 🤔</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-1">Store your files... securely 🤔</p>
         <span class="text-sm text-green-500">$8.49</span>
         <div class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs text-gray-400">Check source.js</div>
       </div>
 
-      <div class="bg-white p-5 rounded shadow hover:shadow-xl transition relative group">
+      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-xl transition relative group">
         <img src="/static/img/notebook.jpg" alt="Notebook" class="rounded w-full h-40 object-cover mb-3">
         <h2 class="text-xl font-semibold mb-1">📓 Notebook</h2>
-        <p class="text-gray-600 mb-1">Jot down thoughts or... payloads</p>
+        <p class="text-gray-600 dark:text-gray-300 mb-1">Jot down thoughts or... payloads</p>
         <span class="text-sm text-green-500">$5.99</span>
         <div class="absolute bottom-1 left-1 text-[0.6rem] text-gray-300 hidden group-hover:block">Meta: FLAG-??</div>
+        <!-- 🎯 Flag only visible in dark mode -->
+        <div class="hidden dark:block mt-2 text-xs text-lime-400">
+          🕶️ FLAG-DARKMODE999
+        </div>
       </div>
     </div>
 
     <!-- 🔗 Navigation Links -->
     <div class="mt-10 flex flex-wrap gap-4 justify-center">
-      <a href="/login" class="text-blue-500 underline">Login</a>
-      <a href="/review" class="text-blue-500 underline">Leave a Review</a>
-      <a href="/upload" class="text-blue-500 underline">Apply for Jobs</a>
-      <a href="/redirect?next=/submit" class="text-blue-500 underline">Complete Your Profile</a>
-      <a href="/cookies" class="text-blue-500 underline">Cookie Notice</a>
-      <a href="/leaderboard" class="text-blue-500 underline">Leaderboard</a>
+      <a href="/login" class="text-blue-500 dark:text-blue-300 underline">Login</a>
+      <a href="/review" class="text-blue-500 dark:text-blue-300 underline">Leave a Review</a>
+      <a href="/upload" class="text-blue-500 dark:text-blue-300 underline">Apply for Jobs</a>
+      <a href="/redirect?next=/submit" class="text-blue-500 dark:text-blue-300 underline">Complete Your Profile</a>
+      <a href="/cookies" class="text-blue-500 dark:text-blue-300 underline">Cookie Notice</a>
+      <a href="/leaderboard" class="text-blue-500 dark:text-blue-300 underline">Leaderboard</a>
     </div>
 
     <!-- 👁️ Hidden Easter Egg -->
-    <footer class="mt-16 text-center text-sm text-gray-500">
+    <footer class="mt-16 text-center text-sm text-gray-500 dark:text-gray-400">
       &copy; 2025 Cyber Scavenger Hunt | All products are fake™
       <br>
       <a href="/api/products" class="text-gray-300 hover:text-gray-600 text-xs hidden sm:inline-block">Internal API</a>
