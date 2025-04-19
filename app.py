@@ -320,6 +320,28 @@ def profile():
         return redirect(url_for("register"))
     return render_template("profile.html", name=name, score=score, solved=solved)
 
+@app.route("/cart")
+def cart():
+    return render_template("cart.html", item="Backdoor Key", price=999.99)
+
+@app.route("/checkout", methods=["GET", "POST"])
+def checkout():
+    message = None
+    flag = None
+    name = ""
+    if request.method == "POST":
+        name = request.form.get("name", "")
+        total = float(request.form.get("total", 0))
+
+        if total < 5.00:
+            flag = "🎯 FLAG-CARTHACKED"
+        elif "<script>" in name.lower():
+            flag = "😈 FLAG-STOREDXSS"
+
+        message = "Order processed! But nothing shipped. 😉"
+    return render_template("checkout.html", message=message, name=name, flag=flag)
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
