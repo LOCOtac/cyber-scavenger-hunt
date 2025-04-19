@@ -1,33 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Cyber Scavenger Hunt</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          animation: {
-            flicker: 'flicker 3s infinite',
-            float: 'float 6s ease-in-out infinite',
-          },
-          keyframes: {
-            flicker: {
-              '0%, 100%': { opacity: 1 },
-              '50%': { opacity: 0.4 }
+  <head>
+    <meta charset="UTF-8">
+    <title>Cyber Scavenger Hunt</title>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PMP77ZHR2Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PMP77ZHR2Y');
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            animation: {
+              flicker: 'flicker 3s infinite',
+              float: 'float 6s ease-in-out infinite',
             },
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-10px)' }
+            keyframes: {
+              flicker: {
+                '0%, 100%': { opacity: 1 },
+                '50%': { opacity: 0.4 }
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-10px)' }
+              }
             }
           }
         }
       }
-    }
-  </script>
-</head>
+    </script>
+  </head>
+  
 <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 min-h-screen">
 
   <!-- 🌓 Dark Mode Toggle -->
