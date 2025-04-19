@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, jsonify
-
+import datetime
 import os
 from urllib.parse import urlparse
 import time
@@ -298,6 +298,28 @@ def ai_helper():
             ai_response = f"⚠️ Error: {str(e)}"
 
     return render_template("ai_helper.html", user_input=user_input, ai_response=ai_response)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        if name:
+            session["name"] = name
+            session["score"] = 0
+            session["solved"] = []
+            return redirect(url_for("home"))
+    return render_template("register.html")
+
+@app.route("/profile")
+def profile():
+    name = session.get("name")
+    score = session.get("score", 0)
+    solved = session.get("solved", [])
+    if not name:
+        return redirect(url_for("register"))
+    return render_template("profile.html", name=name, score=score, solved=solved)
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
