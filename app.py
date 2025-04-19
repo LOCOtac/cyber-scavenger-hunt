@@ -5,15 +5,13 @@ from urllib.parse import urlparse
 import time
 import base64
 import json
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
-
 
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"
 load_dotenv()
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 VALID_FLAGS = {
     "FLAG-SQL123": 10,
@@ -34,14 +32,11 @@ VALID_FLAGS = {
     "FLAG-API777": 30,
     "FLAG-DARKMODE999": 20,
     "FLAG-AGENT777": 15,
-
-
 }
 
 leaderboard = []
 leaderboard_file = "leaderboard.json"
 
-# Load leaderboard from file if it exists
 if os.path.exists(leaderboard_file):
     with open(leaderboard_file, "r") as f:
         leaderboard = json.load(f)
@@ -240,7 +235,7 @@ def show_leaderboard():
 @app.route("/admin/reset-leaderboard")
 def reset_leaderboard():
     secret = request.args.get("secret")
-    if secret == "hunter2":  # Replace with your own secret
+    if secret == "hunter2":
         leaderboard.clear()
         with open(leaderboard_file, "w") as f:
             json.dump(leaderboard, f)
@@ -249,40 +244,26 @@ def reset_leaderboard():
 
 @app.route("/api/products")
 def api_products():
-    encoded_flag = base64.b64encode(b"FLAG-API777").decode("utf-8")  # encode the flag
-    reversed_encoded = encoded_flag[::-1]  # reverse it for obfuscation
+    encoded_flag = base64.b64encode(b"FLAG-API777").decode("utf-8")
+    reversed_encoded = encoded_flag[::-1]
 
     return jsonify({
         "products": [
+            {"id": 1, "name": "Basic Coffee Mug", "desc": "Great for your morning brew.", "price": 12.99},
+            {"id": 2, "name": "USB Drive", "desc": "Store your files safely.", "price": 8.49},
             {
-                "id": 1,
-                "name": "Basic Coffee Mug",
-                "desc": "Great for your morning brew.",
-                "price": 12.99
-            },
-            {
-                "id": 2,
-                "name": "USB Drive",
-                "desc": "Store your files safely.",
-                "price": 8.49
-            },
-            {
-                "id": 3,
-                "name": "Notebook",
-                "desc": "Take notes like a pro.",
-                "price": 5.99,
+                "id": 3, "name": "Notebook", "desc": "Take notes like a pro.", "price": 5.99,
                 "meta": {
                     "inventory_code": "NX-2024",
                     "dimensions": {"w": 14, "h": 21},
                     "_temp": {
                         "notes": ["Check admin logs"],
-                        "blob": reversed_encoded  # 👈 the reversed base64-encoded flag
+                        "blob": reversed_encoded
                     }
                 }
             }
         ]
     })
-
 
 @app.route("/user-agent-check")
 def user_agent_check():
@@ -290,7 +271,6 @@ def user_agent_check():
     if "CyberFox" in ua:
         return "🎯 FLAG-AGENT777 — Congrats, agent."
     return "Hmm... you're not using the right browser."
-
 
 @app.route("/ai-helper", methods=["GET", "POST"])
 def ai_helper():
@@ -306,7 +286,7 @@ def ai_helper():
         ]
 
         try:
-            response = openai.ChatCompletion.create(
+            response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=messages,
                 temperature=0.7,
@@ -318,7 +298,6 @@ def ai_helper():
             ai_response = f"⚠️ Error: {str(e)}"
 
     return render_template("ai_helper.html", user_input=user_input, ai_response=ai_response)
-
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
