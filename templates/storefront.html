@@ -2,83 +2,106 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Cyber Scavenger Shop</title>
+  <title>Cyber Scavenger Hunt</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class'
+      darkMode: 'class',
+      theme: {
+        extend: {
+          animation: {
+            flicker: 'flicker 3s infinite',
+            float: 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            flicker: {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.4 }
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' }
+            }
+          }
+        }
+      }
     }
   </script>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-all">
+<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 min-h-screen">
+
   <!-- 🌓 Dark Mode Toggle -->
-  <button onclick="document.documentElement.classList.toggle('dark')" 
-          class="fixed top-4 right-4 z-50 bg-gray-200 dark:bg-gray-800 text-sm px-3 py-1 rounded shadow hover:bg-gray-300 dark:hover:bg-gray-700">
-    🌓 Toggle Dark Mode
+  <button onclick="document.documentElement.classList.toggle('dark')"
+          class="fixed top-4 right-4 z-50 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded shadow">
+    🌓 Toggle Mode
   </button>
 
-  <div class="max-w-6xl mx-auto px-4 py-10">
-    <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
-      <h1 class="text-4xl font-bold text-blue-600 dark:text-blue-400 text-center sm:text-left">🛍️ Cyber Scavenger Shop</h1>
-      <a href="/register" class="mt-4 sm:mt-0 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded shadow transition">
-        📝 Join Now
-      </a>
-    </div>
+  <!-- 🧠 Hero -->
+  <section class="text-center py-16 px-4">
+    <h1 class="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-lime-400 via-cyan-400 to-pink-500 bg-clip-text text-transparent animate-flicker">
+      🛍️ Cyber Scavenger Hunt
+    </h1>
+    <p class="mt-4 text-lg text-gray-300">Not your ordinary shop — dig deeper 👀</p>
+    <a href="/register"
+       class="mt-6 inline-block bg-lime-500 hover:bg-lime-400 text-black font-bold px-6 py-2 rounded shadow-md animate-pulse">
+       📝 Join the Hunt
+    </a>
+  </section>
 
-    <!-- 🔍 Fake Search Bar -->
-    <div class="mb-8">
-      <input type="text" placeholder="Search products..." 
-             class="w-full p-3 rounded border shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400">
-    </div>
-
-    <!-- 🧃 Products -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-xl transition relative group">
-        <img src="/static/img/mug.jpg" alt="Coffee Mug" class="rounded w-full h-40 object-cover mb-3">
-        <h2 class="text-xl font-semibold mb-1">☕ Basic Coffee Mug</h2>
-        <p class="text-gray-600 dark:text-gray-300 mb-1">A stylish mug for your daily brew.</p>
-        <span class="text-sm text-green-500">$12.99</span>
-        <div class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs text-gray-400">ID: MUG-XSS</div>
-      </div>
-
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-xl transition relative group">
-        <img src="/static/img/usb.jpg" alt="USB Drive" class="rounded w-full h-40 object-cover mb-3">
-        <h2 class="text-xl font-semibold mb-1">💾 USB Drive</h2>
-        <p class="text-gray-600 dark:text-gray-300 mb-1">Store your files... securely 🤔</p>
-        <span class="text-sm text-green-500">$8.49</span>
-        <div class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs text-gray-400">Check source.js</div>
-      </div>
-
-      <div class="bg-white dark:bg-gray-800 p-5 rounded shadow hover:shadow-xl transition relative group">
-        <img src="/static/img/notebook.jpg" alt="Notebook" class="rounded w-full h-40 object-cover mb-3">
-        <h2 class="text-xl font-semibold mb-1">📓 Notebook</h2>
-        <p class="text-gray-600 dark:text-gray-300 mb-1">Jot down thoughts or... payloads</p>
-        <span class="text-sm text-green-500">$5.99</span>
-        <div class="absolute bottom-1 left-1 text-[0.6rem] text-gray-300 hidden group-hover:block">Meta: FLAG-??</div>
-        <div class="hidden dark:block mt-2 text-xs text-lime-400">
-          🕶️ FLAG-DARKMODE999
-        </div>
-      </div>
-    </div>
-
-    <!-- 🔗 Navigation Links -->
-    <div class="mt-10 flex flex-wrap gap-4 justify-center">
-      <a href="/login" class="text-blue-500 dark:text-blue-300 underline">Login</a>
-      <a href="/review" class="text-blue-500 dark:text-blue-300 underline">Leave a Review</a>
-      <a href="/upload" class="text-blue-500 dark:text-blue-300 underline">Apply for Jobs</a>
-      <a href="/redirect?next=/submit" class="text-blue-500 dark:text-blue-300 underline">Complete Your Profile</a>
-      <a href="/cookies" class="text-blue-500 dark:text-blue-300 underline">Cookie Notice</a>
-      <a href="/leaderboard" class="text-blue-500 dark:text-blue-300 underline">Leaderboard</a>
-      <a href="/profile" class="text-blue-500 dark:text-blue-300 underline">Your Profile</a>
-    </div>
-
-    <!-- 👁️ Hidden Easter Egg -->
-    <footer class="mt-16 text-center text-sm text-gray-500 dark:text-gray-400">
-      &copy; 2025 Cyber Scavenger Hunt | All products are fake™
-      <br>
-      <a href="/api/products" class="text-gray-300 hover:text-gray-600 text-xs hidden sm:inline-block">Internal API</a>
-      <a href="/admin/redirect-panel" style="display:none;">👁️ Hidden Portal</a>
-    </footer>
+  <!-- 🏷️ Promo Banner -->
+  <div class="bg-blue-600 text-white text-sm text-center py-2 mb-4 shadow-md">
+    🎉 Spring CTF Sale: All flags hidden with 💚 — Good luck hacker!
   </div>
+
+  <!-- 🧃 Products -->
+  <main class="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-16">
+    <div class="bg-white dark:bg-gray-800 p-5 rounded shadow-xl transform hover:scale-105 transition relative group">
+      <img src="/static/img/mug.jpg" alt="Coffee Mug" class="rounded w-full h-40 object-cover mb-3">
+      <h2 class="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">☕ Basic Coffee Mug</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-1">A stylish mug for your daily brew.</p>
+      <span class="text-sm text-green-500">$12.99</span>
+      <div class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs text-gray-400">ID: MUG-XSS</div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 p-5 rounded shadow-xl transform hover:scale-105 transition relative group">
+      <img src="/static/img/usb.jpg" alt="USB Drive" class="rounded w-full h-40 object-cover mb-3">
+      <h2 class="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">💾 USB Drive</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-1">Store your files... securely 🤔</p>
+      <span class="text-sm text-green-500">$8.49</span>
+      <div class="absolute top-1 right-1 opacity-0 group-hover:opacity-100 text-xs text-gray-400">Check source.js</div>
+    </div>
+
+    <div class="bg-white dark:bg-gray-800 p-5 rounded shadow-xl transform hover:scale-105 transition relative group">
+      <img src="/static/img/notebook.jpg" alt="Notebook" class="rounded w-full h-40 object-cover mb-3">
+      <h2 class="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">📓 Notebook</h2>
+      <p class="text-gray-600 dark:text-gray-300 mb-1">Jot down payloads like a pro.</p>
+      <span class="text-sm text-green-500">$5.99</span>
+      <div class="absolute bottom-1 left-1 text-[0.6rem] text-gray-300 hidden group-hover:block">Meta: FLAG-??</div>
+      <div class="hidden dark:block mt-2 text-xs text-lime-400 animate-flicker">
+        🕶️ FLAG-DARKMODE999
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔗 Navigation -->
+  <div class="text-center mb-10 space-x-4 text-sm">
+    <a href="/register" class="underline text-blue-400">Register</a>
+    <a href="/login" class="underline text-blue-400">Login</a>
+    <a href="/review" class="underline text-blue-400">Leave a Review</a>
+    <a href="/upload" class="underline text-blue-400">Apply for Jobs</a>
+    <a href="/redirect?next=/submit" class="underline text-blue-400">Complete Your Profile</a>
+    <a href="/cookies" class="underline text-blue-400">Cookie Notice</a>
+    <a href="/leaderboard" class="underline text-blue-400">Leaderboard</a>
+    <a href="/profile" class="underline text-blue-400">Your Profile</a>
+  </div>
+
+  <!-- 👁️ Hidden Footer -->
+  <footer class="text-center text-xs text-gray-500 dark:text-gray-400 pb-4">
+    &copy; 2025 Cyber Scavenger Hunt | Totally real store. Totally fake items.  
+    <br>
+    <a href="/api/products" class="text-gray-400 hover:text-lime-400 hidden sm:inline-block">Internal API</a>
+    <a href="/admin/redirect-panel" style="display:none;">👁️ Hidden Portal</a>
+  </footer>
+
 </body>
 </html>
