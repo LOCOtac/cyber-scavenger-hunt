@@ -29,11 +29,16 @@ def save_submission(name, score, flags):
         conn.commit()
 
 def get_leaderboard():
-    with sqlite3.connect(DB_NAME) as conn:
-        c = conn.cursor()
-        c.execute("SELECT name, score, flags FROM leaderboard ORDER BY score DESC")
-        rows = c.fetchall()
-        return [{"name": r[0], "score": r[1], "solved": r[2].split(",") if r[2] else []} for r in rows]
+    try:
+        with sqlite3.connect(DB_NAME) as conn:
+            c = conn.cursor()
+            c.execute("SELECT name, score, flags FROM leaderboard ORDER BY score DESC")
+            rows = c.fetchall()
+            return [{"name": r[0], "score": r[1], "solved": r[2].split(",") if r[2] else []} for r in rows]
+    except Exception as e:
+        print(f"[get_leaderboard ERROR] {e}")
+        return []
+
 
 def reset_leaderboard():
     with sqlite3.connect(DB_NAME) as conn:

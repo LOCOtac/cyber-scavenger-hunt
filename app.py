@@ -7,7 +7,8 @@ import base64
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
-from db import save_submission, get_leaderboard, reset_leaderboard
+from db import save_submission, get_leaderboard, reset_leaderboard, init_db
+init_db()
 
 
 
