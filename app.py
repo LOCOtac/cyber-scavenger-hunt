@@ -7,6 +7,8 @@ import base64
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
+from db import save_submission, get_leaderboard, reset_leaderboard_data
+
 
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"
@@ -210,10 +212,7 @@ def submit():
             message = f"✅ Correct! You earned {VALID_FLAGS[flag]} points."
 
             if name:
-                leaderboard.append({"name": name, "score": score, "solved": solved_flags})
-                leaderboard.sort(key=lambda x: x["score"], reverse=True)
-                with open(leaderboard_file, "w") as f:
-                    json.dump(leaderboard, f)
+                save_submission(name, score, solved_flags)  # Save to DB
 
         elif flag in solved_flags:
             message = "⚠️ You've already submitted this flag."
@@ -221,6 +220,7 @@ def submit():
             message = "❌ Invalid flag."
 
     return render_template("submit.html", message=message, score=score, solved=solved_flags, name=name)
+
 
 @app.route("/scoreboard")
 def scoreboard():
@@ -230,17 +230,18 @@ def scoreboard():
 
 @app.route("/leaderboard")
 def show_leaderboard():
+    leaderboard = get_leaderboard()
     return render_template("leaderboard.html", leaderboard=leaderboard)
+
 
 @app.route("/admin/reset-leaderboard")
 def reset_leaderboard():
     secret = request.args.get("secret")
     if secret == "hunter2":
-        leaderboard.clear()
-        with open(leaderboard_file, "w") as f:
-            json.dump(leaderboard, f)
+        reset_leaderboard_data()
         return "Leaderboard reset."
     return "Unauthorized.", 403
+
 
 @app.route("/api/products")
 def api_products():
