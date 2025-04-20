@@ -14,6 +14,7 @@ init_db()
 
 
 
+
 app = Flask(__name__)
 app.secret_key = "cyberhunt-secret"
 load_dotenv()

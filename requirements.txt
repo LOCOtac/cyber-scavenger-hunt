@@ -145,3 +145,5 @@ yfinance==0.2.55
 
 flask
 gunicorn
+psycopg2-binary
+
