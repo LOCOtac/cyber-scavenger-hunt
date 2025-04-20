@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Race Condition Challenge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-10">
+  <div class="max-w-xl mx-auto bg-white shadow p-6 rounded">
+    <h2 class="text-xl font-bold mb-4">💨 Race Condition: Apply Promo</h2>
+    <p>Try to submit this promo more than once... quickly!</p>
+
+    <form method="POST">
+      <input type="hidden" name="double_submit" value="true" />
+      <button class="mt-4 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded" type="submit">
+        Apply Promo
+      </button>
+    </form>
+
+    {% if message %}
+      <p class="mt-4 text-green-600 font-bold">{{ message }}</p>
+    {% endif %}
+    {% if flag %}
+      <p class="mt-2 text-purple-600 text-sm">{{ flag }}</p>
+    {% endif %}
+  </div>
+</body>
+</html>
+

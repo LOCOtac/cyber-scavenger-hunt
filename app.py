@@ -357,6 +357,29 @@ def stats():
     ]
     return render_template("stats.html", logs=logs)
 
+@app.route("/race-checkout", methods=["GET", "POST"])
+def race_checkout():
+    if "promo_used" not in session:
+        session["promo_used"] = False
+
+    message = ""
+    flag = ""
+
+    if request.method == "POST":
+        if not session["promo_used"]:
+            # Simulate delay in backend processing
+            time.sleep(2)
+            session["promo_used"] = True
+            message = "Promo applied successfully!"
+        else:
+            message = "Promo already used."
+
+        # Check for race condition (i.e., promo used twice before session flag updates)
+        if request.form.get("double_submit") == "true":
+            flag = "🏁 FLAG-RACE777"
+
+    return render_template("race_checkout.html", message=message, flag=flag)
+
 
 
 if __name__ == "__main__":
