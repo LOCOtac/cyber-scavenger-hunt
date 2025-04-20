@@ -343,6 +343,18 @@ def checkout():
 
 
 
+@app.route("/stats")
+def stats():
+    logs = [
+        {"ip": "192.168.1.12", "user_agent": "Mozilla/5.0"},
+        {"ip": "10.0.0.25", "user_agent": "Chrome/113.0"},
+        {"ip": "1337.0.0.1", "user_agent": "CyberFox/9.9.9 (FLAG-AGENT777)"},
+        {"ip": "172.16.0.5", "user_agent": "Safari/605.1.15"},
+    ]
+    return render_template("stats.html", logs=logs)
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visitor Stats</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 min-h-screen p-10">
+  <h1 class="text-3xl font-bold mb-6">📊 Site Analytics Dashboard</h1>
+
+  <table class="table-auto w-full bg-gray-800 text-left text-sm rounded overflow-hidden shadow-lg">
+    <thead class="bg-gray-700">
+      <tr>
+        <th class="p-3">#</th>
+        <th class="p-3">IP Address</th>
+        <th class="p-3">User-Agent</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+      <tr class="border-b border-gray-700 hover:bg-gray-700">
+        <td class="p-3">{{ loop.index }}</td>
+        <td class="p-3">{{ log.ip }}</td>
+        <td class="p-3 text-sm">{{ log.user_agent }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="text-xs text-gray-400 mt-6 italic">
+    Data is anonymized and refreshed every 24 hours.
+  </p>
+</body>
+</html>
+
