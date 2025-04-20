@@ -394,6 +394,11 @@ def password_reset():
             message = "❌ Invalid or expired token."
     return render_template("reset.html", message=message)
 
+@app.route("/vault/items")
+def vault_items():
+    if not session.get("name"):
+        return redirect(url_for("login"))
+    return render_template("vault.html")
 
 
 
