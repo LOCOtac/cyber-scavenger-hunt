@@ -15,7 +15,7 @@ def init_db():
         ''')
         conn.commit()
 
-def save_player(name, score, flags):
+def save_submission(name, score, flags):
     with sqlite3.connect(DB_NAME) as conn:
         c = conn.cursor()
         c.execute("SELECT id FROM leaderboard WHERE name = ?", (name,))
