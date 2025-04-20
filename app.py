@@ -382,6 +382,21 @@ def race_checkout():
 
 
 
+@app.route("/reset", methods=["GET", "POST"])
+def password_reset():
+    token = request.args.get("token", "")
+    message = None
+    if request.method == "POST":
+        if token == "admin-reset-token":
+            message = "🎉 Admin password reset! FLAG-BROKENACCESS"
+        else:
+            message = "❌ Invalid or expired token."
+    return render_template("reset.html", message=message)
+
+
+
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)

@@ -1,0 +1,32 @@
+from pathlib import Path
+
+# Create the HTML for the password reset form
+reset_form_html = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Reset</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow max-w-md w-full">
+        <h2 class="text-xl font-bold mb-4">🔐 Reset Your Password</h2>
+        {% if message %}<p class="mb-3 text-green-600">{{ message }}</p>{% endif %}
+        <form method="POST">
+            <input type="text" name="token" placeholder="Enter reset token" class="w-full border p-2 mb-3">
+            <input type="password" name="new_password" placeholder="New Password" class="w-full border p-2 mb-3">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded w-full">Reset Password</button>
+        </form>
+    </div>
+</body>
+</html>
+"""
+
+# Save it to a file named reset.html
+templates_dir = Path("templates")
+templates_dir.mkdir(exist_ok=True)
+reset_path = templates_dir / "reset.html"
+reset_path.write_text(reset_form_html)
+
+"reset.html created successfully."
