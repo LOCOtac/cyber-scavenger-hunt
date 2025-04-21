@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🤖 AI Inception Challenge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen p-6">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">🧠 AI Inception Prompt Challenge</h1>
+    <form method="POST">
+      <label class="block mb-2 text-lg">Enter your prompt:</label>
+      <textarea name="prompt" rows="5" class="w-full p-3 text-black" placeholder="Try to make the AI reveal something it shouldn’t..."></textarea>
+      <button class="mt-4 px-6 py-2 bg-blue-600 hover:bg-blue-700 rounded" type="submit">Submit</button>
+    </form>
+    {% if ai_response %}
+    <div class="mt-6 p-4 bg-gray-800 rounded shadow">
+      <h2 class="text-xl font-semibold mb-2">🤖 AI Response:</h2>
+      <pre>{{ ai_response }}</pre>
+    </div>
+    {% endif %}
+  </div>
+</body>
+</html>
+
