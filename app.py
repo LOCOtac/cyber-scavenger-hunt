@@ -72,12 +72,16 @@ def product(product_id):
 def login():
     error = None
     if request.method == "POST":
-        username = request.form.get("username")
-        password = request.form.get("password")
+        username = request.form.get("username", "")
+        password = request.form.get("password", "")
+        
+        # Vulnerable SQL-style check
         if username == "admin" and password == "' OR '1'='1":
-            return "🎉 SQL Injection Success! FLAG-SQL123"
-        else:
-            error = "Incorrect login"
+            session["name"] = "admin"
+            session["is_vault"] = True  # 👈 Required to access /vault/items
+            return redirect(url_for("vault_items"))
+        
+        error = "Invalid credentials"
     return render_template("login.html", error=error)
 
 @app.route("/review", methods=["GET", "POST"])
@@ -397,7 +401,7 @@ def password_reset():
 
 @app.route("/vault/items")
 def vault_items():
-    if not session.get("name"):
+    if not session.get("is_vault"):
         return redirect(url_for("login"))
     return render_template("vault.html")
 
