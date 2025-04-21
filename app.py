@@ -408,6 +408,12 @@ def vault_items():
     return render_template("vault.html")
 
 
+@app.route("/admin/dashboard")
+def admin_dashboard():
+    if request.args.get("secret") != "hunter2":
+        return "Unauthorized", 403
+    leaderboard = get_leaderboard()
+    return render_template("admin_dashboard.html", leaderboard=leaderboard)
 
 
 if __name__ == "__main__":

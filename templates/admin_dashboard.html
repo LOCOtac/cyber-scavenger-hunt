@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-6">
+
+  <h1 class="text-4xl font-bold text-center text-lime-400 mb-10">🛠️ Admin Dashboard</h1>
+
+  <div class="max-w-5xl mx-auto space-y-12">
+
+    <!-- Leaderboard Table -->
+    <section>
+      <h2 class="text-2xl font-semibold text-blue-300 mb-4">🏆 Leaderboard</h2>
+      <div class="overflow-x-auto bg-gray-800 rounded shadow">
+        <table class="min-w-full table-auto text-left">
+          <thead class="bg-gray-700 text-gray-200">
+            <tr>
+              <th class="px-4 py-2">#</th>
+              <th class="px-4 py-2">Name</th>
+              <th class="px-4 py-2">Score</th>
+              <th class="px-4 py-2">Flags</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-700">
+            {% for player in leaderboard %}
+              <tr>
+                <td class="px-4 py-2">{{ loop.index }}</td>
+                <td class="px-4 py-2">{{ player.name }}</td>
+                <td class="px-4 py-2 text-green-400">{{ player.score }}</td>
+                <td class="px-4 py-2 text-sm">
+                  {% for flag in player.solved %}
+                    <span class="inline-block bg-blue-600 text-white px-2 py-1 rounded mr-1 mb-1">{{ flag }}</span>
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Reset Button -->
+    <section class="text-center">
+      <form action="/admin/reset-leaderboard" method="get">
+        <input type="hidden" name="secret" value="hunter2">
+        <button type="submit"
+                class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded shadow">
+          🔄 Reset Leaderboard
+        </button>
+      </form>
+    </section>
+
+  </div>
+
+</body>
+</html>
+
