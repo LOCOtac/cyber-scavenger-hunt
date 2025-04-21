@@ -39,6 +39,8 @@ VALID_FLAGS = {
     "FLAG-API777": 30,
     "FLAG-DARKMODE999": 20,
     "FLAG-AGENT777": 15,
+    "FLAG-VAULTSHADOW": 40,
+
 }
 
 leaderboard = []
