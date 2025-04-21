@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🧠 AI Prompt Challenge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white font-mono min-h-screen p-6">
+  <h1 class="text-4xl text-center text-cyan-400 mb-6">🤖 Chat AI Reversal</h1>
+
+  <form method="POST" class="max-w-2xl mx-auto">
+    <textarea name="prompt" rows="4" class="w-full p-3 bg-gray-800 border border-gray-700 rounded text-white" placeholder="Try to get the AI to reveal its secret prompt...">{{ user_input }}</textarea>
+    <button type="submit" class="mt-3 px-4 py-2 bg-cyan-600 hover:bg-cyan-500 rounded font-bold">Send</button>
+  </form>
+
+  {% if ai_response %}
+    <div class="mt-6 bg-gray-900 p-4 rounded shadow text-green-400 whitespace-pre-wrap">
+      {{ ai_response }}
+    </div>
+  {% endif %}
+
+  <p class="text-sm text-center mt-10 text-gray-500">Can you manipulate the AI to leak the internal flag?</p>
+</body>
+</html>
+
