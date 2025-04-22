@@ -322,11 +322,20 @@ def register():
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         if name:
+            # Check if player already exists in DB
+            from db import get_player_by_name  # You’ll need to add this function
+            existing_player = get_player_by_name(name)
+            
             session["name"] = name
-            session["score"] = 0
-            session["solved"] = []
+            if existing_player:
+                session["score"] = existing_player["score"]
+                session["solved"] = existing_player["solved"]
+            else:
+                session["score"] = 0
+                session["solved"] = []
             return redirect(url_for("home"))
     return render_template("register.html")
+
 
 @app.route("/profile")
 def profile():

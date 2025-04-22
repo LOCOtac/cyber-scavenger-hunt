@@ -49,3 +49,13 @@ def reset_leaderboard():
         with conn.cursor() as c:
             c.execute("DELETE FROM leaderboard")
             conn.commit()
+
+
+def get_player_by_name(name):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT score, flags FROM leaderboard WHERE name = %s", (name,))
+            row = cur.fetchone()
+            if row:
+                return {"score": row[0], "solved": row[1].split(",") if row[1] else []}
+            return None
