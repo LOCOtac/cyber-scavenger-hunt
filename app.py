@@ -392,13 +392,19 @@ def register():
             if existing:
                 return "Username already taken. Please choose another.", 400
 
-            # Create new user
+            # ✅ Generate a unique UUID as the user ID
             user_id = str(uuid.uuid4())
+
+            # ✅ Save to database
             create_player(user_id, name, pin)
+
+            # ✅ Store session
             set_session({"name": name, "score": 0, "solved": []}, user_id)
+
             return redirect(url_for("home"))
         else:
             return "Invalid input. Name and 4-digit PIN required.", 400
+
     return render_template("register.html")
 
 
