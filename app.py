@@ -483,6 +483,11 @@ def ai_prompt_reversal():
 
     return render_template("ai_prompt_reversal.html", user_input=user_input, ai_response=ai_response)
 
+@app.route("/ai/encrypted-payload")
+def ai_encrypted():
+    return render_template("ai_encrypted.html")
+
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
