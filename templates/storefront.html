@@ -1,119 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>Cyber Scavenger Hunt</title>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PMP77ZHR2Y"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-PMP77ZHR2Y');
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            animation: {
-              flicker: 'flicker 3s infinite',
-              float: 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              flicker: {
-                '0%, 100%': { opacity: 1 },
-                '50%': { opacity: 0.4 }
-              },
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-10px)' }
-              }
+<head>
+  <meta charset="UTF-8">
+  <title>🏴‍☠️ BrokenCTF — Cyber Scavenger Hunt</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          animation: {
+            flicker: 'flicker 2s infinite',
+          },
+          keyframes: {
+            flicker: {
+              '0%, 100%': { opacity: 1 },
+              '50%': { opacity: 0.6 }
             }
           }
         }
       }
-    </script>
-  </head>
-  
-<body class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-gray-100 min-h-screen">
+    }
+  </script>
+</head>
 
-  <!-- 🌓 Dark Mode Toggle -->
-  <button onclick="document.documentElement.classList.toggle('dark')"
-          class="fixed top-4 right-4 z-50 bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded shadow">
-    🌓 Toggle Mode
-  </button>
+<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-mono">
 
-  <!-- 🧠 Hero -->
-  <section class="text-center py-16 px-4">
-    <h1 class="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-lime-400 via-cyan-400 to-pink-500 bg-clip-text text-transparent animate-flicker">
-      🛍️ Cyber Scavenger Hunt
+  <!-- 🌗 Toggle Dark Mode -->
+  <div class="p-4 flex justify-end">
+    <button onclick="document.documentElement.classList.toggle('dark')"
+            class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">
+      🌗 Toggle Mode
+    </button>
+  </div>
+
+  <!-- 🧠 Hero Section -->
+  <section class="text-center py-10 px-4">
+    <h1 class="text-5xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-400 via-cyan-400 to-pink-500 animate-flicker">
+      BrokenCTF 🏴‍☠️
     </h1>
-    <p class="mt-4 text-lg text-gray-300">Not your ordinary shop — dig deeper 👀</p>
-    <a href="/register"
-       class="mt-6 inline-block bg-lime-500 hover:bg-lime-400 text-black font-bold px-6 py-2 rounded shadow-md animate-pulse">
-       📝 Join the Hunt
-    </a>
+    <p class="text-gray-300 mt-4 text-lg">Think it's just a shop? Look again 👀</p>
+
+    <div class="mt-6 space-x-4">
+      <a href="/register" class="bg-lime-500 hover:bg-lime-400 text-black font-bold px-5 py-2 rounded shadow">📝 Register</a>
+      <a href="/auth/login" class="bg-blue-500 hover:bg-blue-400 text-black font-bold px-5 py-2 rounded shadow">🔐 Login</a>
+    </div>
   </section>
 
   <!-- 🏷️ Promo Banner -->
-  <div class="bg-blue-600 text-white text-sm text-center py-2 mb-4 shadow-md">
-    🎉 Spring CTF Sale: All flags hidden with 💚 — Good luck hacker!
+  <div class="bg-indigo-700 text-center py-2 text-sm font-semibold">
+    🕵️‍♂️ All products are fake. All flags are real. Good luck out there.
   </div>
 
-  <!-- 🧃 Products -->
-  <main class="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 pb-16">
-    <!-- Existing 6 products... -->
-    <!-- Extra 3 products inserted here -->
-    <div class="bg-white dark:bg-gray-800 p-5 rounded shadow-xl transform hover:scale-105 transition relative group">
-      <img src="/static/img/mouse.jpg" alt="Wireless Mouse" class="rounded w-full h-40 object-cover mb-3">
-      <h2 class="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">🖱️ Wireless Mouse</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-1">Silent... until you scroll too far.</p>
-      <span class="text-sm text-green-500">$14.99</span>
-      <div class="absolute top-1 left-1 opacity-0 group-hover:opacity-100 text-xs text-pink-400">Inspect the JavaScript</div>
+  <!-- 🛍️ Product Grid -->
+  <section class="max-w-6xl mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+    <div class="bg-gray-800 p-5 rounded-lg shadow-lg group hover:shadow-xl transition">
+      <img src="/static/img/mouse.jpg" alt="Mouse" class="w-full h-40 object-cover rounded mb-3">
+      <h2 class="text-xl font-bold">🖱️ Silent Mouse</h2>
+      <p class="text-sm text-gray-300">Click quiet, hack loud.</p>
+      <span class="text-sm text-green-400">$14.99</span>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 p-5 rounded shadow-xl transform hover:scale-105 transition relative group">
-      <img src="/static/img/router.jpg" alt="Wi-Fi Router" class="rounded w-full h-40 object-cover mb-3">
-      <h2 class="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">📡 Wi-Fi Router</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-1">DDOS resistant* (conditions apply)</p>
-      <span class="text-sm text-green-500">$69.00</span>
-      <div class="absolute bottom-1 right-1 text-[0.6rem] text-red-300 hidden group-hover:block">Hit `/report` hard</div>
+    <div class="bg-gray-800 p-5 rounded-lg shadow-lg group hover:shadow-xl transition">
+      <img src="/static/img/router.jpg" alt="Router" class="w-full h-40 object-cover rounded mb-3">
+      <h2 class="text-xl font-bold">📡 Wi-Fi Router</h2>
+      <p class="text-sm text-gray-300">Handles DDOS (in theory).</p>
+      <span class="text-sm text-green-400">$69.00</span>
     </div>
 
-    <div class="bg-white dark:bg-gray-800 p-5 rounded shadow-xl transform hover:scale-105 transition relative group">
-      <img src="/static/img/key.jpg" alt="Backdoor Key" class="rounded w-full h-40 object-cover mb-3">
-      <h2 class="text-xl font-semibold mb-1 text-gray-900 dark:text-gray-100">🗝️ Backdoor Key</h2>
-      <p class="text-gray-600 dark:text-gray-300 mb-1">Unlock hidden panels. Or trouble.</p>
-      <span class="text-sm text-green-500">$999.99</span>
-      <div class="absolute bottom-2 left-2 text-xs text-lime-300 hidden group-hover:block">robots.txt knows the way</div>
+    <div class="bg-gray-800 p-5 rounded-lg shadow-lg group hover:shadow-xl transition">
+      <img src="/static/img/key.jpg" alt="Backdoor Key" class="w-full h-40 object-cover rounded mb-3">
+      <h2 class="text-xl font-bold">🗝️ Backdoor Key</h2>
+      <p class="text-sm text-gray-300">The backdoor is never locked...</p>
+      <span class="text-sm text-green-400">$999.99</span>
     </div>
-  </main>
+  </section>
 
-  <!-- 🔗 Navigation -->
-  <div class="text-center mb-10 space-x-4 text-sm">
-    <a href="/register" class="underline text-blue-400">Register</a>
-    <a href="/login" class="underline text-blue-400">Login</a>
-    <a href="/review" class="underline text-blue-400">Leave a Review</a>
-    <a href="/upload" class="underline text-blue-400">Apply for Jobs</a>
-    <a href="/redirect?next=/submit" class="underline text-blue-400">Complete Your Profile</a>
-    <a href="/cookies" class="underline text-blue-400">Cookie Notice</a>
-    <a href="/leaderboard" class="underline text-blue-400">Leaderboard</a>
-    <a href="/profile" class="underline text-blue-400">Your Profile</a>
-    <a href="/cart" class="underline text-green-400 font-bold">🛒 View Cart</a>
-    <a href="/stats" class="underline text-blue-400">Analytics</a>
-    <a href="/auth/login" class="underline text-blue-400">🔐 Auth Login</a>
-
-
-
-  </div>
-
-  <!-- 👁️ Hidden Footer -->
-  <footer class="text-center text-xs text-gray-500 dark:text-gray-400 pb-4">
-    &copy; 2025 Cyber Scavenger Hunt | Totally real store. Totally fake items.  
-    <br>
-    <a href="/api/products" class="text-gray-400 hover:text-lime-400 hidden sm:inline-block">Internal API</a>
-    <a href="/admin/redirect-panel" style="display:none;">👁️ Hidden Portal</a>
+  <!-- 🔗 Footer Navigation -->
+  <footer class="text-center text-xs text-gray-500 py-6">
+    &copy; 2025 BrokenCTF | Everything is bait. Except the flags.<br>
+    <a href="/leaderboard" class="text-blue-400 hover:underline">🏆 Leaderboard</a> •
+    <a href="/profile" class="text-blue-400 hover:underline">👤 Your Profile</a> •
+    <a href="/cart" class="text-blue-400 hover:underline">🛒 Cart</a> •
+    <a href="/stats" class="text-blue-400 hover:underline">📊 Stats</a>
   </footer>
 
 </body>
