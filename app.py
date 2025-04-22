@@ -326,19 +326,30 @@ def ai_helper():
 
     return render_template("ai_helper.html", user_input=user_input, ai_response=ai_response)
 
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
         name = request.form.get("name", "").strip()
-        if name:
-            user_id = str(uuid.uuid4())  # Unique session-based ID
-            session["name"] = name
+        pin = request.form.get("pin", "").strip()
+        from db import get_player_by_name, create_player
+
+        if name and pin and len(pin) == 4 and pin.isdigit():
+            existing_player = get_player_by_name(name)
+            if existing_player:
+                return "Username already taken. Please choose another.", 400
+
+            # ✅ Generate user_id and save in session
+            user_id = str(uuid.uuid4())
             session["user_id"] = user_id
+            create_player(name, pin, user_id)
+            session["name"] = name
             session["score"] = 0
             session["solved"] = []
             return redirect(url_for("home"))
+        else:
+            return "Invalid input. Name and 4-digit PIN required.", 400
     return render_template("register.html")
+
 
 
 @app.route("/profile")

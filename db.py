@@ -14,13 +14,14 @@ def init_db():
                 CREATE TABLE IF NOT EXISTS leaderboard (
                     id TEXT PRIMARY KEY,
                     name TEXT NOT NULL,
+                    pin TEXT NOT NULL,
                     score INTEGER DEFAULT 0,
                     flags TEXT
                 )
             ''')
             conn.commit()
 
-def save_submission(user_id, name, score, flags):
+def save_submission(user_id, name, pin, score, flags):
     with get_connection() as conn:
         with conn.cursor() as c:
             c.execute("SELECT id FROM leaderboard WHERE id = %s", (user_id,))
@@ -28,9 +29,15 @@ def save_submission(user_id, name, score, flags):
             flags_str = ",".join(flags)
 
             if row:
-                c.execute("UPDATE leaderboard SET name = %s, score = %s, flags = %s WHERE id = %s", (name, score, flags_str, user_id))
+                c.execute(
+                    "UPDATE leaderboard SET name = %s, pin = %s, score = %s, flags = %s WHERE id = %s",
+                    (name, pin, score, flags_str, user_id)
+                )
             else:
-                c.execute("INSERT INTO leaderboard (id, name, score, flags) VALUES (%s, %s, %s, %s)", (user_id, name, score, flags_str))
+                c.execute(
+                    "INSERT INTO leaderboard (id, name, pin, score, flags) VALUES (%s, %s, %s, %s, %s)",
+                    (user_id, name, pin, score, flags_str)
+                )
             conn.commit()
 
 def get_leaderboard():
@@ -53,12 +60,13 @@ def reset_leaderboard():
 def get_player_by_id(user_id):
     with get_connection() as conn:
         with conn.cursor() as c:
-            c.execute("SELECT name, score, flags FROM leaderboard WHERE id = %s", (user_id,))
+            c.execute("SELECT name, pin, score, flags FROM leaderboard WHERE id = %s", (user_id,))
             row = c.fetchone()
             if row:
                 return {
                     "name": row[0],
-                    "score": row[1],
-                    "solved": row[2].split(",") if row[2] else []
+                    "pin": row[1],
+                    "score": row[2],
+                    "solved": row[3].split(",") if row[3] else []
                 }
             return None
