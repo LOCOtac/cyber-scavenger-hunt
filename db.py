@@ -21,7 +21,7 @@ def init_db():
             ''')
             conn.commit()
 
-def create_player(name, pin, user_id):
+def create_player(user_id, name, pin):
     with get_connection() as conn:
         with conn.cursor() as c:
             c.execute(
