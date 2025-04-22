@@ -121,7 +121,7 @@ def auth_login():
     return render_template("auth_login.html", error=error)
 
 @app.route("/auth/login", methods=["GET", "POST"])
-def auth_login():
+def login_auth():
     from db import get_player_by_name
 
     error = None
