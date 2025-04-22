@@ -1,15 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Register</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 flex items-center justify-center h-screen">
-  <form method="POST" class="bg-white p-8 rounded shadow max-w-md w-full">
-    <h2 class="text-2xl font-bold mb-4 text-center">Register</h2>
-    <input name="name" placeholder="Enter your player name" class="w-full p-2 border rounded mb-4" required>
-    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded">Start Playing</button>
-  </form>
+<body class="bg-gray-900 text-white p-8">
+  <div class="max-w-md mx-auto bg-gray-800 p-6 rounded shadow-lg">
+    <h1 class="text-2xl font-bold mb-4 text-lime-400">🔐 Register</h1>
+    <form method="POST">
+      <div class="mb-4">
+        <label class="block mb-1 text-sm text-gray-300">Name:</label>
+        <input type="text" name="name" required class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+      </div>
+      <div class="mb-4">
+        <label class="block mb-1 text-sm text-gray-300">4-Digit PIN:</label>
+        <input type="text" name="pin" pattern="\d{4}" required maxlength="4" class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+      </div>
+      <button type="submit" class="bg-lime-500 hover:bg-lime-600 text-black font-bold py-2 px-4 rounded">
+        Register
+      </button>
+    </form>
+  </div>
 </body>
 </html>
-
