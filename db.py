@@ -21,6 +21,17 @@ def init_db():
             ''')
             conn.commit()
 
+def create_player(name, pin, user_id):
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute(
+                "INSERT INTO leaderboard (id, name, pin, score, flags) VALUES (%s, %s, %s, %s, %s)",
+                (user_id, name, pin, 0, "")
+            )
+            conn.commit()
+
+
+
 def save_submission(user_id, name, pin, score, flags):
     with get_connection() as conn:
         with conn.cursor() as c:
@@ -68,5 +79,35 @@ def get_player_by_id(user_id):
                     "pin": row[1],
                     "score": row[2],
                     "solved": row[3].split(",") if row[3] else []
+                }
+            return None
+
+def get_player_by_name(name):
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute("SELECT id, pin, score, flags FROM leaderboard WHERE name = %s", (name,))
+            row = c.fetchone()
+            if row:
+                return {
+                    "id": row[0],
+                    "pin": row[1],
+                    "score": row[2],
+                    "solved": row[3].split(",") if row[3] else []
+                }
+            return None
+
+
+def get_player_by_name(name):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute("SELECT id, name, pin, score, flags FROM leaderboard WHERE name = %s", (name,))
+            row = cur.fetchone()
+            if row:
+                return {
+                    "id": row[0],
+                    "name": row[1],
+                    "pin": row[2],
+                    "score": row[3],
+                    "solved": row[4].split(",") if row[4] else []
                 }
             return None

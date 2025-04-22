@@ -9,6 +9,7 @@ import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from db import save_submission, get_leaderboard, reset_leaderboard, init_db, reset_leaderboard as reset_leaderboard_data
+from db import get_player_by_name, get_player_by_id, create_player
 
 
 init_db()
@@ -94,6 +95,56 @@ def login():
         
         error = "Invalid credentials"
     return render_template("login.html", error=error)
+
+
+
+@app.route("/auth", methods=["GET", "POST"])
+def auth_login():
+    error = None
+    if request.method == "POST":
+        name = request.form.get("username", "").strip()
+        pin = request.form.get("password", "").strip()
+
+        from db import get_connection
+        with get_connection() as conn:
+            with conn.cursor() as c:
+                c.execute("SELECT id, pin, score, flags FROM leaderboard WHERE name = %s", (name,))
+                row = c.fetchone()
+                if row and row[1] == pin:
+                    session["user_id"] = row[0]
+                    session["name"] = name
+                    session["score"] = row[2]
+                    session["solved"] = row[3].split(",") if row[3] else []
+                    return redirect(url_for("home"))
+
+        error = "Invalid credentials"
+    return render_template("auth_login.html", error=error)
+
+@app.route("/auth/login", methods=["GET", "POST"])
+def auth_login():
+    from db import get_player_by_name
+
+    error = None
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        pin = request.form.get("password", "").strip()
+
+        player = get_player_by_name(username)
+
+        if player and pin == player.get("pin"):
+            session["name"] = player["name"]
+            session["user_id"] = player.get("id")
+            session["score"] = player.get("score", 0)
+            session["solved"] = player.get("solved", [])
+            return redirect(url_for("profile"))
+
+        error = "❌ Invalid username or PIN."
+
+    return render_template("auth_login.html", error=error)
+
+
+
+
 
 @app.route("/review", methods=["GET", "POST"])
 def review():
@@ -237,7 +288,8 @@ def submit():
             message = f"✅ Correct! You earned {VALID_FLAGS[flag]} points."
 
             # Save using user_id for secure lookup
-            save_submission(user_id, name, score, solved_flags)
+            save_submission(user_id, name, session.get("pin", ""), score, solved_flags)
+
 
         elif flag in solved_flags:
             message = "⚠️ You've already submitted this flag."
@@ -331,24 +383,29 @@ def register():
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         pin = request.form.get("pin", "").strip()
-        from db import get_player_by_name, create_player
 
         if name and pin and len(pin) == 4 and pin.isdigit():
-            existing_player = get_player_by_name(name)
-            if existing_player:
+            existing = get_player_by_name(name)
+
+            if existing:
                 return "Username already taken. Please choose another.", 400
 
-            # ✅ Generate user_id and save in session
+            # Create new user
             user_id = str(uuid.uuid4())
-            session["user_id"] = user_id
-            create_player(name, pin, user_id)
-            session["name"] = name
-            session["score"] = 0
-            session["solved"] = []
+            create_player(user_id, name, pin)
+            set_session({"name": name, "score": 0, "solved": []}, user_id)
             return redirect(url_for("home"))
         else:
             return "Invalid input. Name and 4-digit PIN required.", 400
     return render_template("register.html")
+
+
+def set_session(user_data, user_id):
+    session["user_id"] = user_id
+    session["name"] = user_data["name"]
+    session["score"] = user_data["score"]
+    session["solved"] = user_data["solved"]
+
 
 
 
