@@ -4,10 +4,12 @@ import os
 from urllib.parse import urlparse
 import time
 import base64
+import uuid
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
 from db import save_submission, get_leaderboard, reset_leaderboard, init_db, reset_leaderboard as reset_leaderboard_data
+
 
 init_db()
 
@@ -208,20 +210,25 @@ def hidden_flag():
 def page_not_found(e):
     return render_template("404.html"), 404
 
+
+
 @app.route("/submit", methods=["GET", "POST"])
 def submit():
     message = None
+
+    # Retrieve session data
+    user_id = session.get("user_id")
+    name = session.get("name")
     score = session.get("score", 0)
     solved_flags = session.get("solved", [])
-    name = session.get("name")
 
-    if not name:
-        name = request.form.get("name")
-        if name:
-            session["name"] = name
+    # Prevent access if not registered
+    if not user_id or not name:
+        return redirect(url_for("register"))
 
     if request.method == "POST":
-        flag = request.form.get("flag").strip()
+        flag = request.form.get("flag", "").strip()
+
         if flag in VALID_FLAGS and flag not in solved_flags:
             score += VALID_FLAGS[flag]
             solved_flags.append(flag)
@@ -229,8 +236,8 @@ def submit():
             session["solved"] = solved_flags
             message = f"✅ Correct! You earned {VALID_FLAGS[flag]} points."
 
-            if name:
-                save_submission(name, score, solved_flags)  # Save to DB
+            # Save using user_id for secure lookup
+            save_submission(user_id, name, score, solved_flags)
 
         elif flag in solved_flags:
             message = "⚠️ You've already submitted this flag."
@@ -238,6 +245,7 @@ def submit():
             message = "❌ Invalid flag."
 
     return render_template("submit.html", message=message, score=score, solved=solved_flags, name=name)
+
 
 
 @app.route("/scoreboard")
@@ -324,17 +332,11 @@ def register():
     if request.method == "POST":
         name = request.form.get("name", "").strip()
         if name:
-            # Check if player already exists in DB
-            from db import get_player_by_name  # You’ll need to add this function
-            existing_player = get_player_by_name(name)
-            
+            user_id = str(uuid.uuid4())  # Unique session-based ID
             session["name"] = name
-            if existing_player:
-                session["score"] = existing_player["score"]
-                session["solved"] = existing_player["solved"]
-            else:
-                session["score"] = 0
-                session["solved"] = []
+            session["user_id"] = user_id
+            session["score"] = 0
+            session["solved"] = []
             return redirect(url_for("home"))
     return render_template("register.html")
 

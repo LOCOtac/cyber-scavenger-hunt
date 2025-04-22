@@ -12,7 +12,7 @@ def init_db():
         with conn.cursor() as c:
             c.execute('''
                 CREATE TABLE IF NOT EXISTS leaderboard (
-                    id SERIAL PRIMARY KEY,
+                    id TEXT PRIMARY KEY,
                     name TEXT NOT NULL,
                     score INTEGER DEFAULT 0,
                     flags TEXT
@@ -20,17 +20,17 @@ def init_db():
             ''')
             conn.commit()
 
-def save_submission(name, score, flags):
+def save_submission(user_id, name, score, flags):
     with get_connection() as conn:
         with conn.cursor() as c:
-            c.execute("SELECT id FROM leaderboard WHERE name = %s", (name,))
+            c.execute("SELECT id FROM leaderboard WHERE id = %s", (user_id,))
             row = c.fetchone()
             flags_str = ",".join(flags)
 
             if row:
-                c.execute("UPDATE leaderboard SET score = %s, flags = %s WHERE name = %s", (score, flags_str, name))
+                c.execute("UPDATE leaderboard SET name = %s, score = %s, flags = %s WHERE id = %s", (name, score, flags_str, user_id))
             else:
-                c.execute("INSERT INTO leaderboard (name, score, flags) VALUES (%s, %s, %s)", (name, score, flags_str))
+                c.execute("INSERT INTO leaderboard (id, name, score, flags) VALUES (%s, %s, %s, %s)", (user_id, name, score, flags_str))
             conn.commit()
 
 def get_leaderboard():
@@ -50,12 +50,15 @@ def reset_leaderboard():
             c.execute("DELETE FROM leaderboard")
             conn.commit()
 
-
-def get_player_by_name(name):
+def get_player_by_id(user_id):
     with get_connection() as conn:
-        with conn.cursor() as cur:
-            cur.execute("SELECT score, flags FROM leaderboard WHERE name = %s", (name,))
-            row = cur.fetchone()
+        with conn.cursor() as c:
+            c.execute("SELECT name, score, flags FROM leaderboard WHERE id = %s", (user_id,))
+            row = c.fetchone()
             if row:
-                return {"score": row[0], "solved": row[1].split(",") if row[1] else []}
+                return {
+                    "name": row[0],
+                    "score": row[1],
+                    "solved": row[2].split(",") if row[2] else []
+                }
             return None
