@@ -122,25 +122,27 @@ def auth_login():
 
 @app.route("/auth/login", methods=["GET", "POST"])
 def login_auth():
-    from db import get_player_by_name
-
     error = None
     if request.method == "POST":
         username = request.form.get("username", "").strip()
-        pin = request.form.get("password", "").strip()
+        pin = request.form.get("password", "").strip()  # matches the `name="password"` in HTML
 
-        player = get_player_by_name(username)
-
-        if player and pin == player.get("pin"):
-            session["name"] = player["name"]
-            session["user_id"] = player.get("id")
-            session["score"] = player.get("score", 0)
-            session["solved"] = player.get("solved", [])
-            return redirect(url_for("profile"))
-
-        error = "❌ Invalid username or PIN."
+        if username and pin:
+            from db import get_player_by_name
+            player = get_player_by_name(username)
+            if player and player["pin"] == pin:
+                session["name"] = username
+                session["score"] = player["score"]
+                session["solved"] = player["solved"]
+                session["user_id"] = player["id"]
+                return redirect(url_for("home"))
+            else:
+                error = "❌ Invalid username or PIN."
+        else:
+            error = "Please enter both name and 4-digit PIN."
 
     return render_template("auth_login.html", error=error)
+
 
 
 
