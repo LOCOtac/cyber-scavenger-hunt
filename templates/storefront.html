@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🏴‍☠️ BrokenCTF — Cyber Scavenger Hunt</title>
+  <title>🛒 BrokenCTF — Cyber Scavenger Hunt</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -23,67 +23,87 @@
     }
   </script>
 </head>
+<body class="bg-gray-100 text-gray-900 font-sans">
 
-<body class="bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white font-mono">
-
-  <!-- 🌗 Toggle Dark Mode -->
-  <div class="p-4 flex justify-end">
-    <button onclick="document.documentElement.classList.toggle('dark')"
-            class="bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded text-sm">
-      🌗 Toggle Mode
-    </button>
+<!-- 🧭 Navbar -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-indigo-600">BrokenCTF Store 🏴‍☠️</h1>
+    <div class="flex space-x-6 text-sm">
+      <a href="/register" class="text-indigo-700 hover:underline">Register</a>
+      <a href="/auth/login" class="text-indigo-700 hover:underline">Login</a>
+      <a href="/cart" class="text-indigo-700 hover:underline">Cart</a>
+    </div>
   </div>
+</header>
 
-  <!-- 🧠 Hero Section -->
-  <section class="text-center py-10 px-4">
-    <h1 class="text-5xl sm:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-lime-400 via-cyan-400 to-pink-500 animate-flicker">
-      BrokenCTF 🏴‍☠️
-    </h1>
-    <p class="text-gray-300 mt-4 text-lg">Think it's just a shop? Look again 👀</p>
+<!-- 🎯 Hero -->
+<div class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-10 text-center">
+  <h2 class="text-3xl font-bold">Find Everything. Maybe Too Much.</h2>
+  <p class="text-lg mt-2">Electronics, tools, gear, secrets? Depends where you click.</p>
+</div>
 
-    <div class="mt-6 space-x-4">
-      <a href="/register" class="bg-lime-500 hover:bg-lime-400 text-black font-bold px-5 py-2 rounded shadow">📝 Register</a>
-      <a href="/auth/login" class="bg-blue-500 hover:bg-blue-400 text-black font-bold px-5 py-2 rounded shadow">🔐 Login</a>
-    </div>
-  </section>
-
-  <!-- 🏷️ Promo Banner -->
-  <div class="bg-indigo-700 text-center py-2 text-sm font-semibold">
-    🕵️‍♂️ All products are fake. All flags are real. Good luck out there.
+<!-- 🔍 Search & Tags -->
+<div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center">
+  <input type="text" placeholder="Search 10,000+ items..." class="w-full sm:w-2/3 border p-2 rounded-md shadow-sm mb-4 sm:mb-0">
+  <div class="space-x-2">
+    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Electronics</span>
+    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Networking</span>
+    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Storage</span>
+    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Peripherals</span>
   </div>
+</div>
 
-  <!-- 🛍️ Product Grid -->
-  <section class="max-w-6xl mx-auto p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-    <div class="bg-gray-800 p-5 rounded-lg shadow-lg group hover:shadow-xl transition">
-      <img src="/static/img/mouse.jpg" alt="Mouse" class="w-full h-40 object-cover rounded mb-3">
-      <h2 class="text-xl font-bold">🖱️ Silent Mouse</h2>
-      <p class="text-sm text-gray-300">Click quiet, hack loud.</p>
-      <span class="text-sm text-green-400">$14.99</span>
+<!-- 🛒 Product Grid -->
+<section class="max-w-7xl mx-auto px-4 py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/keyboard.jpg" alt="Mechanical Keyboard" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">⌨️ Mechanical Keyboard</h2>
+    <p class="text-gray-600 text-sm">RGB mode for night ops.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$79.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500">Add to Cart</button>
     </div>
-
-    <div class="bg-gray-800 p-5 rounded-lg shadow-lg group hover:shadow-xl transition">
-      <img src="/static/img/router.jpg" alt="Router" class="w-full h-40 object-cover rounded mb-3">
-      <h2 class="text-xl font-bold">📡 Wi-Fi Router</h2>
-      <p class="text-sm text-gray-300">Handles DDOS (in theory).</p>
-      <span class="text-sm text-green-400">$69.00</span>
+  </div>
+  
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/cctv.jpg" alt="Fake Security Camera" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">📷 Fake CCTV Camera</h2>
+    <p class="text-gray-600 text-sm">Bluff your way to safety.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$19.95</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500">Add to Cart</button>
     </div>
-
-    <div class="bg-gray-800 p-5 rounded-lg shadow-lg group hover:shadow-xl transition">
-      <img src="/static/img/key.jpg" alt="Backdoor Key" class="w-full h-40 object-cover rounded mb-3">
-      <h2 class="text-xl font-bold">🗝️ Backdoor Key</h2>
-      <p class="text-sm text-gray-300">The backdoor is never locked...</p>
-      <span class="text-sm text-green-400">$999.99</span>
+  </div>
+  
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/hdd.jpg" alt="2TB External Drive" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">💾 2TB External Drive</h2>
+    <p class="text-gray-600 text-sm">Just don’t check `/secret`...</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$59.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500">Add to Cart</button>
     </div>
-  </section>
+  </div>
+  
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/glasses.jpg" alt="Blue Light Glasses" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🕶️ Blue Light Glasses</h2>
+    <p class="text-gray-600 text-sm">See the code, not the matrix.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$24.00</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500">Add to Cart</button>
+    </div>
+  </div>
+</section>
 
-  <!-- 🔗 Footer Navigation -->
-  <footer class="text-center text-xs text-gray-500 py-6">
-    &copy; 2025 BrokenCTF | Everything is bait. Except the flags.<br>
-    <a href="/leaderboard" class="text-blue-400 hover:underline">🏆 Leaderboard</a> •
-    <a href="/profile" class="text-blue-400 hover:underline">👤 Your Profile</a> •
-    <a href="/cart" class="text-blue-400 hover:underline">🛒 Cart</a> •
-    <a href="/stats" class="text-blue-400 hover:underline">📊 Stats</a>
-  </footer>
+<!-- 📎 Footer -->
+<footer class="bg-white text-center text-xs text-gray-500 py-6 border-t mt-8">
+  &copy; 2025 BrokenCTF • Just another store. Or is it?<br>
+  <a href="/leaderboard" class="text-blue-500 hover:underline">🏆 Leaderboard</a> •
+  <a href="/submit" class="text-blue-500 hover:underline">🚩 Submit Flag</a> •
+  <a href="/profile" class="text-blue-500 hover:underline">👤 Profile</a>
+</footer>
 
 </body>
 </html>
