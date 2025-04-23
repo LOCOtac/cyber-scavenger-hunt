@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
   <meta charset="UTF-8">
   <title>🛒 BrokenCTF — Cyber Scavenger Hunt</title>
@@ -23,21 +23,29 @@
     }
   </script>
 </head>
-<body class="bg-gray-100 text-gray-900 font-sans">
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white font-sans">
 
-<!-- 🧭 Navbar -->
-<header class="bg-white shadow sticky top-0 z-50">
+<!-- 🌗 Dark Mode Toggle -->
+<div class="flex justify-end p-4">
+  <button onclick="document.documentElement.classList.toggle('dark')"
+    class="bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-4 py-1 rounded text-sm">
+    🌗 Toggle Mode
+  </button>
+</div>
+
+<!-- 👮️‍♂️ Navbar -->
+<header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-indigo-600">BrokenCTF Store 🏴‍☠️</h1>
+    <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">BrokenCTF Store 🏴‍☠️</h1>
     <div class="flex space-x-6 text-sm">
-      <a href="/register" class="text-indigo-700 hover:underline">Register</a>
-      <a href="/auth/login" class="text-indigo-700 hover:underline">Login</a>
-      <a href="/cart" class="text-indigo-700 hover:underline">Cart</a>
+      <a href="/register" class="text-indigo-700 dark:text-indigo-300 hover:underline">Register</a>
+      <a href="/auth/login" class="text-indigo-700 dark:text-indigo-300 hover:underline">Login</a>
+      <a href="/cart" class="text-indigo-700 dark:text-indigo-300 hover:underline">Cart</a>
     </div>
   </div>
 </header>
 
-<!-- 🎯 Hero -->
+<!-- 🌟 Hero -->
 <div class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-10 text-center">
   <h2 class="text-3xl font-bold">Find Everything. Maybe Too Much.</h2>
   <p class="text-lg mt-2">Electronics, tools, gear, secrets? Depends where you click.</p>
@@ -47,12 +55,16 @@
 <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center">
   <input type="text" placeholder="Search 10,000+ items..." class="w-full sm:w-2/3 border p-2 rounded-md shadow-sm mb-4 sm:mb-0">
   <div class="space-x-2">
-    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Electronics</span>
-    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Networking</span>
-    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Storage</span>
-    <span class="px-3 py-1 bg-gray-200 text-sm rounded-full">Peripherals</span>
+    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Electronics</span>
+    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Networking</span>
+    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Storage</span>
+    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Peripherals</span>
   </div>
 </div>
+
+<!-- 🛍️ Product Grid -->
+<section class="max-w-7xl mx-auto px-4 py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
 
 <!-- 🛒 Product Grid -->
 <section class="max-w-7xl mx-auto px-4 py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -96,134 +108,134 @@
     </div>
   </div>
 </section>
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/adapter.jpg" alt="USB-C Adapter" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🔌 USB-C Adapter</h2>
-  <p class="text-gray-600 text-sm">One plug to rule them all.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$12.99</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/adapter.jpg" alt="USB-C Adapter" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🔌 USB-C Adapter</h2>
+    <p class="text-gray-600 text-sm">One plug to rule them all.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$12.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/monitor.jpg" alt="27&quot; IPS Monitor" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🖥️ 27" IPS Monitor</h2>
-  <p class="text-gray-600 text-sm">Wide angles. Deep secrets.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$229.00</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/monitor.jpg" alt="27&quot; IPS Monitor" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🖥️ 27" IPS Monitor</h2>
+    <p class="text-gray-600 text-sm">Wide angles. Deep secrets.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$229.00</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/mug.jpg" alt="CTF Mug" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">☕ CTF Mug</h2>
-  <p class="text-gray-600 text-sm">Fuel for long sessions. Or distractions.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$9.99</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/mug.jpg" alt="CTF Mug" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">☕ CTF Mug</h2>
+    <p class="text-gray-600 text-sm">Fuel for long sessions. Or distractions.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$9.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/switch.jpg" alt="Gigabit Switch" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🔀 8-Port Gigabit Switch</h2>
-  <p class="text-gray-600 text-sm">Connect more. Trace less.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$48.50</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/switch.jpg" alt="Gigabit Switch" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🔀 8-Port Gigabit Switch</h2>
+    <p class="text-gray-600 text-sm">Connect more. Trace less.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$48.50</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/cable.jpg" alt="10ft Ethernet Cable" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🌐 10ft Ethernet Cable</h2>
-  <p class="text-gray-600 text-sm">Direct connection. No excuses.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$4.99</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/cable.jpg" alt="10ft Ethernet Cable" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🌐 10ft Ethernet Cable</h2>
+    <p class="text-gray-600 text-sm">Direct connection. No excuses.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$4.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/flashlight.jpg" alt="Tactical Flashlight" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🔦 Tactical Flashlight</h2>
-  <p class="text-gray-600 text-sm">Reveal what’s hidden in the dark.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$18.00</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/flashlight.jpg" alt="Tactical Flashlight" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🔦 Tactical Flashlight</h2>
+    <p class="text-gray-600 text-sm">Reveal what’s hidden in the dark.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$18.00</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/dongle.jpg" alt="Bluetooth Dongle" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">📡 Bluetooth Dongle</h2>
-  <p class="text-gray-600 text-sm">Connect. Exploit. Disconnect.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$7.75</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/dongle.jpg" alt="Bluetooth Dongle" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">📡 Bluetooth Dongle</h2>
+    <p class="text-gray-600 text-sm">Connect. Exploit. Disconnect.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$7.75</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/raspberrypi.jpg" alt="Raspberry Pi 4" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🍓 Raspberry Pi 4</h2>
-  <p class="text-gray-600 text-sm">Small computer. Big trouble.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$49.99</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/raspberrypi.jpg" alt="Raspberry Pi 4" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🍓 Raspberry Pi 4</h2>
+    <p class="text-gray-600 text-sm">Small computer. Big trouble.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$49.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/notebook.jpg" alt="Hacker Notebook" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">📓 Hacker Notebook</h2>
-  <p class="text-gray-600 text-sm">Write it down. Or don’t.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$6.00</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/notebook.jpg" alt="Hacker Notebook" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">📓 Hacker Notebook</h2>
+    <p class="text-gray-600 text-sm">Write it down. Or don’t.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$6.00</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/headphones.jpg" alt="Noise Cancelling Headphones" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🎧 Noise-Cancelling Headphones</h2>
-  <p class="text-gray-600 text-sm">Focus like a pro.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$89.99</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/headphones.jpg" alt="Noise Cancelling Headphones" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🎧 Noise-Cancelling Headphones</h2>
+    <p class="text-gray-600 text-sm">Focus like a pro.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$89.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/sdcard.jpg" alt="32GB SD Card" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">💽 32GB SD Card</h2>
-  <p class="text-gray-600 text-sm">Storage you’ll probably lose.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$8.25</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/sdcard.jpg" alt="32GB SD Card" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">💽 32GB SD Card</h2>
+    <p class="text-gray-600 text-sm">Storage you’ll probably lose.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$8.25</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/sticker.jpg" alt="Hacker Stickers Pack" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🎟️ Hacker Sticker Pack (10x)</h2>
-  <p class="text-gray-600 text-sm">Show your colors. Hide your intent.</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$4.95</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+  <div class="bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/sticker.jpg" alt="Hacker Stickers Pack" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🎟️ Hacker Sticker Pack (10x)</h2>
+    <p class="text-gray-600 text-sm">Show your colors. Hide your intent.</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$4.95</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">Add to Cart</button>
+    </div>
   </div>
-</div>
-<div onclick="location.href='/product/review-bombed'" class="cursor-pointer bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
-  <img src="/static/img/speaker.jpg" alt="BoomBox Portable Speaker" class="w-full h-40 object-cover rounded mb-3">
-  <h2 class="text-lg font-semibold">🔊 BoomBox Speaker</h2>
-  <p class="text-gray-600 text-sm">Crisp audio. No backdoors (probably).</p>
-  <div class="mt-2 flex justify-between items-center">
-    <span class="text-green-600 font-bold">$29.99</span>
-    <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">View</button>
+  <div onclick="location.href='/product/review-bombed'" class="cursor-pointer bg-white p-4 rounded-lg shadow hover:shadow-xl transition">
+    <img src="/static/img/speaker.jpg" alt="BoomBox Portable Speaker" class="w-full h-40 object-cover rounded mb-3">
+    <h2 class="text-lg font-semibold">🔊 BoomBox Speaker</h2>
+    <p class="text-gray-600 text-sm">Crisp audio. No backdoors (probably).</p>
+    <div class="mt-2 flex justify-between items-center">
+      <span class="text-green-600 font-bold">$29.99</span>
+      <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded">View</button>
+    </div>
   </div>
-</div>
 
 <!-- 📎 Footer -->
 <footer class="bg-white text-center text-xs text-gray-500 py-6 border-t mt-8">
