@@ -48,6 +48,9 @@ VALID_FLAGS = {
     "FLAG-ENCRYPTBUSTED": 35,
     "FLAG-STOREDXSS": 25,
     "FLAG-GRAPHQLPWNED": 30,
+    "FLAG-HIDDENREVIEW999": 25,
+    
+
 }
 
 
@@ -605,6 +608,9 @@ def graphql_search():
     return render_template("graphql_search.html", result=result, query=query)
 
 
+@app.route("/product/review-bombed")
+def review_bombed():
+    return render_template("review_bombed.html")
 
 
 if __name__ == "__main__":
