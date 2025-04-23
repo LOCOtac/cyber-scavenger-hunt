@@ -49,6 +49,7 @@ VALID_FLAGS = {
     "FLAG-STOREDXSS": 25,
     "FLAG-GRAPHQLPWNED": 30,
     "FLAG-HIDDENREVIEW999": 25,
+    "FLAG-ADM1NSECRET": -10,
     
 
 }
@@ -611,6 +612,16 @@ def graphql_search():
 @app.route("/product/review-bombed")
 def review_bombed():
     return render_template("review_bombed.html")
+
+@app.route("/admin-login", methods=["GET", "POST"])
+def admin_login():
+    message = None
+    if request.method == "POST":
+        if request.form.get("username") == "admin" and request.form.get("flag") == "FLAG-ADM1NSECRET":
+            message = "🚨 Nope! This was a honeypot. -10 points."
+        else:
+            message = "Invalid login."
+    return render_template("honeypot.html", message=message)
 
 
 if __name__ == "__main__":
