@@ -1,0 +1,27 @@
+<!-- templates/graphql_search.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GraphQL Product Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 p-8">
+    <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+        <h1 class="text-2xl font-bold mb-4">🧪 GraphQL Product Search</h1>
+        <form method="POST">
+            <label class="block mb-2 text-sm font-medium">Enter GraphQL Query:</label>
+            <textarea name="query" rows="6" class="w-full border p-2 rounded-md text-sm font-mono" required>{{ query }}</textarea>
+            <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Submit</button>
+        </form>
+
+        {% if result %}
+            <div class="mt-6">
+                <h2 class="font-semibold text-lg mb-2">Response:</h2>
+                <pre class="bg-gray-100 p-4 border rounded text-sm">{{ result | tojson(indent=2) }}</pre>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+

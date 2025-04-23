@@ -568,6 +568,43 @@ def ai_prompt_reversal():
 def ai_encrypted():
     return render_template("ai_encrypted.html")
 
+@app.route("/graphql-search", methods=["GET", "POST"])
+def graphql_search():
+    result = None
+    query = ""
+    if request.method == "POST":
+        query = request.form.get("query", "")
+
+        # Normalize input
+        lower_query = query.lower()
+
+        # Basic parser logic
+        if "secretflag" in lower_query and "user" in lower_query:
+            result = {
+                "data": {
+                    "user": {
+                        "name": "admin",
+                        "secretFlag": "FLAG-GRAPHQLPWNED"
+                    }
+                }
+            }
+        elif "product" in lower_query:
+            result = {
+                "data": {
+                    "product": {
+                        "name": "Broken Cup",
+                        "price": "$2"
+                    }
+                }
+            }
+        else:
+            result = {
+                "error": "Invalid or unsupported query."
+            }
+
+    return render_template("graphql_search.html", result=result, query=query)
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
