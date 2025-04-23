@@ -11,7 +11,6 @@ from dotenv import load_dotenv
 from db import save_submission, get_leaderboard, reset_leaderboard, init_db, reset_leaderboard as reset_leaderboard_data
 from db import get_player_by_name, get_player_by_id, create_player
 
-
 init_db()
 
 
@@ -47,12 +46,10 @@ VALID_FLAGS = {
     "FLAG-AIINCEPTION": 35,
     "FLAG-AIINSTRUCTLEAK": 30,
     "FLAG-ENCRYPTBUSTED": 35,
-    "FLAG-STOREDXSS" : 25,
-
-
-
-
+    "FLAG-STOREDXSS": 25,
+    "FLAG-GRAPHQLPWNED": 30,
 }
+
 
 leaderboard = []
 leaderboard_file = "leaderboard.json"
@@ -568,17 +565,20 @@ def ai_prompt_reversal():
 def ai_encrypted():
     return render_template("ai_encrypted.html")
 
+
+
+
 @app.route("/graphql-search", methods=["GET", "POST"])
 def graphql_search():
+    if 'user_id' not in session:
+        return redirect("/auth/login")
+
     result = None
     query = ""
     if request.method == "POST":
         query = request.form.get("query", "")
-
-        # Normalize input
         lower_query = query.lower()
 
-        # Basic parser logic
         if "secretflag" in lower_query and "user" in lower_query:
             result = {
                 "data": {
@@ -603,6 +603,7 @@ def graphql_search():
             }
 
     return render_template("graphql_search.html", result=result, query=query)
+
 
 
 

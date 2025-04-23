@@ -111,3 +111,7 @@ def get_player_by_name(name):
                     "solved": row[4].split(",") if row[4] else []
                 }
             return None
+        
+
+
+
