@@ -10,6 +10,7 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from db import save_submission, get_leaderboard, reset_leaderboard, init_db, reset_leaderboard as reset_leaderboard_data
 from db import get_player_by_name, get_player_by_id, create_player
+import time
 
 init_db()
 
@@ -50,6 +51,7 @@ VALID_FLAGS = {
     "FLAG-GRAPHQLPWNED": 30,
     "FLAG-HIDDENREVIEW999": 25,
     "FLAG-ADM1NSECRET": -10,
+    "FLAG-SESSIONRACE": 35, 
     
 
 }
@@ -623,6 +625,20 @@ def admin_login():
             message = "Invalid login."
     return render_template("honeypot.html", message=message)
 
+
+
+@app.route("/limited-access", methods=["GET", "POST"])
+def limited_access():
+    if request.method == "POST":
+        start_time = session.get("start_time")
+        if start_time and time.time() - start_time < 2:  # Less than 2 seconds
+            flag = "FLAG-SESSIONRACE"
+            return render_template("limited_access.html", flag=flag)
+        else:
+            return render_template("limited_access.html", error="⏳ Too slow! Try again.")
+    else:
+        session["start_time"] = time.time()
+        return render_template("limited_access.html")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
