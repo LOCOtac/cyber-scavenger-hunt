@@ -38,8 +38,8 @@
   <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
     <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">BrokenCTF Store 🏴‍☠️</h1>
     <div class="flex space-x-6 text-sm">
-      {% if session.get('username') %}
-        <span class="text-indigo-400">Hi, {{ session['username'] }}</span>
+      {% if session.get('name') %}
+        <span class="text-indigo-400">Hi, {{ session['name'] }}</span>
         <a href="/auth/logout" class="text-indigo-700 dark:text-indigo-300 hover:underline">Logout</a>
       {% else %}
         <a href="/register" class="text-indigo-700 dark:text-indigo-300 hover:underline">Register</a>
@@ -47,9 +47,9 @@
       {% endif %}
       <a href="/cart" class="text-indigo-700 dark:text-indigo-300 hover:underline">Cart</a>
     </div>
-    
   </div>
 </header>
+
 
 <!-- 🌟 Hero -->
 <div class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-10 text-center">
