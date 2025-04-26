@@ -197,12 +197,16 @@ def order():
     order_id = request.args.get("id")
     orders = {
         "1": {"owner": "You", "item": "T-shirt"},
-        "2": {"owner": "Admin", "item": "Confidential USB", "flag": "🎉 FLAG-IDOR101"}
+        "2": {"owner": "Admin", "item": "Confidential USB", "flag": "FLAG-IDOR101"}
     }
+
     order = orders.get(order_id)
-    if order:
-        return render_template("order.html", order=order)
-    return "Order not found", 404
+
+    if not order:
+        return "Order not found", 404
+
+    return render_template("order.html", order=order)
+
 
 @app.route("/report")
 def report():
