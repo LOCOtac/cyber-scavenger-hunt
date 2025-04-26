@@ -53,6 +53,8 @@ VALID_FLAGS = {
     "FLAG-HIDDENREVIEW999": 25,
     "FLAG-ADM1NSECRET": -10,
     "FLAG-SESSIONRACE": 35, 
+    "FLAG-BROKENAPI999": 35,
+
     
 
 }
@@ -657,6 +659,39 @@ def limited_access():
         session["start_time"] = time.time()
         session["expire_time"] = random.choice([1.0, 1.5, 2.0])
         return render_template("limited_access.html")
+
+
+@app.route("/api/user")
+def api_user():
+    user_id = request.args.get("id")
+    
+    # Fake API database (insecure)
+    users = {
+        "123": {"name": "normal_user", "email": "user@ctf.com", "private_note": "Nothing here."},
+        "124": {"name": "admin", "email": "admin@ctf.com", "private_note": "FLAG-BROKENAPI999"}
+    }
+
+    user = users.get(user_id)
+
+    if not user:
+        return {"error": "User not found"}, 404
+
+    # Here's the flaw: no check if the logged-in user matches the ID requested!
+    return user
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

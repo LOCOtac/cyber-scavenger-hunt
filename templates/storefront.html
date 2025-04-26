@@ -40,7 +40,7 @@
     <div class="flex space-x-6 text-sm">
       {% if session.get('name') %}
         <span class="text-indigo-400">Hi, {{ session['name'] }}</span>
-        <span class="text-green-400">| You have {{ 27 - (session['solved']|length) }} flags left</span>
+        <span class="text-green-400">| You have {{ 28 - (session['solved']|length) }} flags left</span>
         <a href="/auth/logout" class="text-indigo-700 dark:text-indigo-300 hover:underline">Logout</a>
       {% else %}
         <a href="/register" class="text-indigo-700 dark:text-indigo-300 hover:underline">Register</a>
