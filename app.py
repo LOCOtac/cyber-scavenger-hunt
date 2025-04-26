@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from db import save_submission, get_leaderboard, reset_leaderboard, init_db, reset_leaderboard as reset_leaderboard_data
 from db import get_player_by_name, get_player_by_id, create_player
 import time
+import random
 
 init_db()
 
@@ -631,13 +632,26 @@ def admin_login():
 def limited_access():
     if request.method == "POST":
         start_time = session.get("start_time")
-        if start_time and time.time() - start_time < 2:  # Less than 2 seconds
-            flag = "FLAG-SESSIONRACE"
+        expire_time = session.get("expire_time")
+
+        if not start_time or not expire_time:
+            return render_template("limited_access.html", error="Session expired. Start over.")
+
+        elapsed = time.time() - start_time
+        if elapsed < expire_time:
+            session.pop("start_time", None)
+            session.pop("expire_time", None)
+            flag = "FLAG-EXTREMERACE"
             return render_template("limited_access.html", flag=flag)
         else:
+            session.pop("start_time", None)
+            session.pop("expire_time", None)
             return render_template("limited_access.html", error="⏳ Too slow! Try again.")
+
     else:
+        # Set start time and random expiration
         session["start_time"] = time.time()
+        session["expire_time"] = random.choice([1.0, 1.5, 2.0])
         return render_template("limited_access.html")
 
 if __name__ == "__main__":
