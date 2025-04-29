@@ -714,6 +714,23 @@ def super_admin_backdoor():
     '''
 
 
+@app.route("/health")
+def health():
+    return "OK", 200
+@app.errorhandler(Exception)
+def handle_exception(e):
+    # Log the error details
+    print(f"[ERROR] {str(e)}")
+
+    # Optionally, you could log to a file:
+    # with open("error_log.txt", "a") as f:
+    #     f.write(f"{str(e)}\n")
+
+    # Return a generic error message
+    return "An unexpected error occurred.", 500
+
+
+
 
 
 if __name__ == "__main__":
