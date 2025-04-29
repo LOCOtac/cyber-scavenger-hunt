@@ -444,10 +444,6 @@ def profile():
         return redirect(url_for("register"))
     return render_template("profile.html", name=name, score=score, solved=solved)
 
-@app.route("/cart")
-def cart():
-    return render_template("cart.html", item="Backdoor Key", price=999.99)
-
 @app.route("/checkout", methods=["GET", "POST"])
 def checkout():
     message = None
@@ -456,10 +452,13 @@ def checkout():
 
     if request.method == "POST":
         name = request.form.get("name", "")
+        total_input = request.form.get("total", 0)
+
         try:
-            total = float(request.form.get("total", 0))
+            total = float(total_input)
         except (ValueError, TypeError):
-            total = 0  # Set a default value if someone sends invalid input
+            print(f"[WARNING] Invalid total received: {total_input}")
+            total = 0
 
         if total < 5.00:
             flag = "🎯 FLAG-CARTHACKED"
@@ -469,6 +468,7 @@ def checkout():
         message = "Order processed! But nothing shipped. 😉"
 
     return render_template("checkout.html", message=message, name=name, flag=flag)
+
 
 
 @app.route("/stats")
