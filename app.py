@@ -12,6 +12,9 @@ from db import save_submission, get_leaderboard, reset_leaderboard, init_db, res
 from db import get_player_by_name, get_player_by_id, create_player
 import time
 import random
+import sys
+
+
 
 init_db()
 
@@ -54,6 +57,8 @@ VALID_FLAGS = {
     "FLAG-ADM1NSECRET": -10,
     "FLAG-SESSIONRACE": 35, 
     "FLAG-BROKENAPI999": 35,
+    "FLAG-BACKDOOR999": 25,
+
 
     
 
@@ -680,6 +685,27 @@ def api_user():
     return user
 
 
+@app.route("/super-admin-portal-9283")
+def super_admin_backdoor():
+    return '''
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Super Admin Portal</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+    <body class="bg-gray-900 text-white font-mono flex items-center justify-center h-screen">
+      <div class="text-center">
+        <h1 class="text-4xl mb-6">Welcome, Super Admin 👑</h1>
+        <p class="text-xl">Your secret access is confirmed.</p>
+        <div class="mt-8 p-4 bg-green-700 rounded">
+          <code>FLAG-BACKDOOR999</code>
+        </div>
+      </div>
+    </body>
+    </html>
+    '''
 
 
 
