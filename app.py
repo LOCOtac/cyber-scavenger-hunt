@@ -717,6 +717,7 @@ def super_admin_backdoor():
 @app.route("/health")
 def health():
     return "OK", 200
+
 @app.errorhandler(Exception)
 def handle_exception(e):
     # Log the error details
