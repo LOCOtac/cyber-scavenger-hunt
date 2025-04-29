@@ -453,9 +453,13 @@ def checkout():
     message = None
     flag = None
     name = ""
+
     if request.method == "POST":
         name = request.form.get("name", "")
-        total = float(request.form.get("total", 0))
+        try:
+            total = float(request.form.get("total", 0))
+        except (ValueError, TypeError):
+            total = 0  # Set a default value if someone sends invalid input
 
         if total < 5.00:
             flag = "🎯 FLAG-CARTHACKED"
@@ -463,8 +467,8 @@ def checkout():
             flag = "😈 FLAG-STOREDXSS"
 
         message = "Order processed! But nothing shipped. 😉"
-    return render_template("checkout.html", message=message, name=name, flag=flag)
 
+    return render_template("checkout.html", message=message, name=name, flag=flag)
 
 
 @app.route("/stats")
