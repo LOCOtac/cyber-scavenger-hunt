@@ -730,6 +730,16 @@ def handle_exception(e):
     # Return a generic error message
     return "An unexpected error occurred.", 500
 
+@app.route("/logs")
+def s3_log_hint():
+    logs = [
+        "[INFO] App initialized.",
+        "[INFO] Connected to DB.",
+        "[WARNING] Debug mode still enabled.",
+        "[INFO] Uploaded config to s3://brokenctf-assets/internal/config.jso",
+        "[DEBUG] UserAgent=CyberFox/9.9.9 (FLAG-AGENT777)"
+    ]
+    return "<br>".join(logs)
 
 
 
