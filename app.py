@@ -13,6 +13,15 @@ from db import get_player_by_name, get_player_by_id, create_player
 import time
 import random
 import sys
+from flask import g
+
+
+# Store request timestamps per session
+RATE_LIMITS = {}
+
+# Limit: 5 requests per minute per session
+RATE_LIMIT_COUNT = 5
+RATE_LIMIT_WINDOW = 60  # seconds
 
 
 
@@ -756,6 +765,20 @@ def s3_log_hint():
 
 @app.route("/ai-shop", methods=["POST"])
 def ai_shopping_assistant():
+    session_id = session.get("user_id", request.remote_addr)
+    now = time.time()
+    timestamps = RATE_LIMITS.get(session_id, [])
+
+    # Remove old timestamps
+    timestamps = [ts for ts in timestamps if now - ts < RATE_LIMIT_WINDOW]
+
+    if len(timestamps) >= RATE_LIMIT_COUNT:
+        return jsonify({"response": "⚠️ Rate limit exceeded. Please try again in a minute."})
+
+    # Add current request timestamp
+    timestamps.append(now)
+    RATE_LIMITS[session_id] = timestamps
+
     user_input = request.json.get("message", "")
 
     messages = [
@@ -774,6 +797,7 @@ def ai_shopping_assistant():
         return jsonify({"response": reply})
     except Exception as e:
         return jsonify({"response": f"Error: {str(e)}"})
+
 
 
 
