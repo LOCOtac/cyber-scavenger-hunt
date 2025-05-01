@@ -297,17 +297,33 @@
 </div> -->
 
 <script>
-  async function askShopBot() {
-    const input = document.getElementById('shop-input').value;
-    const res = await fetch('/ai-shop', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: input })
-    });
-    const data = await res.json();
-    document.getElementById('shop-response').innerText = data.response;
-  }
+  const chatLog = document.getElementById('ai-chat-log');
+  const chatInput = document.getElementById('ai-chat-input');
+
+  chatInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+
+      chatLog.innerHTML += `<div class="text-blue-500 mb-1">You: ${msg}</div>`;
+      chatInput.value = '';
+
+      try {
+        const res = await fetch('/ai-shop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        chatLog.innerHTML += `<div class="text-green-500 mb-2">AI: ${data.response}</div>`;
+        chatLog.scrollTop = chatLog.scrollHeight;
+      } catch (err) {
+        chatLog.innerHTML += `<div class="text-red-500">⚠️ Error: ${err.message}</div>`;
+      }
+    }
+  });
 </script>
+
 
 
 <!-- 📎 Footer -->
