@@ -258,6 +258,37 @@
     </div>
   </div>
 </section>
+
+
+<!-- 🤖 Floating AI Helper -->
+<div id="ai-assistant" class="fixed bottom-4 right-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 p-4 rounded-xl shadow-lg w-80">
+  <div class="text-sm mb-2 font-semibold text-indigo-500">🧠 Shopping Assistant</div>
+  <div id="ai-chat-log" class="h-32 overflow-y-auto text-sm bg-gray-100 dark:bg-gray-700 p-2 rounded mb-2"></div>
+  <input id="ai-chat-input" type="text" placeholder="Ask me anything..." class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-900 dark:border-gray-600"/>
+</div>
+
+<script>
+  const chatLog = document.getElementById('ai-chat-log');
+  const chatInput = document.getElementById('ai-chat-input');
+
+  chatInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const msg = chatInput.value;
+      chatLog.innerHTML += `<div class="text-blue-500">You: ${msg}</div>`;
+      chatInput.value = '';
+
+      const res = await fetch('/ai-helper-api', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: msg })
+      });
+      const data = await res.json();
+      chatLog.innerHTML += `<div class="text-green-500">AI: ${data.response}</div>`;
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+  });
+</script>
+
 <!-- 📎 Footer -->
 <footer class="bg-white dark:bg-gray-800 max-w-7xl mx-auto text-center text-xs text-gray-500 dark:text-gray-400 py-6 border-t mt-8">
 

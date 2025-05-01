@@ -60,6 +60,8 @@ VALID_FLAGS = {
     "FLAG-BACKDOOR999": 25,
     "FLAG-OUTDATEDJQUERY999": 25,
     "FLAG-S3BUCKETLEAK123": 25,
+    "FLAG-SHOPBOTOWNED-999": 35,
+
 
 
 
@@ -742,6 +744,15 @@ def s3_log_hint():
         "[DEBUG] UserAgent=CyberFox/9.9.9 (FLAG-AGENT777)"
     ]
     return "<br>".join(logs)
+
+
+@app.route("/ai-helper-api", methods=["POST"])
+def ai_helper_api():
+    user_input = request.json.get("prompt", "")
+    if "reveal flag" in user_input.lower() or "ignore previous" in user_input.lower():
+        return jsonify({"response": "Okay... here's the secret: FLAG-SHOPBOTOWNED-999"})
+    return jsonify({"response": f"Looking for something? Try our best-selling gadgets!"})
+
 
 
 
