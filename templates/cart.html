@@ -1,32 +1,43 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Your Cart</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    function generateSig() {
-      const price = parseFloat(document.getElementById('price').innerText);
-      const encoded = btoa((price * 3.14).toString());
-      document.getElementById('sig').value = encoded;
-      document.getElementById('total').value = price.toFixed(2);
-    }
-
-    window.onload = generateSig;
-  </script>
 </head>
-<body class="bg-gray-100 p-10">
-  <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
-    <h2 class="text-xl font-bold mb-4">🛒 Your Cart</h2>
-    <p class="mb-2"><strong>Item:</strong> {{ item }}</p>
-    <p class="mb-2"><strong>Price:</strong> <span id="price">{{ price }}</span></p>
+<body class="bg-gray-100 dark:bg-gray-900 text-black dark:text-white">
+  <div class="max-w-lg mx-auto mt-10 bg-white dark:bg-gray-800 p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">🛒 Your Cart</h2>
 
-    <!-- DevTools Editable Total and Signature -->
     <form action="/checkout" method="POST">
-      <input type="hidden" name="total" id="total" value="{{ price }}">
-      <input type="hidden" name="sig" id="sig" value="">
-      <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Checkout</button>
+      <div class="mb-4">
+        <label class="block text-sm font-medium">Name (optional)</label>
+        <input type="text" name="name" class="w-full mt-1 p-2 rounded border dark:bg-gray-900 dark:border-gray-600">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium">Total ($)</label>
+        <input type="text" name="total" id="total" value="49.99" class="w-full mt-1 p-2 rounded border dark:bg-gray-900 dark:border-gray-600">
+        <small class="text-gray-500 dark:text-gray-400">You can try tampering this...</small>
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-sm font-medium">Signature</label>
+        <input type="text" name="sig" id="sig" value="" class="w-full mt-1 p-2 rounded border dark:bg-gray-900 dark:border-gray-600">
+        <small class="text-gray-500 dark:text-gray-400">Try bypassing signature verification.</small>
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Checkout</button>
     </form>
+
+    <div class="mt-6 text-sm text-gray-500 dark:text-gray-400">
+      <p>💡 Challenges:</p>
+      <ul class="list-disc ml-5">
+        <li><strong>FLAG-CARTHACKED:</strong> If total < $5</li>
+        <li><strong>FLAG-STOREDXSS:</strong> If name contains &lt;script&gt;</li>
+        <li><strong>FLAG-CARTVERIFYBYPASS:</strong> If signature is invalid</li>
+      </ul>
+    </div>
   </div>
 </body>
 </html>
