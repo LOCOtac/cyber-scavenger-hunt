@@ -4,6 +4,16 @@
   <meta charset="UTF-8">
   <title>Your Cart</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    function generateSig() {
+      const price = parseFloat(document.getElementById('price').innerText);
+      const encoded = btoa((price * 3.14).toString());
+      document.getElementById('sig').value = encoded;
+      document.getElementById('total').value = price.toFixed(2);
+    }
+
+    window.onload = generateSig;
+  </script>
 </head>
 <body class="bg-gray-100 p-10">
   <div class="max-w-md mx-auto bg-white p-6 rounded shadow">
@@ -11,12 +21,12 @@
     <p class="mb-2"><strong>Item:</strong> {{ item }}</p>
     <p class="mb-2"><strong>Price:</strong> <span id="price">{{ price }}</span></p>
 
-    <!-- User can edit this with DevTools -->
+    <!-- DevTools Editable Total and Signature -->
     <form action="/checkout" method="POST">
       <input type="hidden" name="total" id="total" value="{{ price }}">
+      <input type="hidden" name="sig" id="sig" value="">
       <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Checkout</button>
     </form>
   </div>
 </body>
 </html>
-

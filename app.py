@@ -70,6 +70,10 @@ VALID_FLAGS = {
     "FLAG-OUTDATEDJQUERY999": 25,
     "FLAG-S3BUCKETLEAK123": 25,
     "FLAG-SHOPBOTOWNED-999": 35,
+    "FLAG-NEGATIVEQUANTITY999": 40,
+    "FLAG-CARTVERIFYBYPASS": 35,
+    
+
     
 
 
@@ -458,6 +462,8 @@ def profile():
         return redirect(url_for("register"))
     return render_template("profile.html", name=name, score=score, solved=solved)
 
+import base64
+
 @app.route("/checkout", methods=["GET", "POST"])
 def checkout():
     message = None
@@ -467,6 +473,7 @@ def checkout():
     if request.method == "POST":
         name = request.form.get("name", "")
         total_input = request.form.get("total", 0)
+        sig = request.form.get("sig", "")
 
         try:
             total = float(total_input)
@@ -474,14 +481,23 @@ def checkout():
             print(f"[WARNING] Invalid total received: {total_input}")
             total = 0
 
+        # 🪙 Price Hacked Flag
         if total < 5.00:
             flag = "🎯 FLAG-CARTHACKED"
+
+        # 😈 Stored XSS Flag
         elif "<script>" in name.lower():
             flag = "😈 FLAG-STOREDXSS"
+
+        # 🔐 Signature Verification Bypass Flag
+        expected_sig = base64.b64encode(str(total * 3.14).encode()).decode()
+        if sig and sig != expected_sig:
+            flag = "🎯 FLAG-CARTVERIFYBYPASS"
 
         message = "Order processed! But nothing shipped. 😉"
 
     return render_template("checkout.html", message=message, name=name, flag=flag)
+
 
 
 
@@ -797,6 +813,10 @@ def ai_shopping_assistant():
         return jsonify({"response": reply})
     except Exception as e:
         return jsonify({"response": f"Error: {str(e)}"})
+    
+
+
+
 
 
 
