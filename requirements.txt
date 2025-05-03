@@ -144,7 +144,8 @@ widgetsnbextension==4.0.13
 yfinance==0.2.55
 
 flask
-gunicorn
+
 psycopg2-binary
 
-uvicorn
+gunicorn app:app
+
