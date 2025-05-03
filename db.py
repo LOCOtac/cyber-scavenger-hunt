@@ -112,6 +112,20 @@ def get_player_by_name(name):
                 }
             return None
         
+def get_leaderboard():
+    conn = get_connection()
+    with conn.cursor() as c:
+        c.execute("SELECT name, score, flags FROM leaderboard ORDER BY score DESC")
+        rows = c.fetchall()
+        return [
+            {
+                "name": row[0],
+                "score": row[1],
+                "flags": row[2] or "",
+                "flags_captured": len((row[2] or "").split(",")) if row[2] else 0
+            }
+            for row in rows
+        ]
 
 
 
