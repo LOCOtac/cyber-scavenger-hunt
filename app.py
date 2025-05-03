@@ -14,6 +14,7 @@ import time
 import random
 import sys
 from flask import g
+from db import get_connection
 
 
 # Store request timestamps per session
