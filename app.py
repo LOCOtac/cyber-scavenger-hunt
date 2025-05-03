@@ -456,7 +456,7 @@ def register():
 
             return redirect(url_for("home"))
         else:
-            return "Invalid input. Name and 4-digit PIN required.", 400
+            return "Invalid input. Name and 6-digit PIN required.", 400
 
     return render_template("register.html")
 

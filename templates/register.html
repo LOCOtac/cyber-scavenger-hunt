@@ -14,8 +14,16 @@
         <input type="text" name="name" required class="w-full px-3 py-2 bg-gray-700 rounded text-white">
       </div>
       <div class="mb-4">
-        <label class="block mb-1 text-sm text-gray-300">4-Digit PIN:</label>
-        <input type="text" name="pin" pattern="\d{4}" required maxlength="4" class="w-full px-3 py-2 bg-gray-700 rounded text-white">
+        <label class="block mb-1 text-sm text-gray-300">6-Digit PIN:</label>
+        <input 
+          type="text" 
+          name="pin" 
+          pattern="\d{6}" 
+          maxlength="6" 
+          minlength="6" 
+          required 
+          class="w-full px-3 py-2 bg-gray-700 rounded text-white" 
+          placeholder="Enter 6-digit PIN">
       </div>
       <button type="submit" class="bg-lime-500 hover:bg-lime-600 text-black font-bold py-2 px-4 rounded">
         Register
