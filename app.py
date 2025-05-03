@@ -347,7 +347,11 @@ def scoreboard():
 @app.route("/leaderboard")
 def show_leaderboard():
     leaderboard = get_leaderboard()
+    for player in leaderboard:
+        flags = player.get("flags", "")
+        player["flags_captured"] = len(flags.split(",")) if flags else 0
     return render_template("leaderboard.html", leaderboard=leaderboard)
+
 
 
 @app.route("/admin/reset-leaderboard")
