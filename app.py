@@ -172,7 +172,7 @@ def login_auth():
             else:
                 error = "❌ Invalid username or PIN."
         else:
-            error = "Please enter both name and 4-digit PIN."
+            error = "Please enter both name and 6-digit PIN."
 
     return render_template("auth_login.html", error=error)
 
@@ -439,7 +439,7 @@ def register():
         name = request.form.get("name", "").strip()
         pin = request.form.get("pin", "").strip()
 
-        if name and pin and len(pin) == 4 and pin.isdigit():
+        if name and pin and len(pin) == 6 and pin.isdigit():
             existing = get_player_by_name(name)
 
             if existing:
