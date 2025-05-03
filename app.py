@@ -185,11 +185,21 @@ stored_comments = []
 
 @app.route("/review", methods=["GET", "POST"])
 def review():
+    if "comments" not in session:
+        session["comments"] = []
+
+    flag = None
+
     if request.method == "POST":
-        comment = request.form.get("comment")
-        if comment:
-            stored_comments.append(comment)
-    return render_template("review.html", comments=stored_comments)
+        comment = request.form.get("comment", "")
+        session["comments"].append(comment)
+
+        # Trigger flag if the comment includes a script tag
+        if "<script>" in comment.lower():
+            flag = "😈 Stored XSS! FLAG-STOREDXSS"
+
+    return render_template("review.html", comments=session["comments"], flag=flag)
+
 
 
 @app.route("/upload", methods=["GET", "POST"])
