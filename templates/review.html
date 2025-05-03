@@ -12,11 +12,13 @@
       <textarea name="comment" rows="4" class="w-full border p-2 mb-3" placeholder="Type your review here..."></textarea>
       <button type="submit" class="bg-yellow-500 text-white px-4 py-2 rounded">Submit</button>
     </form>
-    {% if comment %}
-      <h3 class="mt-4 font-bold">Your Review:</h3>
-      <div class="border p-3 mt-2 bg-gray-50">{{ comment|safe }}</div>
+
+    {% if comments %}
+      <h3 class="mt-4 font-bold">All Reviews:</h3>
+      {% for comment in comments %}
+        <div class="border p-3 mt-2 bg-gray-50">{{ comment|safe }}</div>
+      {% endfor %}
     {% endif %}
   </div>
 </body>
 </html>
-

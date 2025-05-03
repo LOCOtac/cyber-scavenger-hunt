@@ -181,12 +181,16 @@ def login_auth():
 
 
 
+stored_comments = []
+
 @app.route("/review", methods=["GET", "POST"])
 def review():
-    comment = None
     if request.method == "POST":
         comment = request.form.get("comment")
-    return render_template("review.html", comment=comment)
+        if comment:
+            stored_comments.append(comment)
+    return render_template("review.html", comments=stored_comments)
+
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload():
