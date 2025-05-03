@@ -839,7 +839,7 @@ def cart():
 @app.route("/logout")
 def logout():
     session.clear()
-    return redirect(url_for("home"))  # or redirect to "auth_login" if you prefer
+    return redirect(url_for("home"))
 
 
 
