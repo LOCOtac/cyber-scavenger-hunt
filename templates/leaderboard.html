@@ -14,7 +14,7 @@
           <th class="py-2 px-4">#</th>
           <th class="py-2 px-4">Name</th>
           <th class="py-2 px-4">Score</th>
-          <th class="py-2 px-4">Flags Captured</th> <!-- ✅ New column -->
+          <th class="py-2 px-4">Flags Captured</th>
         </tr>
       </thead>
       <tbody>
@@ -23,7 +23,7 @@
           <td class="py-2 px-4">{{ loop.index }}</td>
           <td class="py-2 px-4">{{ entry.name }}</td>
           <td class="py-2 px-4">{{ entry.score }}</td>
-          <td class="py-2 px-4">{{ entry.flags_captured }}</td> <!-- ✅ New data -->
+          <td class="py-2 px-4">{{ entry.flags.split(',') | length if entry.flags else 0 }}</td>
         </tr>
         {% endfor %}
       </tbody>

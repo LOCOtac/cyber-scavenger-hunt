@@ -344,13 +344,21 @@ def scoreboard():
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
 
-@app.route("/leaderboard")
-def show_leaderboard():
-    leaderboard = get_leaderboard()
-    for player in leaderboard:
-        flags = player.get("flags", "")
-        player["flags_captured"] = len(flags.split(",")) if flags else 0
-    return render_template("leaderboard.html", leaderboard=leaderboard)
+def get_leaderboard():
+    conn = get_connection()
+    with conn.cursor() as c:
+        c.execute("SELECT name, score, flags FROM leaderboard ORDER BY score DESC")
+        rows = c.fetchall()
+        return [
+            {
+                "name": row[0],
+                "score": row[1],
+                "flags": row[2] or "",
+                "flags_captured": len((row[2] or "").split(","))
+            }
+            for row in rows
+        ]
+
 
 
 
