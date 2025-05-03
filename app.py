@@ -836,10 +836,11 @@ def ai_shopping_assistant():
 def cart():
     return render_template("cart.html")
 
-@app.route("/logout")
+@app.route("/auth/logout")
 def logout():
     session.clear()
     return redirect(url_for("home"))
+
 
 
 
