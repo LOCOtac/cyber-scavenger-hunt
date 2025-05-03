@@ -72,7 +72,7 @@ VALID_FLAGS = {
     "FLAG-SHOPBOTOWNED-999": 35,
     "FLAG-NEGATIVEQUANTITY999": 40,
     "FLAG-CARTVERIFYBYPASS": 35,
-    
+
 
     
 
@@ -815,6 +815,9 @@ def ai_shopping_assistant():
         return jsonify({"response": f"Error: {str(e)}"})
     
 
+@app.route("/cart")
+def cart():
+    return render_template("cart.html")
 
 
 
@@ -823,3 +826,7 @@ def ai_shopping_assistant():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
+
+
+# note : add a cart chlannge and have checkout link to it
