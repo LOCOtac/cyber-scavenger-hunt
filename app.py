@@ -344,7 +344,7 @@ def scoreboard():
     score = session.get("score", 0)
     solved = session.get("solved", [])
     return render_template("scoreboard.html", score=score, solved=solved)
-
+@app.route("/leaderboard")
 def get_leaderboard():
     conn = get_connection()
     with conn.cursor() as c:
@@ -360,6 +360,10 @@ def get_leaderboard():
             for row in rows
         ]
 
+# @app.route("/leaderboard")
+# def leaderboard_view():
+#     leaderboard = get_leaderboard()
+#     return render_template("leaderboard.html", leaderboard=leaderboard)
 
 
 
