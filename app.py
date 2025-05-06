@@ -38,7 +38,8 @@ def initialize():
 
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, async_mode="threading")
+
 
 app.secret_key = "cyberhunt-secret"
 load_dotenv()
