@@ -88,33 +88,6 @@
 <body>
 
 
-<header class="header-area header-sticky">
-  <div class="container">
-    <div class="row">
-      <div class="col-12">
-        <nav class="main-nav">
-          <a href="/" class="logo">
-            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
-          </a>
-          <ul class="nav">
-            <li><a href="/" class="active">Home</a></li>
-            <li><a href="/leaderboard">Leaderboard</a></li>
-            <li><a href="/profile">Profile</a></li>
-            {% if session.get('name') %}
-              <li><a href="/auth/logout">Logout</a></li>
-            {% else %}
-              <li><a href="/auth/login">Login</a></li>
-              <li><a href="/register">Register</a></li>
-            {% endif %}
-            <li>
-              <a href="/cart">
-                🛒 Cart
-                {% if session.cart %}
-                  ({{ session.cart|length }})
-                {% endif %}
-              </a>
-            </li>
-            <li><a href="#" id="toggle-theme"> dark/light mode</a></li>
 
 <header class="header-area header-sticky">
   <div class="container">
@@ -143,6 +116,14 @@
               </a>
             </li>
             <li><a href="#" id="toggle-theme"> dark/light mode</a></li>
+            {% if session.get('name') %}
+            <li class="nav-item">
+              <a class="nav-link disabled text-warning fw-bold">
+                🧩 {{ 34 - (session['solved']|length) }} Flags to Go
+              </a>
+            </li>
+          {% endif %}
+
 
             
           </ul>
@@ -155,16 +136,7 @@
   </div>
 </header>
 
-            
-          </ul>
-          <a class="menu-trigger">
-            <span>Menu</span>
-          </a>
-        </nav>
-      </div>
-    </div>
-  </div>
-</header>
+          
 
 <div class="main-banner">
   <div class="container">
