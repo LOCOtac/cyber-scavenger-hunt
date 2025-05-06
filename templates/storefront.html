@@ -116,6 +116,45 @@
             </li>
             <li><a href="#" id="toggle-theme"> dark/light mode</a></li>
 
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
+          </a>
+          <ul class="nav">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/leaderboard">Leaderboard</a></li>
+            <li><a href="/profile">Profile</a></li>
+            {% if session.get('name') %}
+              <li><a href="/auth/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/auth/login">Login</a></li>
+              <li><a href="/register">Register</a></li>
+            {% endif %}
+            <li>
+              <a href="/cart">
+                🛒 Cart
+                {% if session.cart %}
+                  ({{ session.cart|length }})
+                {% endif %}
+              </a>
+            </li>
+            <li><a href="#" id="toggle-theme"> dark/light mode</a></li>
+
+            
+          </ul>
+          <a class="menu-trigger">
+            <span>Menu</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
             
           </ul>
           <a class="menu-trigger">
@@ -132,9 +171,10 @@
     <div class="row">
       <div class="col-lg-6 align-self-center">
         <div class="caption header-text">
-          <h6>Welcome to BrokenCTF</h6>
-          <h2>Cyber Scavenger Hunt</h2>
-          <p>Explore challenges hidden in a storefront. Click carefully — not everything is as it seems.</p>
+          <h6>Welcome to GameGo</h6>
+          <h2>Where you explore games</h2>
+          <p>Discover epic deals, hidden gems, and exclusive in-game secrets—your ultimate game store adventure starts here.</p>
+        
           <div class="search-input">
             <form method="GET" action="#">
               <input type="text" name="search" placeholder="Search items or secrets..." />
@@ -143,23 +183,6 @@
           </div>
         </div>
       </div>
-      {% if session.get('name') %}
-<div class="container py-4">
-  <div class="progress-wrapper bg-light dark:bg-gray-800 border p-4 rounded shadow-sm">
-    <h5 class="text-primary dark:text-lime-400 mb-2">
-      🏁 Flag Progress — {{ session['solved']|length }} / 34 flags found
-    </h5>
-    <div class="progress" style="height: 20px;">
-      <div class="progress-bar bg-success" role="progressbar" 
-           style="width: {{ (session['solved']|length / 34 * 100)|round(0) }}%;" 
-           aria-valuenow="{{ session['solved']|length }}" 
-           aria-valuemin="0" aria-valuemax="34">
-        {{ (session['solved']|length / 34 * 100)|round(0) }}%
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
 
       <div class="col-lg-4 offset-lg-2">
         <div class="right-image">
