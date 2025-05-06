@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BrokenCTF — Cyber Scavenger Hunt</title>
+  <title>Welcome to GameGo</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
   <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/static/assets/css/fontawesome.css">
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/static/assets/css/owl.css">
   <link rel="stylesheet" href="/static/assets/css/animate.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+  
   <style>
     body.dark-mode {
       background-color: #121212;
@@ -66,6 +67,20 @@
     body.dark-mode #ai-chat-log {
       background-color: #2a2a2a;
     }
+    body.dark-mode #ai-assistant {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      border-color: #444;
+    }
+    body.dark-mode #ai-assistant input {
+      background-color: #2a2a2a;
+      color: #f5f5f5;
+      border-color: #555;
+    }
+    body.dark-mode #ai-chat-log {
+      background-color: #2a2a2a;
+    }
+
     
   </style>
   
@@ -233,11 +248,13 @@
 </script>
 
 <!-- 🤖 Floating AI Helper -->
-<div id="ai-assistant" class="position-fixed bottom-0 end-0 m-4 bg-dark text-light border rounded p-3 shadow" style="width: 300px; z-index: 1050;">
-  <div class="fw-semibold mb-2 text-info">🧠 Game Assistant</div>
-  <div id="ai-chat-log" class="bg-secondary p-2 rounded overflow-auto mb-2" style="height: 150px; font-size: 0.875rem;"></div>
-  <input id="ai-chat-input" type="text" placeholder="Ask about a game..." class="form-control form-control-sm bg-dark text-white border-secondary" />
+<!-- Floating AI Chat Assistant (Styled like storefront) -->
+<div id="ai-assistant" class="position-fixed bottom-0 end-0 m-4 p-3 border rounded bg-white text-dark shadow-lg" style="width: 320px; z-index: 1050; font-family: 'Poppins', sans-serif;">
+  <div class="fw-bold text-primary mb-2">🧠 Game Assistant</div>
+  <div id="ai-chat-log" class="bg-light border rounded p-2 mb-2" style="height: 150px; overflow-y: auto; font-size: 0.9rem;"></div>
+  <input id="ai-chat-input" type="text" placeholder="Ask about a game..." class="form-control form-control-sm" />
 </div>
+
 
 
 <script>
