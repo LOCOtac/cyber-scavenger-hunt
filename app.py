@@ -1125,6 +1125,11 @@ def handle_message(data):
     except Exception as e:
         print(f"DB Insert Error: {e}")
 
+        
+@app.route("/db-check")
+def db_check():
+    return "✅ DB route working"
+
 initialize() 
 if __name__ == "__main__":
     # ⬅️ This ensures chat_messages table exists
