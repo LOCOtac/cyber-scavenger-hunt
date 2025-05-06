@@ -92,9 +92,6 @@ def setup_session():
         session["report_hits"] = 0
         session["report_start"] = time.time()
 
-@app.route("/")
-def home():
-    return render_template("storefront.html")
 
 @app.route("/product/<int:product_id>")
 def product(product_id):
@@ -980,9 +977,7 @@ def ai_shopping_assistant():
         return jsonify({"response": f"Error: {str(e)}"})
     
 
-@app.route("/cart")
-def cart():
-    return render_template("cart.html")
+
 
 @app.route("/auth/logout")
 def logout():
@@ -1077,5 +1072,3 @@ if __name__ == "__main__":
     app.run(host="0.0.0.0", port=port)
 
 
-
-# note : add a cart chlannge and have checkout link to it
