@@ -32,6 +32,15 @@
               <li><a href="/auth/login">Login</a></li>
               <li><a href="/register">Register</a></li>
             {% endif %}
+            <li>
+              <a href="/cart">
+                🛒 Cart
+                {% if session.cart %}
+                  ({{ session.cart|length }})
+                {% endif %}
+              </a>
+            </li>
+            
           </ul>
           <a class="menu-trigger">
             <span>Menu</span>
