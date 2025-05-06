@@ -118,8 +118,8 @@
             <li><a href="#" id="toggle-theme"> dark/light mode</a></li>
             {% if session.get('name') %}
             <li class="nav-item">
-              <a class="nav-link disabled text-warning fw-bold">
-                🧩 {{ 34 - (session['solved']|length) }} Flags to Go
+              <a class="btn btn-outline-light btn-sm px-3 rounded-pill fw-bold disabled">
+                {{ 34 - (session['solved']|length) }} Flags to Go
               </a>
             </li>
           {% endif %}
