@@ -255,6 +255,23 @@
   <input id="ai-chat-input" type="text" placeholder="Ask about a game..." class="form-control form-control-sm" />
 </div>
 
+{% if session.get('name') %}
+<div class="container py-4">
+  <div class="progress-wrapper bg-light dark:bg-gray-800 border p-4 rounded shadow-sm">
+    <h5 class="text-primary dark:text-lime-400 mb-2">
+      🏁 Flag Progress — {{ session['solved']|length }} / 34 flags found
+    </h5>
+    <div class="progress" style="height: 20px;">
+      <div class="progress-bar bg-success" role="progressbar" 
+           style="width: {{ (session['solved']|length / 34 * 100)|round(0) }}%;" 
+           aria-valuenow="{{ session['solved']|length }}" 
+           aria-valuemin="0" aria-valuemax="34">
+        {{ (session['solved']|length / 34 * 100)|round(0) }}%
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 
 <script>
