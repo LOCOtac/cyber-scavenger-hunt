@@ -85,21 +85,26 @@
       </div>
       <!-- Dynamically insert product grid via JS or Jinja -->
       <div id="product-grid" class="row">
-        <!-- Example Product Card -->
-        <div class="col-lg-3 col-md-6">
+        {% for game in games %}
+        <div class="col-lg-3 col-md-6 mb-4">
           <div class="item">
-            <div class="thumb">
-              <img src="/static/assets/images/top-game-01.jpg" alt="">
-              <span class="price">???</span>
+            <div class="thumb position-relative">
+              <img src="{{ game.image }}" alt="{{ game.name }}">
+              <span class="price">${{ game.price }}</span>
             </div>
             <div class="down-content">
-              <span class="category">CTF</span>
-              <h4>Challenge Name</h4>
-              <a href="#"><i class="fa fa-search"></i></a>
+              <span class="category">{{ game.category }}</span>
+              <h4>{{ game.name }}</h4>
+              <form action="/cart/add" method="POST">
+                <input type="hidden" name="product_id" value="{{ game.id }}">
+                <button type="submit" class="btn btn-outline-primary btn-sm mt-2">Add to Cart</button>
+              </form>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
+      
     </div>
   </div>
 </div>

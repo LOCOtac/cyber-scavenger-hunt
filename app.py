@@ -15,7 +15,7 @@ import random
 import sys
 from flask import g
 from db import get_connection
-
+from flask import flash
 
 # Store request timestamps per session
 RATE_LIMITS = {}
@@ -984,6 +984,82 @@ def cart():
 def logout():
     session.clear()
     return redirect(url_for("home"))
+
+
+
+@app.route("/")
+def home():
+    games = [
+        {"id": 1, "name": "Warframe", "category": "Shooter", "price": 0.00, "image": "/static/assets/images/top-game-01.jpg"},
+        {"id": 2, "name": "Elden Ring", "category": "RPG", "price": 59.99, "image": "/static/assets/images/top-game-02.jpg"},
+        {"id": 3, "name": "Cyberpunk 2077", "category": "Action", "price": 49.99, "image": "/static/assets/images/top-game-03.jpg"},
+        {"id": 4, "name": "Stardew Valley", "category": "Simulation", "price": 14.99, "image": "/static/assets/images/top-game-04.jpg"},
+        {"id": 5, "name": "Among Us", "category": "Party", "price": 4.99, "image": "/static/assets/images/top-game-05.jpg"},
+        {"id": 6, "name": "Minecraft", "category": "Sandbox", "price": 26.95, "image": "/static/assets/images/top-game-06.jpg"},
+        {"id": 7, "name": "Valorant", "category": "FPS", "price": 0.00, "image": "/static/assets/images/top-game-07.jpg"},
+        {"id": 8, "name": "League of Legends", "category": "MOBA", "price": 0.00, "image": "/static/assets/images/top-game-08.jpg"},
+        {"id": 9, "name": "GTA V", "category": "Action", "price": 29.99, "image": "/static/assets/images/top-game-09.jpg"},
+        {"id": 10, "name": "Call of Duty", "category": "Shooter", "price": 69.99, "image": "/static/assets/images/top-game-10.jpg"},
+    ]
+    return render_template("storefront.html", games=games)
+
+
+
+
+# Add these imports at the top if not already present
+from flask import flash
+
+# Modify or add this route to handle adding to cart
+@app.route("/cart/add", methods=["POST"])
+def add_to_cart():
+    product_id = int(request.form.get("product_id"))
+    games = [
+        {"id": 1, "name": "Warframe", "price": 0.00, "image": "/static/assets/images/top-game-01.jpg"},
+        {"id": 2, "name": "Elden Ring", "price": 59.99, "image": "/static/assets/images/top-game-02.jpg"},
+        {"id": 3, "name": "Cyberpunk 2077", "price": 49.99, "image": "/static/assets/images/top-game-03.jpg"},
+        {"id": 4, "name": "Stardew Valley", "price": 14.99, "image": "/static/assets/images/top-game-04.jpg"},
+        {"id": 5, "name": "Among Us", "price": 4.99, "image": "/static/assets/images/top-game-05.jpg"},
+        {"id": 6, "name": "Minecraft", "price": 26.95, "image": "/static/assets/images/top-game-06.jpg"},
+        {"id": 7, "name": "Valorant", "price": 0.00, "image": "/static/assets/images/top-game-07.jpg"},
+        {"id": 8, "name": "League of Legends", "price": 0.00, "image": "/static/assets/images/top-game-08.jpg"},
+        {"id": 9, "name": "GTA V", "price": 29.99, "image": "/static/assets/images/top-game-09.jpg"},
+        {"id": 10, "name": "Call of Duty", "price": 69.99, "image": "/static/assets/images/top-game-10.jpg"},
+    ]
+    
+    game = next((g for g in games if g["id"] == product_id), None)
+    if not game:
+        flash("Game not found.", "danger")
+        return redirect(url_for("home"))
+
+    if "cart" not in session:
+        session["cart"] = []
+
+    session["cart"].append(game)
+    session.modified = True
+
+    flash(f"Added {game['name']} to cart.", "success")
+    return redirect(url_for("home"))
+
+# Cart page showing items
+@app.route("/cart")
+def cart():
+    cart_items = session.get("cart", [])
+    total = sum(item["price"] for item in cart_items)
+    return render_template("cart.html", cart=cart_items, total=total)
+
+# Optional: Clear cart
+@app.route("/cart/clear")
+def clear_cart():
+    session.pop("cart", None)
+    flash("Cart cleared.", "info")
+    return redirect(url_for("cart"))
+
+
+
+
+
+
+
 
 
 
