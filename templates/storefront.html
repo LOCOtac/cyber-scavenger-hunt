@@ -11,8 +11,51 @@
   <link rel="stylesheet" href="/static/assets/css/owl.css">
   <link rel="stylesheet" href="/static/assets/css/animate.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+  <style>
+    body.dark-mode {
+      background-color: #121212;
+      color: #f5f5f5;
+    }
+  
+    .dark-mode .header-area,
+    .dark-mode .main-nav,
+    .dark-mode .section,
+    .dark-mode .footer {
+      background-color: #1e1e1e !important;
+    }
+  
+    .dark-mode .section-heading h2,
+    .dark-mode h2,
+    .dark-mode h4,
+    .dark-mode h6,
+    .dark-mode p,
+    .dark-mode .price,
+    .dark-mode .category {
+      color: #f0f0f0 !important;
+    }
+  
+    .dark-mode .btn-outline-primary {
+      color: #f0f0f0;
+      border-color: #f0f0f0;
+    }
+  
+    .dark-mode .btn-outline-primary:hover {
+      background-color: #f0f0f0;
+      color: #121212;
+    }
+  
+    .dark-mode input,
+    .dark-mode button,
+    .dark-mode form input {
+      background-color: #2a2a2a;
+      color: #fff;
+      border-color: #444;
+    }
+  </style>
+  
 </head>
 <body>
+
 
 <header class="header-area header-sticky">
   <div class="container">
@@ -40,6 +83,8 @@
                 {% endif %}
               </a>
             </li>
+            <li><a href="#" id="toggle-theme">🌓 Toggle Theme</a></li>
+
             
           </ul>
           <a class="menu-trigger">
@@ -144,7 +189,8 @@
   </div>
 </div>
 
-<footer>
+<footer class="footer">
+
   <div class="container text-center">
     <p>© 2025 BrokenCTF • Just another store. Or is it?</p>
   </div>
@@ -153,5 +199,24 @@
 <script src="/static/vendor/jquery/jquery.min.js"></script>
 <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/assets/js/custom.js"></script>
+
+<script>
+  const body = document.body;
+  const toggleBtn = document.getElementById('toggle-theme');
+
+  // Load theme from localStorage
+  if (localStorage.getItem('theme') === 'dark') {
+    body.classList.add('dark-mode');
+  }
+
+  toggleBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
+</script>
+
+
+
 </body>
 </html>
