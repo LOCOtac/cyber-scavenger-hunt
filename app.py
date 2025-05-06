@@ -1125,9 +1125,9 @@ def handle_message(data):
     except Exception as e:
         print(f"DB Insert Error: {e}")
 
-
+initialize() 
 if __name__ == "__main__":
-    initialize()  # ⬅️ This ensures chat_messages table exists
+    # ⬅️ This ensures chat_messages table exists
     port = int(os.environ.get("PORT", 5000))
     print("✅ Flask app with SocketIO is starting...")
     socketio.run(app, host="0.0.0.0", port=port)
