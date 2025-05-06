@@ -129,3 +129,34 @@ def get_leaderboard():
 
 
 
+def create_chat_table():
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute("""
+                CREATE TABLE IF NOT EXISTS chat_messages (
+                    id SERIAL PRIMARY KEY,
+                    username TEXT NOT NULL,
+                    message TEXT NOT NULL,
+                    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+            conn.commit()
+
+
+def save_chat_message(username, message):
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute(
+                "INSERT INTO chat_messages (username, message) VALUES (%s, %s);",
+                (username, message)
+            )
+
+
+def get_chat_history(limit=50):
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute(
+                "SELECT username, message, timestamp FROM chat_messages ORDER BY timestamp DESC LIMIT %s;",
+                (limit,)
+            )
+            return c.fetchall()

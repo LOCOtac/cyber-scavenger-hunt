@@ -17,6 +17,8 @@ from flask import g
 from db import get_connection
 from flask import flash
 from datetime import datetime
+from flask_socketio import SocketIO, emit 
+
 
 # Store request timestamps per session
 RATE_LIMITS = {}
@@ -36,6 +38,8 @@ def initialize():
 
 
 app = Flask(__name__)
+socketio = SocketIO(app)
+
 app.secret_key = "cyberhunt-secret"
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -78,7 +82,7 @@ VALID_FLAGS = {
     "FLAG-CARTVERIFYBYPASS": 35,
     "FLAG-EXTREMERACE": 35,
     "FLAG-AICHATHISTORY999": 30,
-    "FLAG-AIINCEPTION": 50,
+    
 
 }
 
@@ -1090,14 +1094,38 @@ def ai_log_login():
 
 
 
+@app.route("/chat-room")
+def chat_room():
+    conn = get_connection()
+    messages = []
+    with conn.cursor() as c:
+        c.execute("SELECT username, message FROM chat_messages ORDER BY timestamp ASC LIMIT 100")
+        messages = c.fetchall()
 
+    return render_template("chat_room.html", history=messages)
 
+@socketio.on('message')
+def handle_message(data):
+    emit('message', data, broadcast=True)
+
+    # Save to DB
+    try:
+        conn = get_connection()
+        with conn.cursor() as c:
+            c.execute(
+                "INSERT INTO chat_messages (username, message, timestamp) VALUES (%s, %s, NOW())",
+                (data["username"], data["message"])
+            )
+            conn.commit()
+    except Exception as e:
+        print(f"DB Insert Error: {e}")
 
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    print("✅ Flask app is starting...")
+    print("✅ Flask app with SocketIO is starting...")
 
-    app.run(host="0.0.0.0", port=port)
+    socketio.run(app, host="0.0.0.0", port=port)
+
 
 

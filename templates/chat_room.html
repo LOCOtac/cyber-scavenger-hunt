@@ -1,0 +1,51 @@
+<!-- templates/chat_room.html -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <title>💬 BrokenCTF — Chat Room</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <div class="max-w-4xl mx-auto py-10 px-6">
+    <h1 class="text-4xl font-bold mb-6 text-center text-lime-400">💬 Live Chat Room</h1>
+
+    <div class="bg-gray-800 rounded-xl shadow-lg p-6 h-[60vh] overflow-y-scroll" id="chat-box">
+      <!-- Messages will appear here -->
+    </div>
+
+    <form id="chat-form" class="mt-4 flex gap-4">
+      <input id="username" type="text" placeholder="Your name" required class="w-1/4 px-3 py-2 bg-gray-700 rounded text-white border border-gray-600 focus:outline-none focus:ring">
+      <input id="message" type="text" placeholder="Type a message..." required class="flex-1 px-3 py-2 bg-gray-700 rounded text-white border border-gray-600 focus:outline-none focus:ring">
+      <button type="submit" class="bg-lime-500 hover:bg-lime-600 text-black px-4 py-2 rounded">Send</button>
+    </form>
+
+    <p class="text-sm text-gray-400 mt-4 text-center">🚀 Messages are public. Don’t share sensitive info!</p>
+  </div>
+
+  <script>
+    const socket = io();
+    const form = document.getElementById("chat-form");
+    const chatBox = document.getElementById("chat-box");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const message = document.getElementById("message").value.trim();
+      if (username && message) {
+        socket.emit("message", { username, message });
+        document.getElementById("message").value = "";
+      }
+    });
+
+    socket.on("message", function(data) {
+      const div = document.createElement("div");
+      div.classList.add("mb-2", "p-2", "bg-gray-700", "rounded");
+      div.innerHTML = `<strong class="text-lime-300">${data.username}:</strong> ${data.message}`;
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    });
+  </script>
+</body>
+</html>
