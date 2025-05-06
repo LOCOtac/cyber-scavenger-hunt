@@ -624,39 +624,7 @@ def profile():
 
 import base64
 
-@app.route("/checkout", methods=["GET", "POST"])
-def checkout():
-    message = None
-    flag = None
-    name = ""
-
-    if request.method == "POST":
-        name = request.form.get("name", "")
-        total_input = request.form.get("total", 0)
-        sig = request.form.get("sig", "")
-
-        try:
-            total = float(total_input)
-        except (ValueError, TypeError):
-            print(f"[WARNING] Invalid total received: {total_input}")
-            total = 0
-
-        # 🪙 Price Hacked Flag
-        if total < 5.00:
-            flag = "🎯 FLAG-CARTHACKED"
-
-        # 😈 Stored XSS Flag
-        elif "<script>" in name.lower():
-            flag = "😈 FLAG-STOREDXSS"
-
-        # 🔐 Signature Verification Bypass Flag
-        expected_sig = base64.b64encode(str(total * 3.14).encode()).decode()
-        if sig and sig != expected_sig:
-            flag = "🎯 FLAG-CARTVERIFYBYPASS"
-
-        message = "Order processed! But nothing shipped. 😉"
-
-    return render_template("checkout.html", message=message, name=name, flag=flag)
+v
 
 
 
@@ -1044,7 +1012,9 @@ def add_to_cart():
 def cart():
     cart_items = session.get("cart", [])
     total = sum(item["price"] for item in cart_items)
-    return render_template("cart.html", cart=cart_items, total=total)
+    sig = base64.b64encode(str(total * 3.14).encode()).decode()
+    return render_template("cart.html", cart=cart_items, total=total, signature=sig)
+
 
 # Optional: Clear cart
 @app.route("/cart/clear")

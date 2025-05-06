@@ -76,9 +76,13 @@
           </table>
         </div>
         <div class="text-end mt-3">
-          <h4>Total: ${{ "%.2f"|format(total) }}</h4>
-          <a href="/checkout" class="btn btn-success mt-2">Proceed to Checkout</a>
+          <form method="POST" action="/checkout" class="d-inline">
+            <input type="hidden" name="total" value="{{ total }}">
+            <input type="hidden" name="sig" value="{{ signature }}">
+            <button type="submit" class="btn btn-success mt-2">Proceed to Checkout</button>
+          </form>
           <a href="/cart/clear" class="btn btn-danger mt-2 ms-2">Clear Cart</a>
+          
         </div>
       </div>
     </div>
