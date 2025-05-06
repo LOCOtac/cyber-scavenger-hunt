@@ -25,8 +25,10 @@ RATE_LIMIT_COUNT = 5
 RATE_LIMIT_WINDOW = 60  # seconds
 
 
+def initialize():
+    init_db()
 
-init_db()
+
 
 
 
@@ -907,7 +909,9 @@ def super_admin_backdoor():
 
 @app.route("/health")
 def health():
+    print("✅ Health check endpoint hit!")
     return "OK", 200
+
 
 @app.errorhandler(Exception)
 def handle_exception(e):
@@ -1068,6 +1072,8 @@ def clear_cart():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
+    print("✅ Flask app is starting...")
+
     app.run(host="0.0.0.0", port=port)
 
 
