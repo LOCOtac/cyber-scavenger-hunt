@@ -160,3 +160,12 @@ def get_chat_history(limit=50):
                 (limit,)
             )
             return c.fetchall()
+@app.route("/db-check")
+def db_check():
+    try:
+        conn = get_connection()
+        with conn.cursor() as c:
+            c.execute("SELECT 1;")
+        return "✅ Database is OK"
+    except Exception as e:
+        return f"❌ DB Error: {str(e)}", 500

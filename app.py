@@ -1102,7 +1102,11 @@ def ai_log_login():
 
 @app.route("/chat-room")
 def chat_room():
-    messages = get_chat_history(limit=100)[::-1]  # reverse to show oldest first
+    try:
+        messages = get_chat_history(limit=100)[::-1]  # reverse to show oldest first
+    except Exception as e:
+        print(f"[ERROR] Failed to load chat history: {e}")
+        messages = []  # fallback to empty history if DB fails
     return render_template("chat_room.html", history=messages)
 
 @socketio.on('message')
