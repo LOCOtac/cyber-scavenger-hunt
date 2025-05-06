@@ -75,6 +75,7 @@ VALID_FLAGS = {
     "FLAG-SHOPBOTOWNED-999": 35,
     "FLAG-NEGATIVEQUANTITY999": 40,
     "FLAG-CARTVERIFYBYPASS": 35,
+    "FLAG-EXTREMERACE": 35,
 
 }
 
@@ -623,8 +624,6 @@ def profile():
     return render_template("profile.html", name=name, score=score, solved=solved)
 
 import base64
-
-v
 
 
 
