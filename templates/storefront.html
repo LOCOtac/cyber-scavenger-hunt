@@ -1,190 +1,143 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>🍚 BrokenCTF — Cyber Scavenger Hunt</title>
-  <script src="https://code.jquery.com/jquery-1.7.2.min.js"></script> <!-- OLD jQuery vulnerable -->
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    $(document).ready(function() {
-      var query = new URLSearchParams(window.location.search).get('search');
-      if (query) {
-        $("#search-box").html(query);  // UNSAFE: Will allow XSS
-      }
-    });
-  </script>
-  <script defer src="https://cloud.umami.is/script.js" data-website-id="0b9d45bb-c360-4d54-9888-5a63c6ae8ebc"></script>
-
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          animation: {
-            flicker: 'flicker 2s infinite',
-          },
-          keyframes: {
-            flicker: {
-              '0%, 100%': { opacity: 1 },
-              '50%': { opacity: 0.6 }
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BrokenCTF — Cyber Scavenger Hunt</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/fontawesome.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+  <link rel="stylesheet" href="/static/assets/css/owl.css">
+  <link rel="stylesheet" href="/static/assets/css/animate.css">
+  <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white font-sans">
+<body>
 
-<!-- 🌗 Dark Mode Toggle -->
-<div class="flex justify-end p-4">
-  <button onclick="document.documentElement.classList.toggle('dark')"
-    class="bg-gray-300 dark:bg-gray-700 text-black dark:text-white px-4 py-1 rounded text-sm">
-    🌗 Toggle Mode
-  </button>
-</div>
-
-<!-- 👮️‍♂️ Navbar -->
-
-<header class="bg-white dark:bg-gray-800 shadow sticky top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">BrokenCTF Store 🏴‍☠️</h1>
-    <div class="flex space-x-6 text-sm">
-      {% if session.get('name') %}
-        <span class="text-indigo-400">Hi, {{ session['name'] }}</span>
-        <span class="text-green-400">| You have {{ 34 - (session['solved']|length) }} flags left</span>
-        <a href="/auth/logout" class="text-indigo-700 dark:text-indigo-300 hover:underline">Logout</a>
-      {% else %}
-        <a href="/register" class="text-indigo-700 dark:text-indigo-300 hover:underline">Register</a>
-        <a href="/auth/login" class="text-indigo-700 dark:text-indigo-300 hover:underline">Login</a>
-      {% endif %}
-      <a href="/cart" class="text-indigo-700 dark:text-indigo-300 hover:underline">Cart</a>
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
+          </a>
+          <ul class="nav">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/leaderboard">Leaderboard</a></li>
+            <li><a href="/profile">Profile</a></li>
+            {% if session.get('name') %}
+              <li><a href="/auth/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/auth/login">Login</a></li>
+              <li><a href="/register">Register</a></li>
+            {% endif %}
+          </ul>
+          <a class="menu-trigger">
+            <span>Menu</span>
+          </a>
+        </nav>
+      </div>
     </div>
-    
   </div>
 </header>
 
-
-<!-- 🌟 Hero -->
-<div class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-10 text-center">
-  <h2 class="text-3xl font-bold">Find Everything. Maybe Too Much.</h2>
-  <p class="text-lg mt-2">Electronics, tools, gear, secrets? Depends where you click.</p>
-</div>
-
-<!-- 🔍 Search & Tags -->
-<div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center">
-  <input id="search-input" type="text" placeholder="Search 10,000+ items..." class="w-full sm:w-2/3 border p-2 rounded-md shadow-sm mb-4 sm:mb-0">
-  <div class="space-x-2">
-    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Electronics</span>
-    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Networking</span>
-    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Storage</span>
-    <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-sm rounded-full">Peripherals</span>
+<div class="main-banner">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 align-self-center">
+        <div class="caption header-text">
+          <h6>Welcome to BrokenCTF</h6>
+          <h2>Cyber Scavenger Hunt</h2>
+          <p>Explore challenges hidden in a storefront. Click carefully — not everything is as it seems.</p>
+          <div class="search-input">
+            <form method="GET" action="#">
+              <input type="text" name="search" placeholder="Search items or secrets..." />
+              <button role="button">Search Now</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 offset-lg-2">
+        <div class="right-image">
+          <img src="/static/assets/images/banner-image.jpg" alt="">
+          <span class="price">???</span>
+          <span class="offer">CTF</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div id="search-box" class="max-w-7xl mx-auto p-4 text-center text-yellow-400 text-xl"></div>
-<div id="flag" style="display:none;">FLAG-XSS-OWNED-999</div>
 
-<!-- 🛒 Product Grid -->
-<section id="product-grid" class="max-w-7xl mx-auto px-4 py-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></section>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const products = [
-      "Mechanical Keyboard", "Fake CCTV Camera", "2TB External Drive", "Blue Light Glasses",
-      "USB-C Adapter", "27\" IPS Monitor", "CTF Mug", "Gigabit Switch", "10ft Ethernet Cable",
-      "Tactical Flashlight", "Bluetooth Dongle", "Raspberry Pi 4", "Hacker Notebook",
-      "Noise Cancelling Headphones", "32GB SD Card", "Hacker Stickers Pack (10x)", "BoomBox Speaker",
-      "Portable SDR Scanner", "Smartphone Tap Blocker", "Encrypted USB Stick",
-      "Hidden Camera Detector", "Voice Changer Module", "Ghost Keylogger", "Spy Bug Detector",
-      "WiFi Deauther", "NFC Hacking Kit", "Proxmark3 Cloner", "Flipper Zero", "Bash Bunny",
-      "Signal Jammer Mini"
-    ];
-
-    const productGrid = document.getElementById("product-grid");
-    products.forEach(name => {
-      const card = document.createElement("div");
-      card.className = "bg-white dark:bg-gray-800 p-4 rounded-lg shadow hover:shadow-xl transition";
-      card.setAttribute("data-name", name.toLowerCase());
-      card.innerHTML = `
-        <div class="h-40 bg-gray-300 dark:bg-gray-700 rounded mb-3 flex items-center justify-center">
-          <span class="text-2xl">🔧</span>
+<div class="section trending">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="section-heading">
+          <h6>Challenges</h6>
+          <h2>Available Challenges</h2>
         </div>
-        <h2 class="text-lg font-semibold">${name}</h2>
-        <p class="text-sm text-gray-600 dark:text-gray-400">Top-tier tool for CTF enthusiasts.</p>
-        <div class="mt-2 flex justify-between items-center">
-          <span class="text-green-600 font-bold">$${(Math.random() * 90 + 10).toFixed(2)}</span>
-          <button class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-500">Add to Cart</button>
+      </div>
+      <div class="col-lg-6">
+        <div class="main-button">
+          <a href="/submit">Submit Flags</a>
         </div>
-      `;
-      productGrid.appendChild(card);
-    });
-
-    const searchInput = document.getElementById("search-input");
-    searchInput.addEventListener("input", function () {
-      const term = this.value.toLowerCase();
-      document.querySelectorAll("#product-grid > div").forEach(card => {
-        const itemName = card.getAttribute("data-name");
-        card.style.display = itemName.includes(term) ? "block" : "none";
-      });
-    });
-  });
-</script>
-
-<!-- 🤖 Floating AI Helper -->
-<div id="ai-assistant" class="fixed bottom-4 right-4 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 p-4 rounded-xl shadow-lg w-80">
-  <div class="text-sm mb-2 font-semibold text-indigo-500">🧠 Shopping Assistant</div>
-  <div id="ai-chat-log" class="h-32 overflow-y-auto text-sm bg-gray-100 dark:bg-gray-700 p-2 rounded mb-2"></div>
-  <input id="ai-chat-input" type="text" placeholder="Ask me anything..." class="w-full border rounded px-2 py-1 text-sm dark:bg-gray-900 dark:border-gray-600"/>
+      </div>
+      <!-- Dynamically insert product grid via JS or Jinja -->
+      <div id="product-grid" class="row">
+        <!-- Example Product Card -->
+        <div class="col-lg-3 col-md-6">
+          <div class="item">
+            <div class="thumb">
+              <img src="/static/assets/images/top-game-01.jpg" alt="">
+              <span class="price">???</span>
+            </div>
+            <div class="down-content">
+              <span class="category">CTF</span>
+              <h4>Challenge Name</h4>
+              <a href="#"><i class="fa fa-search"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="section cta">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="shop">
+          <h2>Start Capturing Flags!</h2>
+          <p>Search, decode, hack, and explore. All flags must be submitted on the Submit page.</p>
+          <div class="main-button">
+            <a href="/submit">Submit a Flag</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-5 offset-lg-2">
+        <div class="subscribe">
+          <h2>Want Updates?</h2>
+          <p>Subscribe to be notified of new flags, challenges, or game patches.</p>
+          <form>
+            <input type="email" placeholder="you@example.com" class="form-control">
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-
-<script>
-  const chatLog = document.getElementById('ai-chat-log');
-  const chatInput = document.getElementById('ai-chat-input');
-
-  chatInput.addEventListener('keydown', async (e) => {
-    if (e.key === 'Enter') {
-      const msg = chatInput.value.trim();
-      if (!msg) return;
-
-      chatLog.innerHTML += `<div class="text-blue-500 mb-1">You: ${msg}</div>`;
-      chatInput.value = '';
-
-      try {
-        const res = await fetch('/ai-shop', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ message: msg })
-        });
-        const data = await res.json();
-        chatLog.innerHTML += `<div class="text-green-500 mb-2">AI: ${data.response}</div>`;
-        chatLog.scrollTop = chatLog.scrollHeight;
-      } catch (err) {
-        chatLog.innerHTML += `<div class="text-red-500">⚠️ Error: ${err.message}</div>`;
-      }
-    }
-  });
-</script>
-
-
-<!-- 📎 Footer -->
-<footer class="bg-white dark:bg-gray-800 max-w-7xl mx-auto text-center text-xs text-gray-500 dark:text-gray-400 py-6 border-t mt-8">
-
-  &copy; 2025 BrokenCTF • Just another store. Or is it?<br>
-  <a href="/leaderboard" class="text-blue-500 hover:underline">🏆 Leaderboard</a> •
-  <a href="/profile" class="text-blue-500 hover:underline">👤 Profile</a>
+<footer>
+  <div class="container text-center">
+    <p>© 2025 BrokenCTF • Just another store. Or is it?</p>
+  </div>
 </footer>
 
-
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/custom.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-

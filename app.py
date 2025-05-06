@@ -74,15 +74,6 @@ VALID_FLAGS = {
     "FLAG-NEGATIVEQUANTITY999": 40,
     "FLAG-CARTVERIFYBYPASS": 35,
 
-
-    
-
-
-
-
-
-    
-
 }
 
 
