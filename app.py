@@ -18,6 +18,9 @@ from db import get_connection
 from flask import flash
 from datetime import datetime
 from flask_socketio import SocketIO, emit 
+from db import create_chat_table
+from db import get_chat_history
+
 
 
 # Store request timestamps per session
@@ -30,6 +33,8 @@ RATE_LIMIT_WINDOW = 60  # seconds
 
 def initialize():
     init_db()
+    create_chat_table()
+
 
 
 
@@ -1097,12 +1102,7 @@ def ai_log_login():
 
 @app.route("/chat-room")
 def chat_room():
-    conn = get_connection()
-    messages = []
-    with conn.cursor() as c:
-        c.execute("SELECT username, message FROM chat_messages ORDER BY timestamp ASC LIMIT 100")
-        messages = c.fetchall()
-
+    messages = get_chat_history(limit=100)[::-1]  # reverse to show oldest first
     return render_template("chat_room.html", history=messages)
 
 @socketio.on('message')
@@ -1123,10 +1123,11 @@ def handle_message(data):
 
 
 if __name__ == "__main__":
+    initialize()  # ⬅️ This ensures chat_messages table exists
     port = int(os.environ.get("PORT", 5000))
     print("✅ Flask app with SocketIO is starting...")
-
     socketio.run(app, host="0.0.0.0", port=port)
+
 
 
 

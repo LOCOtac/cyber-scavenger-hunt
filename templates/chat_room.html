@@ -12,7 +12,11 @@
     <h1 class="text-4xl font-bold mb-6 text-center text-lime-400">💬 Live Chat Room</h1>
 
     <div class="bg-gray-800 rounded-xl shadow-lg p-6 h-[60vh] overflow-y-scroll" id="chat-box">
-      <!-- Messages will appear here -->
+      {% for username, message, timestamp in history %}
+        <div class="mb-2 p-2 bg-gray-700 rounded">
+          <strong class="text-lime-300">{{ username }}:</strong> {{ message }}
+        </div>
+      {% endfor %}
     </div>
 
     <form id="chat-form" class="mt-4 flex gap-4">
