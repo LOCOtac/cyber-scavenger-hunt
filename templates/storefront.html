@@ -51,6 +51,22 @@
       color: #fff;
       border-color: #444;
     }
+    body.dark-mode #ai-assistant {
+      background-color: #1e1e1e;
+      color: #f5f5f5;
+      border-color: #444;
+    }
+
+    body.dark-mode #ai-assistant input {
+      background-color: #2a2a2a;
+      color: #f5f5f5;
+      border-color: #555;
+    }
+
+    body.dark-mode #ai-chat-log {
+      background-color: #2a2a2a;
+    }
+    
   </style>
   
 </head>
@@ -83,7 +99,7 @@
                 {% endif %}
               </a>
             </li>
-            <li><a href="#" id="toggle-theme">🌓 Toggle Theme</a></li>
+            <li><a href="#" id="toggle-theme"> dark/light mode</a></li>
 
             
           </ul>
@@ -216,6 +232,41 @@
   });
 </script>
 
+<!-- 🤖 Floating AI Helper -->
+<div id="ai-assistant" class="position-fixed bottom-0 end-0 m-4 bg-dark text-light border rounded p-3 shadow" style="width: 300px; z-index: 1050;">
+  <div class="fw-semibold mb-2 text-info">🧠 Game Assistant</div>
+  <div id="ai-chat-log" class="bg-secondary p-2 rounded overflow-auto mb-2" style="height: 150px; font-size: 0.875rem;"></div>
+  <input id="ai-chat-input" type="text" placeholder="Ask about a game..." class="form-control form-control-sm bg-dark text-white border-secondary" />
+</div>
+
+
+<script>
+  const chatLog = document.getElementById('ai-chat-log');
+  const chatInput = document.getElementById('ai-chat-input');
+
+  chatInput.addEventListener('keydown', async (e) => {
+    if (e.key === 'Enter') {
+      const msg = chatInput.value.trim();
+      if (!msg) return;
+
+      chatLog.innerHTML += `<div class="text-primary mb-1">You: ${msg}</div>`;
+      chatInput.value = '';
+
+      try {
+        const res = await fetch('/ai-shop', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: msg })
+        });
+        const data = await res.json();
+        chatLog.innerHTML += `<div class="text-success mb-2">AI: ${data.response}</div>`;
+        chatLog.scrollTop = chatLog.scrollHeight;
+      } catch (err) {
+        chatLog.innerHTML += `<div class="text-danger">⚠️ Error: ${err.message}</div>`;
+      }
+    }
+  });
+</script>
 
 
 </body>

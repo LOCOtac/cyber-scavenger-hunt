@@ -16,6 +16,7 @@ import sys
 from flask import g
 from db import get_connection
 from flask import flash
+from datetime import datetime
 
 # Store request timestamps per session
 RATE_LIMITS = {}
@@ -76,6 +77,7 @@ VALID_FLAGS = {
     "FLAG-NEGATIVEQUANTITY999": 40,
     "FLAG-CARTVERIFYBYPASS": 35,
     "FLAG-EXTREMERACE": 35,
+    "FLAG-AICHATHISTORY999": 30,
 
 }
 
@@ -939,9 +941,30 @@ def ai_shopping_assistant():
             max_tokens=100
         )
         reply = response.choices[0].message.content.strip()
+
+        # ✅ Save chat to file BEFORE returning response
+        chat_entry = {
+            "timestamp": datetime.now().isoformat(),
+            "message": user_input,
+            "response": reply
+        }
+
+        history_file = "chat_history.json"
+        if os.path.exists(history_file):
+            with open(history_file, "r") as f:
+                history = json.load(f)
+        else:
+            history = []
+
+        history.append(chat_entry)
+        with open(history_file, "w") as f:
+            json.dump(history, f, indent=2)
+
         return jsonify({"response": reply})
+
     except Exception as e:
         return jsonify({"response": f"Error: {str(e)}"})
+
     
 
 
@@ -1024,9 +1047,45 @@ def clear_cart():
 
 
 
+@app.route("/ai-log")
+def ai_log():
+    if not session.get("ai_log_authenticated"):
+        return redirect(url_for("ai_log_login"))
+
+    # Load chat history from JSON
+    history_file = "chat_history.json"
+    history = []
+    if os.path.exists(history_file):
+        with open(history_file, "r") as f:
+            history = json.load(f)
+
+    flag = None
+    if not session.get("ai_flag_shown"):
+        flag = "FLAG-AIINCEPTION"  # or whatever flag you want
+        session["ai_flag_shown"] = True
+
+    return render_template("ai_log.html", history=history, flag=flag)
 
 
 
+
+
+
+
+@app.route("/ai-log-login", methods=["GET", "POST"])
+def ai_log_login():
+    error = None
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        
+        # 🛑 Simulated SQL Injection vulnerability
+        if password == "' OR '1'='1":
+            session["ai_log_authenticated"] = True
+            return redirect(url_for("ai_log"))
+        
+        error = "❌ Incorrect password."
+
+    return render_template("ai_log_login.html", error=error)
 
 
 

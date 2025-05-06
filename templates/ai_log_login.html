@@ -1,0 +1,93 @@
+<!-- templates/ai_log_login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Log Access</title>
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-dark text-white">
+
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="bg-secondary p-5 rounded shadow-lg" style="width: 100%; max-width: 400px;">
+    <h2 class="mb-4 text-lime-400">🔐 AI Log Login</h2>
+    {% if error %}
+      <p class="text-danger">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+      <div class="mb-3">
+        <label class="form-label">Enter Password</label>
+        <input type="text" name="password" class="form-control" placeholder="hunter2">
+      </div>
+      <button type="submit" class="btn btn-outline-success w-100">Access Logs</button>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>
+
+<!-- templates/ai_log.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Log</title>
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-dark text-white">
+
+<header class="header-area header-sticky">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container py-5">
+  <h2 class="mb-4 text-lime-400">🧠 AI Chat History</h2>
+  {% if flag %}
+    <div class="alert alert-success"><strong>🎉 Flag:</strong> {{ flag }}</div>
+  {% endif %}
+  <div class="row">
+    {% for entry in history %}
+    <div class="col-md-6 mb-4">
+      <div class="bg-secondary p-3 rounded">
+        <p class="text-muted small mb-1">{{ entry.timestamp }}</p>
+        <p><strong>You:</strong> {{ entry.message }}</p>
+        <p><strong>AI:</strong> {{ entry.response }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+</body>
+</html>

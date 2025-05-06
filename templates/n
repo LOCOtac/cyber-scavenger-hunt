@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Log Access</title>
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com">
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+  <form method="POST" class="bg-gray-800 p-6 rounded shadow-md w-full max-w-sm">
+    <h2 class="text-xl font-bold mb-4 text-lime-400">🔐 Access AI Chat Logs</h2>
+    
+    {% if error %}
+      <div class="text-red-400 mb-3">{{ error }}</div>
+    {% endif %}
+    
+    <label class="block mb-2 text-sm">Password:</label>
+    <input type="password" name="password" class="w-full p-2 rounded bg-gray-700 text-white mb-4" required>
+    
+    <button type="submit" class="w-full bg-lime-500 text-black font-bold py-2 rounded hover:bg-lime-400">Login</button>
+  </form>
+</body>
+</html>
+
