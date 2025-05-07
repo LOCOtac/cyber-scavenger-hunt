@@ -21,6 +21,13 @@ from flask_socketio import SocketIO, emit
 from db import create_chat_table
 from db import get_chat_history
 
+from flask_cors import CORS
+
+app = Flask(__name__)
+CORS(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
+
+
 
 
 # Store request timestamps per session
@@ -1125,7 +1132,7 @@ def handle_message(data):
     except Exception as e:
         print(f"DB Insert Error: {e}")
 
-        
+
 @app.route("/db-check")
 def db_check():
     return "✅ DB route working"
