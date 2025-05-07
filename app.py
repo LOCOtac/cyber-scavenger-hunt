@@ -23,9 +23,13 @@ from db import get_chat_history
 
 from flask_cors import CORS
 
+startup_time = time.time()  # mark server start time
+
 app = Flask(__name__)
+app.secret_key = "cyberhunt-secret"
+
 CORS(app)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="threading")
 
 
 
@@ -49,7 +53,7 @@ def initialize():
 
 
 
-socketio = SocketIO(app, async_mode="threading")
+
 
 
 app.secret_key = "cyberhunt-secret"
@@ -892,8 +896,11 @@ def super_admin_backdoor():
 
 @app.route("/health")
 def health():
-    print("✅ Health check endpoint hit!")
+    # Delay healthcheck success for first 10 seconds
+    if time.time() - startup_time < 10:
+        return "⏳ Warming up...", 503
     return "OK", 200
+
 
 
 @app.errorhandler(Exception)
