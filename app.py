@@ -49,7 +49,6 @@ def initialize():
 
 
 
-app = Flask(__name__)
 socketio = SocketIO(app, async_mode="threading")
 
 
