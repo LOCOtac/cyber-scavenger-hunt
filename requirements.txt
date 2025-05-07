@@ -150,3 +150,4 @@ psycopg2-binary
 gunicorn 
 
 flask-socketio>=5.0.0
+flask-cors
