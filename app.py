@@ -1143,6 +1143,27 @@ def handle_message(data):
 def db_check():
     return "✅ DB route working"
 
+
+@app.route("/feedback", methods=["GET", "POST"])
+def feedback():
+    flag = None
+    user_input = ""
+    rendered_output = ""
+
+    if request.method == "POST":
+        user_input = request.form.get("message", "")
+        try:
+            # Dangerously render the input as Jinja2 template (intentionally vulnerable)
+            rendered_output = render_template_string(user_input)
+        except Exception as e:
+            rendered_output = f"Error rendering: {e}"
+
+        if "FLAG-SSTI999" in rendered_output:
+            flag = "🎉 FLAG-SSTI999"
+
+    return render_template("feedback.html", output=rendered_output, flag=flag)
+
+
 initialize() 
 if __name__ == "__main__":
     # ⬅️ This ensures chat_messages table exists

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📝 Feedback — GameGo</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8 bg-gray-800 p-5 rounded shadow-lg">
+        <h2 class="text-3xl mb-4 text-lime-400">📝 Share Your Feedback</h2>
+        <p class="mb-4 text-gray-300">Let us know what you think of GameGo. Your message will be shown exactly as entered — so be creative.</p>
+
+        <form method="POST">
+          <textarea name="message" rows="4" class="form-control bg-gray-700 text-white border border-gray-600" placeholder="Enter your message...">{{ request.form.message }}</textarea>
+          <button type="submit" class="btn btn-outline-light mt-3">Submit</button>
+        </form>
+
+        {% if output %}
+        <div class="mt-4 p-4 bg-gray-900 border border-lime-500 rounded">
+          <h4 class="text-lime-300 mb-2">Output:</h4>
+          <div class="bg-black p-3 rounded text-white text-sm border border-gray-700">
+            {{ output|safe }}
+          </div>
+        </div>
+        {% endif %}
+
+        {% if flag %}
+        <div class="mt-4 p-3 bg-green-700 text-white rounded font-bold">
+          {{ flag }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
