@@ -875,25 +875,16 @@ def api_user():
 
 @app.route("/super-admin-portal-9283")
 def super_admin_backdoor():
+    cookie = request.cookies.get("X-Dev-Bypass")
+    if cookie != "true":
+        return "Unauthorized", 403
+
     return '''
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <title>Super Admin Portal</title>
-      <script src="https://cdn.tailwindcss.com"></script>
-    </head>
-    <body class="bg-gray-900 text-white font-mono flex items-center justify-center h-screen">
-      <div class="text-center">
-        <h1 class="text-4xl mb-6">Welcome, Super Admin 👑</h1>
-        <p class="text-xl">Your secret access is confirmed.</p>
-        <div class="mt-8 p-4 bg-green-700 rounded">
-          <code>FLAG-BACKDOOR999</code>
-        </div>
-      </div>
-    </body>
-    </html>
+    <h1>Super Admin Console</h1>
+    <p>System override access granted.</p>
+    <div>🚩 FLAG-BACKDOOR999</div>
     '''
+
 
 
 @app.route("/health")
