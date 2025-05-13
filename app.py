@@ -1166,6 +1166,37 @@ def feedback():
     return render_template("feedback.html", output=rendered_output, flag=flag)
 
 
+
+
+
+
+@app.route("/apply-coupon", methods=["POST"])
+def apply_coupon():
+    data = request.get_json()
+    code = data.get("code", "").lower()
+
+    if code == "admin-save-99":
+        return jsonify({
+            "discount": "99%",
+            "flag": "FLAG-COUPONBYPASS999"
+        })
+
+    return jsonify({ "discount": "0%" })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 initialize() 
 if __name__ == "__main__":
     # ⬅️ This ensures chat_messages table exists
