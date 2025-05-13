@@ -299,5 +299,39 @@
 </script>
 
 
+<script>
+  // 👻 Ghost Product: Not listed in HTML, only added via JS
+  const ghostProduct = {
+    name: "Phantom Edition",
+    price: 0.00,
+    category: "Special",
+    flag: "FLAG-JSHIDDENPRODUCT",
+    image: "/static/assets/images/top-game-ghost.jpg"
+  };
+
+  const grid = document.getElementById("product-grid");
+
+  const ghostDiv = document.createElement("div");
+  ghostDiv.className = "col-lg-3 col-md-6 mb-4";
+  ghostDiv.innerHTML = `
+    <div class="item">
+      <div class="thumb position-relative">
+        <img src="${ghostProduct.image}" alt="${ghostProduct.name}">
+        <span class="price">Sold Out</span>
+      </div>
+      <div class="down-content">
+        <span class="category">${ghostProduct.category}</span>
+        <h4>${ghostProduct.name}</h4>
+        <p class="text-muted" style="font-size: 12px;">Sorry, this game is currently unavailable.</p>
+      </div>
+    </div>
+    <!-- FLAG: ${ghostProduct.flag} -->
+  `;
+
+  grid.appendChild(ghostDiv);
+</script>
+
+
+
 </body>
 </html>
