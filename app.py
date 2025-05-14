@@ -1294,6 +1294,18 @@ def challenge_ai_trap():
     return render_template("ai_trap.html", response=response)
 
 
+@app.route("/void/chat")
+def void_zone_chat():
+    if not session.get("void_zone_authenticated"):
+        return redirect("/void-zone-login")
+    
+    try:
+        messages = get_chat_history(limit=30)[::-1]  # oldest first
+    except Exception as e:
+        print(f"[ERROR] Chat load error: {e}")
+        messages = []
+
+    return render_template("void_chat.html", history=messages)
 
 
 
