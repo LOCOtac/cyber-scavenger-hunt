@@ -99,6 +99,8 @@ VALID_FLAGS = {
     "FLAG-EXTREMERACE": 35,
     "FLAG-AICHATHISTORY999": 30,
     "FLAG-JSHIDDENPRODUCT": 20,
+    "FLAG-2FA-BYPASS": 30,
+
 
     
 
@@ -1197,11 +1199,6 @@ def vault_2fa():
             error = "Invalid login or OTP."
 
     return render_template("vault_2fa.html", flag=flag, error=error)
-
-
-
-
-
 
 
 
