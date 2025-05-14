@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Void Chat Room</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  s.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.3/socket.io.min.js"></script>
 </head>
 <body class="bg-black text-lime-400 font-mono min-h-screen p-6">
 
@@ -22,8 +22,9 @@
   </form>
 
   <script>
-    const socket = io("https://www.brokenctf.com");
-
+    const socket = io("https://www.brokenctf.com", {
+      path: "/socket.io"
+    });
 
     const form = document.getElementById('chat-form');
     const messageInput = document.getElementById('message');
@@ -45,8 +46,8 @@
       p.innerHTML = `<strong>${data.username}</strong>: ${data.message}`;
       chatBox.appendChild(p);
       chatBox.scrollTop = chatBox.scrollHeight;
-
     });
+
     socket.on('connect', () => {
       console.log('✅ Connected to Socket.IO');
     });
@@ -54,9 +55,7 @@
     socket.on('connect_error', (err) => {
       console.error('❌ Connection error:', err);
     });
-
   </script>
 
 </body>
 </html>
-
