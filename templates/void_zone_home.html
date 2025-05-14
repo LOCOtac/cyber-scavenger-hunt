@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Void-Zone Control Center</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-lime-400 font-mono min-h-screen">
+
+  <div class="p-8 max-w-5xl mx-auto">
+    <h1 class="text-4xl mb-2 border-b border-lime-500 pb-2">🧠 VOID-ZONE</h1>
+    <p class="text-sm text-lime-300 mb-8">Welcome, operator. You’ve accessed the restricted layer.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Challenge Links -->
+      <div class="bg-gray-900 p-6 border border-lime-400 rounded">
+        <h2 class="text-xl mb-4">⚔️ Challenges</h2>
+        <ul class="list-disc pl-4 space-y-2 text-lime-300">
+          <li><a href="/void/challenges/quantum-leak" class="hover:underline">Quantum Prompt Leak</a></li>
+          <li><a href="/void/challenges/steganovault" class="hover:underline">Stegano Vault</a></li>
+          <li><a href="/void/challenges/logic-overflow" class="hover:underline">Logic Bomb Sequence</a></li>
+          <li><a href="/void/challenges/machine-trap" class="hover:underline">AI Model Trap</a></li>
+        </ul>
+      </div>
+
+      <!-- Communications -->
+      <div class="bg-gray-900 p-6 border border-lime-400 rounded">
+        <h2 class="text-xl mb-4">💬 Comm Logs</h2>
+        <p class="text-sm mb-2">Access the shadow feed:</p>
+        <a href="/void/chat" class="inline-block bg-lime-600 hover:bg-lime-500 text-black font-semibold py-1 px-3 rounded">
+          Join Hidden Chat
+        </a>
+        <p class="text-xs text-gray-400 mt-4">Void agents can only be heard here.</p>
+      </div>
+
+      <!-- Blog or Narrative -->
+      <div class="bg-gray-900 p-6 border border-lime-400 rounded col-span-1 md:col-span-2">
+        <h2 class="text-xl mb-4">📝 Terminal Logs</h2>
+        <p class="text-sm text-lime-300">All hidden discoveries and challenge walkthroughs from other agents are documented here:</p>
+        <a href="/void/blog" class="mt-2 inline-block underline text-lime-400">Explore Journal</a>
+      </div>
+    </div>
+
+    <footer class="mt-12 text-center text-xs text-gray-500">
+      VOID-ZONE // Classified Layer v1.0 // 🚫 Unauthorized Access Logged
+    </footer>
+  </div>
+
+</body>
+</html>
+

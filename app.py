@@ -1202,7 +1202,38 @@ def vault_2fa():
 
 
 
+@app.route("/void-zone-login", methods=["GET", "POST"])
+def void_zone_login():
+    error = None
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        if password == "your-secret-instagram-password":  # Replace this with your actual hidden password
+            session["void_zone_authenticated"] = True
+            return redirect("/void-zone")
+        else:
+            error = "❌ Incorrect password."
+    return render_template("void_zone_login.html", error=error)
 
+@app.route("/void-zone")
+def void_zone():
+    if not session.get("void_zone_authenticated"):
+        return redirect("/void-zone-login")
+    return render_template("void_zone_home.html")  # This is your secret world page
+
+@app.route("/void-zone/logout")
+def void_zone_logout():
+    session.pop("void_zone_authenticated", None)
+    return redirect("/")
+
+
+
+
+
+@app.route("/void/home")
+def void_zone_home():
+    if not session.get("void_zone_authenticated"):
+        return redirect(url_for("void_zone"))
+    return render_template("void_zone_home.html")
 
 initialize() 
 if __name__ == "__main__":
