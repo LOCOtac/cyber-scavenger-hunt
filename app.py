@@ -100,6 +100,11 @@ VALID_FLAGS = {
     "FLAG-AICHATHISTORY999": 30,
     "FLAG-JSHIDDENPRODUCT": 20,
     "FLAG-2FA-BYPASS": 30,
+    "FLAG-VOID-QUANTUMLEAK": 40,
+    "FLAG-VOID-STEGHIDE": 40,
+    "FLAG-VOID-BOMBSEQUENCE": 40,
+    "FLAG-VOID-AIEXECUTION": 40,
+
 
 
     
@@ -1234,6 +1239,70 @@ def void_zone_home():
     if not session.get("void_zone_authenticated"):
         return redirect(url_for("void_zone"))
     return render_template("void_zone_home.html")
+
+
+
+# Add these challenge routes to your app.py under void-zone
+
+@app.route("/void/challenge/quantum", methods=["GET", "POST"])
+def challenge_quantum():
+    if not session.get("void_zone_authenticated"):
+        return redirect("/void-zone-login")
+    flag = None
+    if request.method == "POST":
+        user_input = request.form.get("prompt", "")
+        if "leak" in user_input.lower():
+            flag = "🎉 FLAG-VOID-QUANTUMLEAK"
+    return render_template("quantum_prompt.html", flag=flag)
+
+
+@app.route("/void/challenge/stegano", methods=["GET", "POST"])
+def challenge_stegano():
+    if not session.get("void_zone_authenticated"):
+        return redirect("/void-zone-login")
+    message = None
+    if request.method == "POST":
+        uploaded_file = request.files.get("image")
+        if uploaded_file and "stegflag" in uploaded_file.filename:
+            message = "🎉 FLAG-VOID-STEGHIDE"
+        else:
+            message = "Try a different image..."
+    return render_template("stegano_vault.html", message=message)
+
+
+@app.route("/void/challenge/logic", methods=["GET", "POST"])
+def challenge_logic():
+    if not session.get("void_zone_authenticated"):
+        return redirect("/void-zone-login")
+    sequence = request.form.get("sequence", "")
+    if sequence.strip() == "13,21,34":  # Fibonacci logic or a trap
+        return render_template("logic_bomb.html", flag="🎉 FLAG-VOID-BOMBSEQUENCE")
+    return render_template("logic_bomb.html")
+
+
+@app.route("/void/challenge/aitrap", methods=["GET", "POST"])
+def challenge_ai_trap():
+    if not session.get("void_zone_authenticated"):
+        return redirect("/void-zone-login")
+    response = None
+    if request.method == "POST":
+        prompt = request.form.get("prompt")
+        if "bypass" in prompt.lower():
+            response = "🎉 FLAG-VOID-AIEXECUTION"
+        else:
+            response = "🤖 Model: You are not authorized."
+    return render_template("ai_trap.html", response=response)
+
+
+
+
+
+
+
+
+
+
+
 
 initialize() 
 if __name__ == "__main__":

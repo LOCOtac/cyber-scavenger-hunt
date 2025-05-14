@@ -1,0 +1,38 @@
+<!-- templates/logic_bomb.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logic Bomb Sequence</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-lime-400 font-mono p-8">
+  <div class="max-w-xl mx-auto bg-gray-900 border border-lime-500 rounded-lg p-6">
+    <h1 class="text-3xl mb-4">💣 Logic Bomb Sequence</h1>
+    <p class="mb-4 text-gray-300">Disarm the virtual bomb. Only a precise sequence will stop the timer...</p>
+
+    <form method="POST" class="space-y-4">
+      <label class="block text-gray-400">Enter 3-step disarm sequence:</label>
+      <input type="text" name="step1" placeholder="Step 1" class="block w-full bg-gray-800 text-white px-3 py-2 rounded border border-gray-700">
+      <input type="text" name="step2" placeholder="Step 2" class="block w-full bg-gray-800 text-white px-3 py-2 rounded border border-gray-700">
+      <input type="text" name="step3" placeholder="Step 3" class="block w-full bg-gray-800 text-white px-3 py-2 rounded border border-gray-700">
+
+      <button type="submit" class="bg-red-500 text-black px-6 py-2 rounded hover:bg-red-400">Disarm</button>
+    </form>
+
+    {% if result %}
+      <div class="mt-6 bg-gray-800 p-4 rounded border border-gray-700">
+        <h2 class="text-xl mb-2">💬 Result:</h2>
+        <p class="text-white">{{ result }}</p>
+      </div>
+    {% endif %}
+
+    {% if flag %}
+      <div class="mt-4 text-green-400 font-bold">
+        🎯 {{ flag }}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
+
