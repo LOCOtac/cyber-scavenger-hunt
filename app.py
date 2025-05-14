@@ -1178,6 +1178,25 @@ def apply_coupon():
 
 
 
+@app.route("/vault-2fa", methods=["GET", "POST"])
+def vault_2fa():
+    flag = None
+    error = None
+
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        otp = request.form.get("otp")
+
+        # Vulnerable: OTP is just current time modulo 10000
+        correct_otp = str(int(time.time()) % 10000).zfill(4)
+
+        if username == "admin" and password == "hunter2" and otp == correct_otp:
+            flag = "FLAG-2FA-BYPASS"
+        else:
+            error = "Invalid login or OTP."
+
+    return render_template("vault_2fa.html", flag=flag, error=error)
 
 
 

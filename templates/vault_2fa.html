@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vault 2FA Challenge</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/fontawesome.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+  <link rel="stylesheet" href="/static/assets/css/owl.css">
+  <link rel="stylesheet" href="/static/assets/css/animate.css">
+</head>
+<body class="bg-dark text-white">
+
+<header class="header-area header-sticky">
+  <div class="container">
+    <nav class="main-nav">
+      <a href="/" class="logo">
+        <img src="/static/assets/images/logo.png" alt="Logo" style="width: 150px;" />
+      </a>
+      <ul class="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li><a href="/profile">Profile</a></li>
+        <li><a href="/auth/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="section" style="padding-top: 100px;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="card bg-secondary p-4 shadow-lg border-0 rounded">
+          <h2 class="text-center text-warning mb-4">🔐 Vault Login with 2FA</h2>
+
+          {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+          {% endif %}
+
+          {% if flag %}
+            <div class="alert alert-success">
+              🎉 Access Granted! Your flag: <strong>{{ flag }}</strong>
+            </div>
+          {% else %}
+            <form method="POST">
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input name="username" class="form-control" placeholder="admin" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input name="password" type="password" class="form-control" placeholder="hunter2" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">One-Time Passcode (OTP)</label>
+                <input name="otp" class="form-control" placeholder="e.g. 1234" required />
+              </div>
+              <button type="submit" class="btn btn-warning w-100">Access Vault</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer mt-5 text-center">
+  <div class="container">
+    <p>© 2025 BrokenCTF • Not your ordinary vault</p>
+  </div>
+</footer>
+
+</body>
+</html>
+
