@@ -1342,7 +1342,8 @@ def void_vault():
 
 @app.route("/void/files/<path:filename>")
 def download_vault_file(filename):
-    return send_from_directory("static/void_vault_files", filename, as_attachment=True)
+    return send_from_directory("static/vault-files", filename, as_attachment=True)
+
 
 
 
