@@ -1351,6 +1351,7 @@ def download_vault_file(filename):
 
 
 
+
 initialize() 
 if __name__ == "__main__":
     # ⬅️ This ensures chat_messages table exists
