@@ -1308,6 +1308,41 @@ def void_zone_chat():
     return render_template("void_chat.html", history=messages)
 
 
+# Step 1: Add new route and fake login to app.py
+from flask import send_from_directory
+
+@app.route("/void/vault-login", methods=["GET", "POST"])
+def void_vault_login():
+    error = None
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        # Fake login that can be bypassed with a specific value
+        if password == "' OR '1'='1" or request.cookies.get("X-Void-Agent") == "true":
+            session["void_vault_access"] = True
+            return redirect("/void/vault")
+        error = "Unauthorized access."
+    return render_template("void_vault_login.html", error=error)
+
+
+@app.route("/void/vault")
+def void_vault():
+    if not session.get("void_vault_access"):
+        return redirect("/void/vault-login")
+
+    files = [
+        {"name": "vault_alpha.zip", "desc": "Encrypted ZIP"},
+        {"name": "coredata.gpg", "desc": "GPG Encrypted Blob"},
+        {"name": "stego_image.png", "desc": "Stego Image"},
+        {"name": "locked.docx", "desc": "Password-Protected Document"},
+        {"name": "archive_payload.tar.gz", "desc": "Layered Archive"},
+        {"name": "vault_hint.txt", "desc": "Hint File"},
+    ]
+    return render_template("void_vault.html", files=files)
+
+
+@app.route("/void/files/<path:filename>")
+def download_vault_file(filename):
+    return send_from_directory("static/void_vault_files", filename, as_attachment=True)
 
 
 
