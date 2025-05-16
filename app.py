@@ -1,3 +1,4 @@
+import traceback
 from flask import Flask, render_template, request, redirect, url_for, session, make_response, jsonify
 import datetime
 import os
@@ -913,6 +914,7 @@ def handle_exception(e):
     #     f.write(f"{str(e)}\n")
 
     # Return a generic error message
+    traceback.print_exc()
     return "An unexpected error occurred.", 500
 
 @app.route("/logs")
