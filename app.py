@@ -1344,16 +1344,68 @@ def void_vault():
 def download_vault_file(filename):
     return send_from_directory("static/vault-files", filename, as_attachment=True)
 
+# CTF TIME LEADERBOARD
+
+@app.route("/ctftime")
+def ctftime_landing():
+    return render_template("ctftime_landing.html")  # A short page explaining rules, time, etc.
 
 
 
 
+@app.route("/ctftime-submit", methods=["GET", "POST"])
+def ctftime_submit():
+    message = None
+    user_id = session.get("user_id")
+    name = session.get("name")
+    score = session.get("score", 0)
+    solved_flags = session.get("solved", [])
+
+    if not user_id or not name:
+        return redirect(url_for("register"))
+
+    if request.method == "POST":
+        flag = request.form.get("flag", "").strip()
+
+        if flag in VALID_FLAGS and flag not in solved_flags:
+            score += VALID_FLAGS[flag]
+            solved_flags.append(flag)
+            session["score"] = score
+            session["solved"] = solved_flags
+            message = f"✅ Correct! You earned {VALID_FLAGS[flag]} points."
+
+            from db import save_ctftime_submission
+            save_ctftime_submission(user_id, name, session.get("pin", ""), score, solved_flags)
+
+        elif flag in solved_flags:
+            message = "⚠️ Already submitted."
+        else:
+            message = "❌ Invalid flag."
+
+    return render_template("ctftime_submit.html", message=message, score=score, solved=solved_flags, name=name)
 
 
+@app.route("/ctftime-leaderboard")
+def ctftime_leaderboard_view():
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute("SELECT name, score, flags FROM ctftime_leaderboard ORDER BY score DESC")
+            rows = c.fetchall()
+            leaderboard = [{
+                "name": row[0],
+                "score": row[1],
+                "flags": row[2],
+                "flags_captured": len(row[2].split(",")) if row[2] else 0
+            } for row in rows]
+    return render_template("ctftime_leaderboard.html", leaderboard=leaderboard)
 
 
+def initialize():
+    init_db()
+    create_chat_table()
+    from db import create_ctftime_table  # ✅ add this import
+    create_ctftime_table()               # ✅ call it
 
-initialize() 
 if __name__ == "__main__":
     # ⬅️ This ensures chat_messages table exists
     port = int(os.environ.get("PORT", 5000))

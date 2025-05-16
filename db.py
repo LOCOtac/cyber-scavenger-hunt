@@ -160,3 +160,38 @@ def get_chat_history(limit=50):
                 (limit,)
             )
             return c.fetchall()
+# new table for ctftime leaderborad
+
+def create_ctftime_table():
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            c.execute("""
+                CREATE TABLE IF NOT EXISTS ctftime_leaderboard (
+                    id TEXT PRIMARY KEY,
+                    name TEXT NOT NULL,
+                    pin TEXT NOT NULL,
+                    score INTEGER DEFAULT 0,
+                    flags TEXT,
+                    submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                );
+            """)
+            conn.commit()
+
+def save_ctftime_submission(user_id, name, pin, score, flags):
+    with get_connection() as conn:
+        with conn.cursor() as c:
+            flags_str = ",".join(flags)
+            c.execute("SELECT id FROM ctftime_leaderboard WHERE id = %s", (user_id,))
+            row = c.fetchone()
+
+            if row:
+                c.execute(
+                    "UPDATE ctftime_leaderboard SET name = %s, pin = %s, score = %s, flags = %s WHERE id = %s",
+                    (name, pin, score, flags_str, user_id)
+                )
+            else:
+                c.execute(
+                    "INSERT INTO ctftime_leaderboard (id, name, pin, score, flags) VALUES (%s, %s, %s, %s, %s)",
+                    (user_id, name, pin, score, flags_str)
+                )
+            conn.commit()
