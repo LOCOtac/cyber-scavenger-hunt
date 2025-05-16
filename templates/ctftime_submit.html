@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submit Flag (CTFtime)</title>
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+</head>
+<body class="bg-dark text-light p-4">
+  <div class="container">
+    <h2 class="mb-4">Submit Flag - CTFtime</h2>
+
+    {% if message %}
+      <div class="alert alert-info">{{ message }}</div>
+    {% endif %}
+
+    <form method="POST" class="mb-4">
+      <div class="mb-3">
+        <input type="text" name="flag" class="form-control" placeholder="Enter flag..." required />
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h5>Score: {{ score }}</h5>
+    <h6>Flags Captured:</h6>
+    <ul class="list-group">
+      {% for flag in solved %}
+        <li class="list-group-item bg-dark text-light">{{ flag }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+</body>
+</html>

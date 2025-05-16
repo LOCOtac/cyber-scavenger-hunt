@@ -1,0 +1,34 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CTFtime Leaderboard</title>
+  <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+</head>
+<body class="bg-dark text-light p-4">
+  <div class="container">
+    <h2 class="mb-4 text-center">CTFtime Leaderboard</h2>
+    <table class="table table-dark table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>Score</th>
+          <th>Flags Captured</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for entry in leaderboard %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ entry.name }}</td>
+            <td>{{ entry.score }}</td>
+            <td>{{ entry.flags_captured }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+
