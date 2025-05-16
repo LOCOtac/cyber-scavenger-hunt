@@ -1401,12 +1401,15 @@ def ctftime_leaderboard_view():
             } for row in rows]
     return render_template("ctftime_leaderboard.html", leaderboard=leaderboard)
 
-
 def initialize():
     init_db()
     create_chat_table()
-    from db import create_ctftime_table  # ✅ add this import
-    create_ctftime_table()               # ✅ call it
+    from db import create_ctftime_table
+    create_ctftime_table()
+
+# ✅ Always call it, regardless of dev or production
+initialize()
+
 
 if __name__ == "__main__":
     # ⬅️ This ensures chat_messages table exists
