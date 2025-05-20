@@ -1,32 +1,116 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Submit Flag (CTFtime)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
   <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/fontawesome.css">
   <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
 </head>
-<body class="bg-dark text-light p-4">
+<body class="dark-mode">
+
+<!-- ✅ Header/Nav -->
+<header class="header-area header-sticky">
   <div class="container">
-    <h2 class="mb-4">Submit Flag - CTFtime</h2>
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
+          </a>
+          <ul class="nav">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/leaderboard">Leaderboard</a></li>
+            <li><a href="/ctftime-leaderboard">CTFtime</a></li>
+            <li><a href="/profile">Profile</a></li>
+            {% if session.get('name') %}
+              <li><a href="/auth/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/auth/login">Login</a></li>
+              <li><a href="/register">Register</a></li>
+            {% endif %}
+            <li><a href="/cart">🛒 Cart {% if session.cart %}({{ session.cart|length }}){% endif %}</a></li>
+            <li><a href="#" id="toggle-theme">dark/light mode</a></li>
+          </ul>
+          <a class="menu-trigger"><span>Menu</span></a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ✅ Submit Flag Section -->
+<section class="section trending py-5">
+  <div class="container">
+    <div class="section-heading text-center">
+      <h6>Submit Your Flag</h6>
+      <h2>CTFtime Challenge Submission</h2>
+    </div>
 
     {% if message %}
-      <div class="alert alert-info">{{ message }}</div>
+      <div class="alert alert-info text-center">{{ message }}</div>
     {% endif %}
 
-    <form method="POST" class="mb-4">
-      <div class="mb-3">
-        <input type="text" name="flag" class="form-control" placeholder="Enter flag..." required />
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <form method="POST" class="card p-4 bg-dark border-light">
+          <div class="mb-3">
+            <input type="text" name="flag" class="form-control" placeholder="Enter your flag..." required />
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Submit Flag</button>
+        </form>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 
-    <h5>Score: {{ score }}</h5>
-    <h6>Flags Captured:</h6>
-    <ul class="list-group">
-      {% for flag in solved %}
-        <li class="list-group-item bg-dark text-light">{{ flag }}</li>
-      {% endfor %}
-    </ul>
+    <div class="row mt-5 justify-content-center">
+      <div class="col-lg-6 text-center">
+        <h5 class="mb-3">Current Score: <span class="text-warning">{{ score }}</span></h5>
+        <h6 class="mb-2">Captured Flags:</h6>
+        <div class="row g-2">
+          {% for flag in solved %}
+            <div class="col-md-6">
+              <div class="card bg-secondary text-white p-2 text-center">
+                {{ flag }}
+              </div>
+            </div>
+          {% else %}
+            <p>No flags captured yet.</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
   </div>
+</section>
+
+<!-- ✅ Footer -->
+<footer class="footer text-center py-4">
+  <div class="container">
+    <p>© 2025 BrokenCTF • Just another store. Or is it?</p>
+    <p>
+      <a href="https://www.instagram.com/hambabe_69/" target="_blank" style="color: #E1306C; font-weight: bold;">
+        📷 Follow us on Instagram
+      </a>
+    </p>
+  </div>
+</footer>
+
+<!-- ✅ Scripts -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/custom.js"></script>
+
+<script>
+  const body = document.body;
+  const toggleBtn = document.getElementById('toggle-theme');
+  if (localStorage.getItem('theme') === 'light') body.classList.remove('dark-mode');
+  toggleBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
+</script>
+
 </body>
 </html>
