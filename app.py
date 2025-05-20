@@ -1386,7 +1386,6 @@ def ctftime_submit():
 
     return render_template("ctftime_submit.html", message=message, score=score, solved=solved_flags, name=name)
 
-
 @app.route("/ctftime-leaderboard")
 def ctftime_leaderboard_view():
     with get_connection() as conn:
