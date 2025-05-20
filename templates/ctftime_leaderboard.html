@@ -1,34 +1,113 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>CTFtime Leaderboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap">
   <link rel="stylesheet" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/assets/css/fontawesome.css">
   <link rel="stylesheet" href="/static/assets/css/templatemo-lugx-gaming.css">
+  <link rel="stylesheet" href="/static/assets/css/owl.css">
+  <link rel="stylesheet" href="/static/assets/css/animate.css">
 </head>
-<body class="bg-dark text-light p-4">
+
+<body class="dark-mode">
+
+<!-- ✅ Header/Nav -->
+<header class="header-area header-sticky">
   <div class="container">
-    <h2 class="mb-4 text-center">CTFtime Leaderboard</h2>
-    <table class="table table-dark table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Username</th>
-          <th>Score</th>
-          <th>Flags Captured</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for entry in leaderboard %}
-          <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ entry.name }}</td>
-            <td>{{ entry.score }}</td>
-            <td>{{ entry.flags_captured }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+    <div class="row">
+      <div class="col-12">
+        <nav class="main-nav">
+          <a href="/" class="logo">
+            <img src="/static/assets/images/logo.png" alt="BrokenCTF Logo" style="width: 158px;">
+          </a>
+          <ul class="nav">
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/leaderboard">Leaderboard</a></li>
+            <li><a href="/profile">Profile</a></li>
+            {% if session.get('name') %}
+              <li><a href="/auth/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/auth/login">Login</a></li>
+              <li><a href="/register">Register</a></li>
+            {% endif %}
+            <li><a href="/cart">🛒 Cart {% if session.cart %}({{ session.cart|length }}){% endif %}</a></li>
+            <li><a href="#" id="toggle-theme">dark/light mode</a></li>
+          </ul>
+          <a class="menu-trigger"><span>Menu</span></a>
+        </nav>
+      </div>
+    </div>
   </div>
+</header>
+
+<!-- ✅ Leaderboard Section -->
+<section class="section trending py-5">
+  <div class="container">
+    <div class="section-heading text-center">
+      <h6>Competition</h6>
+      <h2>CTFtime Leaderboard</h2>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="table-responsive">
+          <table class="table table-dark table-bordered table-hover text-center align-middle">
+            <thead class="table-primary">
+              <tr>
+                <th>#</th>
+                <th>Username</th>
+                <th>Score</th>
+                <th>Flags Captured</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for entry in leaderboard %}
+              <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ entry.name }}</td>
+                <td>{{ entry.score }}</td>
+                <td>{{ entry.flags_captured }}</td>
+              </tr>
+              {% else %}
+              <tr><td colspan="4">No data available yet.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ✅ Footer -->
+<footer class="footer text-center py-4">
+  <div class="container">
+    <p>© 2025 BrokenCTF • Just another store. Or is it?</p>
+    <p>
+      <a href="https://www.instagram.com/hambabe_69/" target="_blank" style="color: #E1306C; font-weight: bold;">
+        📷 Follow us on Instagram
+      </a>
+    </p>
+  </div>
+</footer>
+
+<!-- ✅ Scripts -->
+<script src="/static/vendor/jquery/jquery.min.js"></script>
+<script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/assets/js/custom.js"></script>
+
+<script>
+  const body = document.body;
+  const toggleBtn = document.getElementById('toggle-theme');
+  if (localStorage.getItem('theme') === 'light') body.classList.remove('dark-mode');
+  toggleBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+  });
+</script>
+
 </body>
 </html>
-
