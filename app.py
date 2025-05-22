@@ -61,6 +61,18 @@ app.secret_key = "cyberhunt-secret"
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
+
+# ✅ Automatically enable CTFtime mode if current time is before June 1st, 2025
+@app.before_request
+def enforce_ctftime_mode():
+    now = datetime.now()
+    event_end = datetime(2025, 6, 1, 23, 59, 59)
+    if now <= event_end:
+        session["ctftime_mode"] = True
+    else:
+        session.pop("ctftime_mode", None)
+
+
 VALID_FLAGS = {
     "FLAG-SQL123": 10,
     "FLAG-XSS456": 10,
@@ -1408,6 +1420,29 @@ def initialize():
 
 # ✅ Always call it, regardless of dev or production
 initialize()
+
+
+
+
+@app.route("/admin/ctftime-toggle")
+def ctftime_toggle():
+    secret = request.args.get("secret")
+    action = request.args.get("action")
+
+    if secret != "hunter2":
+        return "Unauthorized", 403
+
+    if action == "on":
+        session["ctftime_mode"] = True
+        return "✅ CTFtime mode ENABLED. Navigation will now show CTFtime submit/leaderboard."
+    elif action == "off":
+        session.pop("ctftime_mode", None)
+        return "❌ CTFtime mode DISABLED. Back to normal mode."
+    else:
+        return "Usage: /admin/ctftime-toggle?secret=hunter2&action=on|off"
+
+
+
 
 
 if __name__ == "__main__":

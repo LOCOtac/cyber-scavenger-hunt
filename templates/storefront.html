@@ -99,7 +99,14 @@
           </a>
           <ul class="nav">
             <li><a href="/" class="active">Home</a></li>
+            {% if session.get('ctftime_mode') %}
+            <li><a href="/ctftime-leaderboard">CTFtime Leaderboard</a></li>
+            <li><a href="/ctftime-submit">Submit Flag</a></li>
+          {% else %}
             <li><a href="/leaderboard">Leaderboard</a></li>
+            <li><a href="/submit">Submit Flag</a></li>
+          {% endif %}
+
             <li><a href="/profile">Profile</a></li>
             {% if session.get('name') %}
               <li><a href="/auth/logout">Logout</a></li>
@@ -171,6 +178,14 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="container mt-4">
+  {% if session.get('ctftime_mode') %}
+    <div class="alert alert-warning text-center fw-bold fs-5" role="alert">
+      🕒 CTFtime Event Active! Submit your flags before <u>Sunday, June 1st</u> to earn points.
+    </div>
+  {% endif %}
 </div>
 
 <div class="section trending">
